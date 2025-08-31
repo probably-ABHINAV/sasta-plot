@@ -5,98 +5,100 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #374151;
+  --foreground: #4b4b4b;
 
-  --card: #f0fdf4;
-  --card-foreground: #374151;
+  --card: #f7f7f7;
+  --card-foreground: #4b4b4b;
 
   --popover: #ffffff;
-  --popover-foreground: #374151;
+  --popover-foreground: #4b4b4b;
 
-  --primary: #15803d;
+  --primary: #ff6f61;
   --primary-foreground: #ffffff;
 
-  --secondary: #f59e0b;
-  --secondary-foreground: #ffffff;
+  --secondary: #ff9a8d;
+  --secondary-foreground: #4b4b4b;
 
-  --muted: #f0fdf4;
-  --muted-foreground: #374151;
+  --muted: #f7f7f7;
+  --muted-foreground: #4b4b4b;
 
-  --accent: #f59e0b;
-  --accent-foreground: #374151;
+  --accent: #ff9a8d;
+  --accent-foreground: #4b4b4b;
 
-  --destructive: #dc2626;
+  --destructive: #ff4c4c;
   --destructive-foreground: #ffffff;
 
-  --border: #e5e7eb;
+  --border: #e0e0e0;
   --input: #ffffff;
-  --ring: #15803d;
+  --ring: rgba(255, 111, 97, 0.5);
 
-  --chart-1: #15803d;
-  --chart-2: #f59e0b;
-  --chart-3: #dc2626;
-  --chart-4: #4b5563;
-  --chart-5: #f0fdf4;
+  --chart-1: #ff6f61;
+  --chart-2: #ff9a8d;
+  --chart-3: #4b4b4b;
+  --chart-4: #e0e0e0;
+  --chart-5: #f7f7f7;
 
   --radius: 0.5rem;
 
-  --sidebar: #ffffff;
-  --sidebar-foreground: #374151;
-  --sidebar-primary: #f0fdf4;
-  --sidebar-primary-foreground: #374151;
-  --sidebar-accent: #f59e0b;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #15803d;
+  --sidebar: #f7f7f7;
+  --sidebar-foreground: #4b4b4b;
+  --sidebar-primary: #ff6f61;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ff9a8d;
+  --sidebar-accent-foreground: #4b4b4b;
+  --sidebar-border: #e0e0e0;
+  --sidebar-ring: rgba(255, 111, 97, 0.5);
 }
 
 .dark {
-  --background: #0f172a; /* slate-900 */
-  --foreground: #f9fafb; /* near-white */
+  /* High-contrast dark theme tuned to brand */
+  --background: #121212;
+  --foreground: #ffffff;
 
-  --card: #111827; /* slate-900/800 */
-  --card-foreground: #f9fafb;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
 
-  --popover: #0f172a;
-  --popover-foreground: #f9fafb;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
 
-  --primary: #15803d;
-  --primary-foreground: #ffffff;
+  --primary: #ff6f61;
+  --primary-foreground: #121212;
 
-  --secondary: #f59e0b;
-  --secondary-foreground: #0f172a;
+  --secondary: #3a3a3a;
+  --secondary-foreground: #ffffff;
 
-  --muted: #1f2937; /* slate-800 */
-  --muted-foreground: #cbd5e1; /* slate-300 */
+  --muted: #1e1e1e;
+  --muted-foreground: #e6e6e6;
 
-  --accent: #f59e0b;
-  --accent-foreground: #0f172a;
+  --accent: #2a2a2a;
+  --accent-foreground: #ffffff;
 
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
+  --destructive: #ff4c4c;
+  --destructive-foreground: #121212;
 
-  --border: #1f2937;
-  --input: #111827;
-  --ring: #15803d;
+  --border: #2a2a2a;
+  --input: #2a2a2a;
+  --ring: rgba(255, 111, 97, 0.5);
 
-  --chart-1: #15803d;
-  --chart-2: #f59e0b;
-  --chart-3: #dc2626;
-  --chart-4: #4b5563;
-  --chart-5: #f0fdf4;
+  --chart-1: #ff6f61;
+  --chart-2: #ff9a8d;
+  --chart-3: #ffffff;
+  --chart-4: #2a2a2a;
+  --chart-5: #1a1a1a;
 
-  --sidebar: #0f172a;
-  --sidebar-foreground: #f9fafb;
-  --sidebar-primary: #111827;
-  --sidebar-primary-foreground: #f9fafb;
-  --sidebar-accent: #f59e0b;
-  --sidebar-accent-foreground: #0f172a;
-  --sidebar-border: #1f2937;
-  --sidebar-ring: #15803d;
+  --sidebar: #121212;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ff6f61;
+  --sidebar-primary-foreground: #121212;
+  --sidebar-accent: #2a2a2a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #1e1e1e;
+  --sidebar-ring: rgba(255, 111, 97, 0.5);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  /* map Next.js font variables (set in layout) to Tailwind tokens */
+  --font-sans: var(--font-open-sans);
   --font-mono: var(--font-geist-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -134,6 +136,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Heading font utility (Montserrat) */
+.font-heading {
+  font-family: var(--font-montserrat), var(--font-open-sans), ui-sans-serif, system-ui;
 }
 
 @layer base {
