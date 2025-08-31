@@ -7,6 +7,7 @@ import "./globals.css"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import { Suspense } from "react"
+import { MotionProvider } from "@/components/motion-provider" // add motion provider
 
 const montserrat = Montserrat({ subsets: ["latin"], display: "swap", variable: "--font-montserrat" })
 const openSans = Open_Sans({ subsets: ["latin"], display: "swap", variable: "--font-open-sans" })
@@ -27,9 +28,11 @@ export default function RootLayout({
     <html lang="en" className={`${montserrat.variable} ${openSans.variable} ${GeistMono.variable} antialiased`}>
       <body className="font-sans">
         <Suspense fallback={<div>Loading...</div>}>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <MotionProvider>
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </MotionProvider>
         </Suspense>
         <Analytics />
       </body>

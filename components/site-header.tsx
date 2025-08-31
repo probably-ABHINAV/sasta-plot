@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
+import AuthLinks from "./auth-links"
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
@@ -35,6 +36,7 @@ export function SiteHeader() {
           >
             Contact
           </Link>
+          <AuthLinks />
         </nav>
 
         {/* Mobile toggle */}
@@ -97,6 +99,9 @@ export function SiteHeader() {
                 </Link>
               </li>
             </ul>
+            <div className="mx-auto max-w-6xl px-4 pb-3">
+              <AuthLinks mobile />
+            </div>
           </motion.nav>
         )}
       </AnimatePresence>

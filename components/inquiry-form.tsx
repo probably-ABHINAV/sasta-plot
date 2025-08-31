@@ -104,3 +104,5 @@ export function InquiryForm() {
     </form>
   )
 }
+
+export default InquiryForm
