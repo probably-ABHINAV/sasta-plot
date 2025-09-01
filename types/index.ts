@@ -1,16 +1,17 @@
-
 export interface Plot {
   id: string
   title: string
-  location: string
+  description: string
   price: number
+  location: string
   size: number
-  description?: string
-  featured?: boolean
+  size_sqyd?: number
+  images: string[]
   slug: string
-  image?: string
-  images?: string[]
-  plot_images?: { url: string }[]
+  facing?: string
+  approval_type?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface BlogPost {

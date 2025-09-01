@@ -6,6 +6,7 @@ import { useState } from "react"
 import useSWR from "swr"
 import Image from "next/image"
 import { getBrowserSupabase } from "@/lib/supabase/browser"
+import { Button } from "@/components/ui/button"
 
 type PlotRow = {
   id: string
@@ -92,10 +93,18 @@ export default function PlotsManager() {
     }
   }
 
-  async function onDelete(id: number) {
-    const res = await fetch(`/api/plots/${id}`, { method: "DELETE" })
-    if (!res.ok) alert("Delete failed")
-    else mutate()
+  const handleDelete = async (slug: string) => {
+    try {
+      const res = await fetch(`/api/plots/${slug}`, { method: "DELETE" })
+      if (!res.ok) {
+        alert("Delete failed")
+        return
+      }
+      mutate()
+    } catch (error) {
+      console.error("Delete error:", error)
+      alert("Delete failed")
+    }
   }
 
   const plots = data?.plots || []
@@ -184,12 +193,13 @@ export default function PlotsManager() {
                   <p className="text-sm">₹ {Number(p.price).toLocaleString()}</p>
                   <p className="text-sm">Size: {p.size} sq. yd.</p>
                   <p className="text-sm">Slug: {p.slug}</p>
-                  <button
-                    onClick={() => onDelete(p.id)}
-                    className="mt-3 rounded bg-destructive px-3 py-2 text-destructive-foreground"
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDelete(p.slug)}
                   >
                     Delete
-                  </button>
+                  </Button>
                 </div>
               </li>
             ))}
