@@ -65,5 +65,20 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-open-sans, 'Open Sans', system-ui, sans-serif);
+  }
+  
+  /* Ensure minimum contrast for accessibility */
+  html {
+    color-scheme: light dark;
+  }
+  
+  /* Fallback fonts */
+  .font-heading {
+    font-family: var(--font-montserrat, 'Montserrat', system-ui, sans-serif);
+  }
+  
+  .font-mono {
+    font-family: var(--font-geist-mono, 'Geist Mono', monospace);
   }
 }

@@ -9,8 +9,18 @@ import { SiteFooter } from "@/components/site-footer"
 import { Suspense } from "react"
 import { MotionProvider } from "@/components/motion-provider" // add motion provider
 
-const montserrat = Montserrat({ subsets: ["latin"], display: "swap", variable: "--font-montserrat" })
-const openSans = Open_Sans({ subsets: ["latin"], display: "swap", variable: "--font-open-sans" })
+const montserrat = Montserrat({ 
+  subsets: ["latin"], 
+  display: "swap", 
+  variable: "--font-montserrat",
+  fallback: ['system-ui', 'arial']
+})
+const openSans = Open_Sans({ 
+  subsets: ["latin"], 
+  display: "swap", 
+  variable: "--font-open-sans",
+  fallback: ['system-ui', 'arial']
+})
 
 export const metadata: Metadata = {
   title: "Sasta Plots — Aam Admi Ki Pasand",
