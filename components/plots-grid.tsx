@@ -1,3 +1,4 @@
+
 import { PlotCard, type Plot } from "./plot-card"
 
 const DUMMY_PLOTS: Plot[] = [

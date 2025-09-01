@@ -1,3 +1,4 @@
+
 "use client"
 
 import { motion, type Variants } from "framer-motion"
@@ -11,20 +12,18 @@ const fadeUp: Variants = {
 export function FadeInSection({
   children,
   className,
-  as: As = "section",
   once = true,
-}: PropsWithChildren<{ className?: string; as?: any; once?: boolean }>) {
+}: PropsWithChildren<{ className?: string; once?: boolean }>) {
   return (
-    <motion.section
+    <motion.div
       className={className}
       variants={fadeUp}
       initial="hidden"
       whileInView="show"
       viewport={{ once, amount: 0.2 }}
-      as={As}
     >
       {children}
-    </motion.section>
+    </motion.div>
   )
 }
 
@@ -54,13 +53,5 @@ export function Item({ children }: PropsWithChildren) {
 }
 
 export function HoverLift({ children, className = "" }: PropsWithChildren<{ className?: string }>) {
-  return (
-    <motion.div
-      className={className}
-      whileHover={{ y: -6, scale: 1.01 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-    >
-      {children}
-    </motion.div>
-  )
+  return <div className={className}>{children}</div>
 }

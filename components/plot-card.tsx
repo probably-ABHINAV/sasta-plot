@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Badge } from "@/components/ui/badge";
 
 export interface Plot {
   id: string
@@ -9,6 +10,9 @@ export interface Plot {
   size: string
   image?: string
   slug?: string
+  area?: string
+  type?: string
+  available?: boolean
 }
 
 interface PlotCardProps {
@@ -17,32 +21,42 @@ interface PlotCardProps {
 
 export function PlotCard({ plot }: PlotCardProps) {
   const plotSlug = plot.slug || `plot-${plot.id}`
-  
+
   return (
-    <article className="group overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md">
-      <Link href={`/plots/${plotSlug}`}>
-        <div className="relative aspect-[4/3] w-full">
+    <Link href={`/plots/${plotSlug}`} className="block group">
+      <article className="border-border bg-card text-card-foreground overflow-hidden rounded-lg border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+        <div className="aspect-video relative overflow-hidden">
           <Image
             src={plot.image || "/placeholder.svg"}
             alt={plot.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
-        <div className="space-y-1 p-4">
-          <h3 className="text-base font-semibold">{plot.title}</h3>
-          <p className="text-sm text-muted-foreground">
-            {plot.location} • {plot.size}
-          </p>
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-sm font-medium">{plot.price}</span>
-            <Link href={`/plots/${plotSlug}#contact`} className="text-sm font-medium text-primary hover:underline">
-              Enquire
-            </Link>
+        <div className="space-y-3 p-6">
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold leading-tight">{plot.title}</h3>
+            <p className="text-muted-foreground text-sm">{plot.location}</p>
           </div>
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <p className="text-xl font-bold text-primary">₹{typeof plot.price === 'string' ? plot.price : plot.price.toLocaleString()}</p>
+              <p className="text-muted-foreground text-xs">
+                {plot.size}
+              </p>
+            </div>
+            {plot.available && (
+              <Badge variant="secondary" className="text-xs">
+                Available
+              </Badge>
+            )}
+          </div>
+          <span className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium transition-colors">
+            Enquire
+          </span>
         </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
   )
 }

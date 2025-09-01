@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
   content: [
@@ -8,7 +8,16 @@ const config: Config = {
   ],
   safelist: [
     {
-      pattern: /^(bg|border|text)-\[--color-.+\]$/,
+      pattern: /^(bg|border|text|fill|stroke)-\[--color-.+\]$/,
+    },
+    {
+      pattern: /^(h|w|size)-\[--cell-size\]$/,
+    },
+    {
+      pattern: /^(h|w)-\(--cell-size\)$/,
+    },
+    {
+      pattern: /^px-\(--cell-size\)$/,
     },
   ],
   darkMode: "class",
@@ -57,6 +66,6 @@ const config: Config = {
     },
   },
   plugins: [],
-};
+}
 
-export default config;
+export default config
