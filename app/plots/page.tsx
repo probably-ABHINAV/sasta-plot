@@ -1,4 +1,10 @@
 import { PlotsGrid } from "@/components/plots-grid"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Available Plots",
+  description: "Browse our collection of plots for sale"
+}
 
 export default function PlotsPage() {
   return (
