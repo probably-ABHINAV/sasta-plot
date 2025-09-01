@@ -1,9 +1,9 @@
+import "./globals.css";
 import type React from "react";
 import type { Metadata } from "next";
 import { GeistMono } from "geist/font/mono";
 import { Montserrat, Open_Sans, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Suspense } from "react";
