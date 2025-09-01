@@ -1,53 +1,38 @@
-import { Metadata } from 'next'
 import { Hero } from "@/components/hero"
 import { FeatureCards } from "@/components/feature-cards"
 import { PlotsGrid } from "@/components/plots-grid"
 import { Testimonials } from "@/components/testimonials"
 import { CtaBanner } from "@/components/cta-banner"
 import { InquiryForm } from "@/components/inquiry-form"
-import { FadeInSection } from "@/components/animated-section"
-
-export const metadata: Metadata = {
-  title: 'Sasta Plot - Affordable Plots in Your Area',
-  description: 'Find affordable residential and commercial plots in prime locations. Browse our selection of verified properties with clear titles.',
-  keywords: ['plots', 'real estate', 'property', 'land', 'affordable plots'],
-  openGraph: {
-    title: 'Sasta Plot - Affordable Plots in Your Area',
-    description: 'Find affordable residential and commercial plots in prime locations',
-    type: 'website',
-  }
-}
+import { FadeInSection } from "@/components/animated-section" // add animated wrappers
 
 export default function HomePage() {
   return (
-    <main className="flex flex-col min-h-screen">
-      <FadeInSection as="div" role="region" aria-label="Hero section">
+    <main>
+      <FadeInSection as="section">
         <Hero />
       </FadeInSection>
 
-      <FadeInSection as="div" role="region" aria-label="Features">
+      <FadeInSection as="section">
         <FeatureCards />
       </FadeInSection>
 
-      <FadeInSection as="div" role="region" aria-label="Available plots">
+      <FadeInSection as="section">
         <PlotsGrid />
       </FadeInSection>
 
-      <FadeInSection as="div" role="region" aria-label="Testimonials">
+      <FadeInSection as="section">
         <Testimonials />
       </FadeInSection>
 
-      <FadeInSection 
-        as="div" 
-        role="region" 
-        aria-labelledby="contact" 
-        className="mx-auto max-w-6xl px-4 py-12 md:py-16"
-      >
-        <h2 id="contact" className="sr-only">Contact form</h2>
+      <FadeInSection as="section" className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div id="contact" className="sr-only">
+          Contact form
+        </div>
         <InquiryForm />
       </FadeInSection>
 
-      <FadeInSection as="div" role="region" aria-label="Call to action">
+      <FadeInSection as="section">
         <CtaBanner />
       </FadeInSection>
     </main>
