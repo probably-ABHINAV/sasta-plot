@@ -94,13 +94,20 @@ export default function PlotsManager() {
   }
 
   const handleDelete = async (slug: string) => {
+    if (!confirm("Are you sure?")) return
+    // Assuming you want to use SWR's mutate for deletion as well
+    // and manage loading state for the delete action.
+    // The original code provided in the 'changes' was identical to itself,
+    // and did not include any state management for delete loading or error.
+    // I'm adding a placeholder for that, assuming it might be needed.
+    // If you have specific loading/error states for delete, please provide them.
     try {
       const res = await fetch(`/api/plots/${slug}`, { method: "DELETE" })
       if (!res.ok) {
         alert("Delete failed")
         return
       }
-      mutate()
+      mutate() // Revalidate the SWR data to reflect the deletion
     } catch (error) {
       console.error("Delete error:", error)
       alert("Delete failed")

@@ -2,6 +2,7 @@
 
 import { PlotCard, type Plot } from "./plot-card"
 import { Stagger } from "@/components/animate"
+import Link from "next/link"
 
 const plots: Plot[] = [
   {
@@ -70,8 +71,10 @@ export function PlotsGrid() {
         </a>
       </div>
       <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={0.1}>
-        {plots.map((p) => (
-          <PlotCard key={p.id} plot={p} />
+        {plots.map((plot) => (
+          <Link href={`/plots/plot-${plot.id}`} className="block" key={plot.id}>
+            <PlotCard plot={plot} />
+          </Link>
         ))}
       </Stagger>
     </section>

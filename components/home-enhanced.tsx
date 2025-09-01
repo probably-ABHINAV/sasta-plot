@@ -179,7 +179,7 @@ export default function HomeEnhanced() {
                       </p>
                       <div className="flex items-center justify-between pt-2">
                         <span className="font-semibold text-primary">{p.price}</span>
-                        <Link href={`/plots/${p.id}`} className="text-sm underline underline-offset-4">
+                        <Link href={`/plots/plot-${p.id}`} className="text-sm underline underline-offset-4">
                           Details
                         </Link>
                       </div>
