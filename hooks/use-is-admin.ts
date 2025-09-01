@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState } from "react"
@@ -14,6 +13,15 @@ export function useIsAdmin() {
     let mounted = true
     ;(async () => {
       try {
+        // Skip if Supabase is not configured
+        if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+          if (mounted) {
+            setUser(null)
+            setLoading(false)
+          }
+          return
+        }
+
         const supabase = getBrowserSupabase()
         const { data, error } = await supabase.auth.getUser()
         if (mounted) setUser(error ? null : (data.user ?? null))

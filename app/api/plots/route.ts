@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server"
 import { getServerSupabase } from "@/lib/supabase/server"
-import { Plot } from "@/types"
 
 export async function GET() {
   const supabase = getServerSupabase()
   const { data: plots, error } = await supabase
     .from("plots")
-    .select("id,title,location,price,size,description,featured,slug,plot_images(url)")
+    .select("id,title,location,price,size_sqyd,description,featured,slug,plot_images(url)")
     .order("created_at", { ascending: false })
 
   if (error) return NextResponse.json({ plots: [], warning: error.message }, { status: 200 })
@@ -15,8 +14,8 @@ export async function GET() {
     id: p.id,
     title: p.title,
     location: p.location,
-    price: p.price,
-    size: p.size,
+    price: p.price ? `₹${Number(p.price).toLocaleString()}` : 'Price on request',
+    size: p.size_sqyd ? `${p.size_sqyd} sq.yd` : 'Size TBD',
     description: p.description,
     featured: p.featured,
     slug: p.slug,
@@ -28,22 +27,42 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const supabase = getServerSupabase()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-  const { title, location, price, size_sqyd, description, featured, imageUrl } = await request.json()
+    const { title, location, price, size_sqyd, description, featured, imageUrl } = await request.json()
 
-  const { data, error } = await supabase
-    .from("plots")
-    .insert({ title, location, price, size_sqyd, description, featured, created_by: user.id })
-    .select("id")
-    .single()
+    // Generate slug from title
+    const generateSlug = (title: string) => {
+      return title
+        .toLowerCase()
+        .replace(/[^a-z0-9 -]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim()
+    }
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+    const slug = generateSlug(title)
 
-  if (imageUrl) await supabase.from("plot_images").insert({ plot_id: data.id, url: imageUrl })
+    const { data, error } = await supabase
+      .from("plots")
+      .insert({ title, location, price, size_sqyd, description, featured, slug, created_by: user.id })
+      .select("id")
+      .single()
 
-  return NextResponse.json({ id: data.id }, { status: 201 })
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+    if (imageUrl) {
+      await supabase.from("plot_images").insert({ plot_id: data.id, url: imageUrl })
+    }
+
+    return NextResponse.json({ id: data.id }, { status: 201 })
+  } catch (error) {
+    console.error("Plot creation error:", error)
+    return NextResponse.json({ error: "Failed to create plot" }, { status: 500 })
+  }
 }

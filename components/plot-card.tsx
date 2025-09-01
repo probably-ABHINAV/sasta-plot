@@ -1,22 +1,29 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Plot } from "@/types"
+
+export interface Plot {
+  id: string
+  title: string
+  location: string
+  price: string
+  size: string
+  image?: string
+  slug?: string
+}
 
 interface PlotCardProps {
   plot: Plot
 }
 
 export function PlotCard({ plot }: PlotCardProps) {
+  const plotSlug = plot.slug || `plot-${plot.id}`
+  
   return (
     <article className="group overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md">
-      <Link href={`/plots/${plot.slug}`}>
+      <Link href={`/plots/${plotSlug}`}>
         <div className="relative aspect-[4/3] w-full">
           <Image
-            src={plot.image || "/placeholder.svg?height=320&width=480&query=plot%20image"}
+            src={plot.image || "/placeholder.svg"}
             alt={plot.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
@@ -30,7 +37,7 @@ export function PlotCard({ plot }: PlotCardProps) {
           </p>
           <div className="flex items-center justify-between pt-2">
             <span className="text-sm font-medium">{plot.price}</span>
-            <Link href={`/plots/${plot.slug}#contact`} className="text-sm font-medium text-primary hover:underline">
+            <Link href={`/plots/${plotSlug}#contact`} className="text-sm font-medium text-primary hover:underline">
               Enquire
             </Link>
           </div>

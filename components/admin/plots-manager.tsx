@@ -42,20 +42,21 @@ export default function PlotsManager() {
     try {
       let imageUrl: string | undefined
       if (form.file) {
-        const key = `plots/${Date.now()}-${form.file.name}`
-        const { error: upErr } = await supabase.storage.from("plots").upload(key, form.file)
-        if (upErr) throw new Error(upErr.message)
-        const { data: pub } = supabase.storage.from("plots").getPublicUrl(key)
-        imageUrl = pub.publicUrl
-      }
-
-      const generateSlug = (title: string) => {
-        return title
-          .toLowerCase()
-          .replace(/[^a-z0-9 -]/g, '')
-          .replace(/\s+/g, '-')
-          .replace(/-+/g, '-')
-          .trim()
+        const formData = new FormData()
+        formData.append('file', form.file)
+        formData.append('prefix', 'plots')
+        
+        const uploadRes = await fetch('/api/storage/upload', {
+          method: 'POST',
+          body: formData
+        })
+        
+        if (!uploadRes.ok) {
+          throw new Error('Upload failed')
+        }
+        
+        const uploadData = await uploadRes.json()
+        imageUrl = uploadData.publicUrl
       }
 
       const res = await fetch("/api/plots", {
@@ -69,7 +70,6 @@ export default function PlotsManager() {
           description: form.description,
           featured: form.featured,
           imageUrl,
-          slug: generateSlug(form.title),
         }),
       })
       if (!res.ok) {
@@ -197,8 +197,8 @@ export default function PlotsManager() {
                   <div className="mb-1 text-xs text-muted-foreground">#{p.id}</div>
                   <h3 className="font-heading text-lg">{p.title}</h3>
                   <p className="text-sm">{p.location}</p>
-                  <p className="text-sm">₹ {Number(p.price).toLocaleString()}</p>
-                  <p className="text-sm">Size: {p.size} sq. yd.</p>
+                  <p className="text-sm">{typeof p.price === 'string' ? p.price : `₹${Number(p.price).toLocaleString()}`}</p>
+                  <p className="text-sm">Size: {typeof p.size === 'string' ? p.size : `${p.size} sq. yd.`}</p>
                   <p className="text-sm">Slug: {p.slug}</p>
                   <Button
                     variant="destructive"

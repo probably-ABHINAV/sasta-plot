@@ -14,6 +14,11 @@ export async function POST(request: Request) {
 
     // Try DB insert first; if tables aren’t created yet, just return success.
     try {
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        console.log("[v0] Supabase not configured, skipping DB insert")
+        return NextResponse.json({ success: true, message: "Inquiry received. Our team will contact you soon." })
+      }
+
       const supabase = getServerSupabase()
       await supabase.from("inquiries").insert({
         name,

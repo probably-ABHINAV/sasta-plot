@@ -1,15 +1,17 @@
 export interface Plot {
   id: string
   title: string
-  description: string
-  price: number
+  description?: string
+  price: string
   location: string
-  size: number
+  size: string
   size_sqyd?: number
-  images: string[]
-  slug: string
+  images?: string[]
+  image?: string
+  slug?: string
   facing?: string
   approval_type?: string
+  featured?: boolean
   created_at?: string
   updated_at?: string
 }

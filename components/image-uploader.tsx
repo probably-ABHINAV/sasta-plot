@@ -30,7 +30,7 @@ export function ImageUploader({ onUpload, maxFiles = 5, currentImages = [] }: Im
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
 
         const { error: uploadError } = await supabase.storage
-          .from('plot-images')
+          .from('plots')
           .upload(fileName, file)
 
         if (uploadError) {
@@ -39,7 +39,7 @@ export function ImageUploader({ onUpload, maxFiles = 5, currentImages = [] }: Im
         }
 
         const { data: { publicUrl } } = supabase.storage
-          .from('plot-images')
+          .from('plots')
           .getPublicUrl(fileName)
 
         uploadedUrls.push(publicUrl)
