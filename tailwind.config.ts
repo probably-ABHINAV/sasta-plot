@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -8,19 +8,15 @@ const config: Config = {
   ],
   safelist: [
     {
-      // Allow classes like bg-[--color-primary]
       pattern: /^(bg|border|text|fill|stroke)-\[--[a-zA-Z0-9-_]+\]$/,
     },
     {
-      // Allow classes like h-[--cell-size], w-[--cell-size], px-[--cell-size]
-      pattern: /^(h|w|size|px)-\[--[a-zA-Z0-9-_]+\]$/,
+      pattern: /^(h|w|size|px|py|m|gap|grid-cols|grid-rows)-\[.*\]$/,
     },
     {
-      // Animation and transition-related dynamic classes
       pattern: /^(opacity|duration|delay|translate|scale|rotate|ease|z|inset|top|left|right|bottom)-\d+$/,
     },
     {
-      // General motion/animation support
       pattern: /^(transition|animate|motion|ease|duration)-.+$/,
     },
   ],
@@ -69,7 +65,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
-}
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+  ],
+};
 
-export default config
+export default config;
