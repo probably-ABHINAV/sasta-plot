@@ -65,7 +65,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-open-sans, 'Open Sans', system-ui, sans-serif);
+    font-family: var(--font-inter), var(--font-open-sans), 'Open Sans', system-ui, sans-serif;
   }
   
   /* Ensure minimum contrast for accessibility */
@@ -75,10 +75,16 @@
   
   /* Fallback fonts */
   .font-heading {
-    font-family: var(--font-montserrat, 'Montserrat', system-ui, sans-serif);
+    font-family: var(--font-montserrat), 'Montserrat', system-ui, sans-serif;
   }
   
   .font-mono {
-    font-family: var(--font-geist-mono, 'Geist Mono', monospace);
+    font-family: 'Geist Mono', 'Courier New', monospace;
+  }
+  
+  /* Ensure text is always visible */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
