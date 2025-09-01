@@ -8,16 +8,20 @@ const config: Config = {
   ],
   safelist: [
     {
-      pattern: /^(bg|border|text|fill|stroke)-\[--color-.+\]$/,
+      // Allow classes like bg-[--color-primary]
+      pattern: /^(bg|border|text|fill|stroke)-\[--[a-zA-Z0-9-_]+\]$/,
     },
     {
-      pattern: /^(h|w|size)-\[--cell-size\]$/,
+      // Allow classes like h-[--cell-size], w-[--cell-size], px-[--cell-size]
+      pattern: /^(h|w|size|px)-\[--[a-zA-Z0-9-_]+\]$/,
     },
     {
-      pattern: /^(h|w)-\(--cell-size\)$/,
+      // Animation and transition-related dynamic classes
+      pattern: /^(opacity|duration|delay|translate|scale|rotate|ease|z|inset|top|left|right|bottom)-\d+$/,
     },
     {
-      pattern: /^px-\(--cell-size\)$/,
+      // General motion/animation support
+      pattern: /^(transition|animate|motion|ease|duration)-.+$/,
     },
   ],
   darkMode: "class",
