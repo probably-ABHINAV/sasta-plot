@@ -4,6 +4,11 @@ import nodemailer from "nodemailer"
 export async function POST(req: Request) {
   const { name, email, message, plotId } = await req.json()
 
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    console.error("Missing SMTP configuration")
+    return NextResponse.json({ ok: false, error: "Email service not configured" }, { status: 500 })
+  }
+
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT || 587),

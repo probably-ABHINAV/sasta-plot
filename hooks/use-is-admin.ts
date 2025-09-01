@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from "react"
@@ -27,6 +28,9 @@ export function useIsAdmin() {
     }
   }, [])
 
-  // TODO: read profiles.role when you want stricter admin-only access
-  return { user, isAdmin: !!user, loading }
+  // Check if user email is in admin list
+  const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',') || []
+  const isAdmin = !!user && adminEmails.includes(user.email || '')
+
+  return { user, isAdmin, loading }
 }

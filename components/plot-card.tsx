@@ -1,21 +1,19 @@
 "use client"
 
+import Link from "next/link"
 import Image from "next/image"
-import { HoverLift } from "@/components/animate"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Plot } from "@/types"
 
-export type Plot = {
-  id: string
-  title: string
-  location: string
-  price: string
-  size: string
-  image: string
+interface PlotCardProps {
+  plot: Plot
 }
 
-export function PlotCard({ plot }: { plot: Plot }) {
+export function PlotCard({ plot }: PlotCardProps) {
   return (
-    <HoverLift>
-      <article className="group overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md">
+    <article className="group overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md">
+      <Link href={`/plots/${plot.slug}`}>
         <div className="relative aspect-[4/3] w-full">
           <Image
             src={plot.image || "/placeholder.svg?height=320&width=480&query=plot%20image"}
@@ -32,12 +30,12 @@ export function PlotCard({ plot }: { plot: Plot }) {
           </p>
           <div className="flex items-center justify-between pt-2">
             <span className="text-sm font-medium">{plot.price}</span>
-            <a href="/contact" className="text-sm font-medium text-primary hover:underline">
+            <Link href={`/plots/${plot.slug}#contact`} className="text-sm font-medium text-primary hover:underline">
               Enquire
-            </a>
+            </Link>
           </div>
         </div>
-      </article>
-    </HoverLift>
+      </Link>
+    </article>
   )
 }

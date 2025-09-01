@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server"
 import { getServerSupabase } from "@/lib/supabase/server"
+import { Plot } from "@/types"
 
 export async function GET() {
   const supabase = getServerSupabase()
   const { data: plots, error } = await supabase
     .from("plots")
-    .select("id,title,location,price,size_sqyd,description,featured,plot_images(url)")
+    .select("id,title,location,price,size,description,featured,slug,plot_images(url)")
     .order("created_at", { ascending: false })
 
   if (error) return NextResponse.json({ plots: [], warning: error.message }, { status: 200 })
@@ -15,9 +16,10 @@ export async function GET() {
     title: p.title,
     location: p.location,
     price: p.price,
-    size_sqyd: p.size_sqyd,
+    size: p.size,
     description: p.description,
     featured: p.featured,
+    slug: p.slug,
     image: p.plot_images?.[0]?.url,
   }))
 

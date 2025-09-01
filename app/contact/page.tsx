@@ -1,4 +1,4 @@
-import { InquiryForm } from "@/components/inquiry-form"
+import InquiryForm from "@/components/inquiry-form"
 import Image from "next/image"
 
 export default function ContactPage() {

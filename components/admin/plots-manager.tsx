@@ -8,14 +8,15 @@ import Image from "next/image"
 import { getBrowserSupabase } from "@/lib/supabase/browser"
 
 type PlotRow = {
-  id: number
+  id: string
   title: string
   location: string
   price: number
-  size_sqyd: number
+  size: number
   description?: string
   featured?: boolean
   image?: string
+  slug: string
 }
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
@@ -47,6 +48,15 @@ export default function PlotsManager() {
         imageUrl = pub.publicUrl
       }
 
+      const generateSlug = (title: string) => {
+        return title
+          .toLowerCase()
+          .replace(/[^a-z0-9 -]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .trim()
+      }
+
       const res = await fetch("/api/plots", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -58,6 +68,7 @@ export default function PlotsManager() {
           description: form.description,
           featured: form.featured,
           imageUrl,
+          slug: generateSlug(form.title),
         }),
       })
       if (!res.ok) {
@@ -171,6 +182,8 @@ export default function PlotsManager() {
                   <h3 className="font-heading text-lg">{p.title}</h3>
                   <p className="text-sm">{p.location}</p>
                   <p className="text-sm">₹ {Number(p.price).toLocaleString()}</p>
+                  <p className="text-sm">Size: {p.size} sq. yd.</p>
+                  <p className="text-sm">Slug: {p.slug}</p>
                   <button
                     onClick={() => onDelete(p.id)}
                     className="mt-3 rounded bg-destructive px-3 py-2 text-destructive-foreground"
