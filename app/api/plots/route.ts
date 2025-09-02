@@ -1,39 +1,31 @@
 import { NextResponse } from "next/server"
-import { getServerSupabase } from "@/lib/supabase/server"
+import { fileStorage } from "@/lib/file-storage"
 
 export async function GET() {
-  const supabase = getServerSupabase()
-  const { data: plots, error } = await supabase
-    .from("plots")
-    .select("id,title,location,price,size_sqyd,description,featured,slug,plot_images(url)")
-    .order("created_at", { ascending: false })
+  try {
+    const plots = fileStorage.getPlots()
 
-  if (error) return NextResponse.json({ plots: [], warning: error.message }, { status: 200 })
+    const normalized = plots.map((p) => ({
+      id: p.id,
+      title: p.title,
+      location: p.location,
+      price: p.price ? `₹${Number(p.price).toLocaleString()}` : 'Price on request',
+      size: p.size_sqyd ? `${p.size_sqyd} sq.yd` : 'Size TBD',
+      description: p.description,
+      featured: p.featured,
+      slug: p.slug,
+      image: p.image,
+    }))
 
-  const normalized = (plots || []).map((p: any) => ({
-    id: p.id,
-    title: p.title,
-    location: p.location,
-    price: p.price ? `₹${Number(p.price).toLocaleString()}` : 'Price on request',
-    size: p.size_sqyd ? `${p.size_sqyd} sq.yd` : 'Size TBD',
-    description: p.description,
-    featured: p.featured,
-    slug: p.slug,
-    image: p.plot_images?.[0]?.url,
-  }))
-
-  return NextResponse.json({ plots: normalized })
+    return NextResponse.json({ plots: normalized })
+  } catch (error) {
+    console.error("Error fetching plots:", error)
+    return NextResponse.json({ plots: [] }, { status: 200 })
+  }
 }
 
 export async function POST(request: Request) {
-  const supabase = getServerSupabase()
-  
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-
     const { title, location, price, size_sqyd, description, featured, imageUrl } = await request.json()
 
     // Generate slug from title
@@ -48,19 +40,18 @@ export async function POST(request: Request) {
 
     const slug = generateSlug(title)
 
-    const { data, error } = await supabase
-      .from("plots")
-      .insert({ title, location, price, size_sqyd, description, featured, slug, created_by: user.id })
-      .select("id")
-      .single()
+    const plot = fileStorage.createPlot({
+      title,
+      location,
+      price,
+      size_sqyd,
+      description,
+      featured,
+      slug,
+      image: imageUrl,
+    })
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-
-    if (imageUrl) {
-      await supabase.from("plot_images").insert({ plot_id: data.id, url: imageUrl })
-    }
-
-    return NextResponse.json({ id: data.id }, { status: 201 })
+    return NextResponse.json({ id: plot.id }, { status: 201 })
   } catch (error) {
     console.error("Plot creation error:", error)
     return NextResponse.json({ error: "Failed to create plot" }, { status: 500 })

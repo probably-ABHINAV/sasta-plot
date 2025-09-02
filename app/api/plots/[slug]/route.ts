@@ -1,16 +1,12 @@
 import { NextResponse } from "next/server"
-import { getServerSupabase } from "@/lib/supabase/server"
+import { fileStorage } from "@/lib/file-storage"
 
 export async function DELETE(_: Request, { params }: { params: { slug: string } }) {
   try {
-    const supabase = getServerSupabase()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-
-    const { error } = await supabase.from("plots").delete().eq("slug", params.slug)
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+    const success = fileStorage.deletePlot(params.slug)
+    if (!success) {
+      return NextResponse.json({ error: "Plot not found" }, { status: 404 })
+    }
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error("Plot deletion error:", error)

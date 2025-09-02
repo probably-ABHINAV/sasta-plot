@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Budget Plot near NH-48",
+    "location": "Gurgaon, Haryana",
+    "price": 850000,
+    "size_sqyd": 120,
+    "description": "Great location with all basic amenities nearby. Perfect for building your dream home.",
+    "featured": true,
+    "slug": "budget-plot-near-nh-48",
+    "image": "/images/plots/plot-1.png",
+    "created_at": "2024-08-25T08:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Corner Plot in Gated Community",
+    "location": "Noida, UP",
+    "price": 1200000,
+    "size_sqyd": 150,
+    "description": "Premium corner plot in a well-developed gated community with 24/7 security.",
+    "featured": true,
+    "slug": "corner-plot-in-gated-community",
+    "image": "/images/plots/plot-2.png",
+    "created_at": "2024-08-26T10:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Affordable Plot in Developing Area",
+    "location": "Faridabad, Haryana",
+    "price": 650000,
+    "size_sqyd": 100,
+    "description": "Excellent investment opportunity in an upcoming area with planned infrastructure.",
+    "featured": false,
+    "slug": "affordable-plot-in-developing-area",
+    "image": "/images/plots/plot-3.png",
+    "created_at": "2024-08-27T15:45:00.000Z"
+  }
+]
