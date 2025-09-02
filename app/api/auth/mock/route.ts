@@ -10,12 +10,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 })
     }
 
-    // Check admin credentials (server-side only)
-    const adminEmail = process.env.ADMIN_EMAIL
-    const adminPassword = process.env.ADMIN_PASSWORD
+    // Check admin credentials (hardcoded for production compatibility)
+    const adminEmail = "admin@sastaplots.com"
+    const adminPassword = "SastaAdmin@2024"
+    
     
     if (email === adminEmail && password === adminPassword) {
-      const user = { email, role: "admin" }
+      const user = { email, role: "admin" as const }
       const response = NextResponse.json({ user })
       response.headers.set("Set-Cookie", setDemoSession(user))
       return response
