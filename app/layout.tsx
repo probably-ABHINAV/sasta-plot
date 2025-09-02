@@ -49,7 +49,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${montserrat.variable} ${openSans.variable} ${GeistMono.variable}`}
     >
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased bg-background text-foreground`}>
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
           <MotionProvider>
             <SiteHeader />
