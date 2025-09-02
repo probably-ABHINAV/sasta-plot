@@ -1,100 +1,39 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+
+import { type NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // Skip middleware for static files and API routes
-  if (
-    request.nextUrl.pathname.startsWith('/_next') ||
-    request.nextUrl.pathname.startsWith('/api') ||
-    request.nextUrl.pathname.includes('.')
-  ) {
-    return NextResponse.next()
-  }
+  const pathname = request.nextUrl.pathname
 
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  })
-
-  // Skip if Supabase is not configured
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    return response
-  }
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value
-        },
-        set(name: string, value: string, options: any) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-        },
-        remove(name: string, options: any) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-        },
-      },
-    }
-  )
-
-  try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
-    // Protect admin routes
-    if (request.nextUrl.pathname.startsWith('/admin')) {
-      if (!user) {
-        return NextResponse.redirect(new URL('/sign-in', request.url))
+  // Only protect admin routes
+  if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard-admin-2024')) {
+    try {
+      // Check for demo auth cookie
+      const sessionCookie = request.cookies.get('demo-session')
+      
+      if (sessionCookie?.value) {
+        try {
+          const user = JSON.parse(atob(sessionCookie.value))
+          
+          if (user && user.role === 'admin' && user.email) {
+            return NextResponse.next()
+          }
+        } catch (error) {
+          console.error('Invalid session cookie:', error)
+        }
       }
 
-      // Check if user is admin (simplified check)
-      const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',') || []
-      if (!adminEmails.includes(user.email || '')) {
-        return NextResponse.redirect(new URL('/', request.url))
-      }
+      // If no valid admin session, redirect to sign-in
+      const signInUrl = new URL('/sign-in', request.url)
+      signInUrl.searchParams.set('redirect', pathname)
+      return NextResponse.redirect(signInUrl)
+    } catch (error) {
+      console.error('Middleware error:', error)
+      const signInUrl = new URL('/sign-in', request.url)
+      return NextResponse.redirect(signInUrl)
     }
-
-    return response
-  } catch (error) {
-    console.error('Middleware error:', error)
-    // Don't block on auth errors, just continue
-    if (request.nextUrl.pathname.startsWith('/admin')) {
-      return NextResponse.redirect(new URL('/sign-in', request.url))
-    }
-    return response
   }
+
+  return NextResponse.next()
 }
 
 export const config = {

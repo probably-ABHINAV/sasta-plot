@@ -1,36 +1,45 @@
-// Lightweight demo auth helpers using a cookie. Upgradeable to Supabase later.
-import { cookies } from "next/headers"
 
-export type DemoUser = {
+import { cookies } from 'next/headers'
+
+export interface DemoUser {
   email: string
-  role: "admin" | "user"
+  role: 'admin' | 'user'
 }
 
-const COOKIE = "demo_session"
+const COOKIE_NAME = 'demo-session'
+const COOKIE_OPTIONS = 'HttpOnly; Path=/; Max-Age=86400; SameSite=Strict'
 
-function encode(obj: unknown) {
-  return Buffer.from(JSON.stringify(obj)).toString("base64url")
+export function setDemoSession(user: DemoUser): string {
+  const sessionData = btoa(JSON.stringify(user))
+  return `${COOKIE_NAME}=${sessionData}; ${COOKIE_OPTIONS}`
 }
 
-function decode<T>(val: string): T | null {
+export const clearSession = `${COOKIE_NAME}=; Path=/; Max-Age=0`
+
+export async function getDemoUser(): Promise<DemoUser | null> {
   try {
-    return JSON.parse(Buffer.from(val, "base64url").toString()) as T
-  } catch {
+    const cookieStore = cookies()
+    const sessionCookie = cookieStore.get(COOKIE_NAME)
+    
+    if (!sessionCookie?.value) {
+      return null
+    }
+
+    const user = JSON.parse(atob(sessionCookie.value))
+    
+    // Validate user object
+    if (user && typeof user.email === 'string' && typeof user.role === 'string') {
+      return user as DemoUser
+    }
+    
+    return null
+  } catch (error) {
+    console.error('Error getting demo user:', error)
     return null
   }
 }
 
-export async function getDemoUser(): Promise<DemoUser | null> {
-  const c = await cookies()
-  const raw = c.get(COOKIE)?.value
-  if (!raw) return null
-  return decode<DemoUser>(raw)
+export async function isAdminUser(): Promise<boolean> {
+  const user = await getDemoUser()
+  return user?.role === 'admin'
 }
-
-export function serializeSession(user: DemoUser) {
-  // 7 days
-  const maxAge = 60 * 60 * 24 * 7
-  return `${COOKIE}=${encode(user)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAge}`
-}
-
-export const clearSession = `${COOKIE}=; Path=/; Max-Age=0; SameSite=Lax`

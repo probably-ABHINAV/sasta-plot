@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from "next/link"
@@ -27,13 +28,13 @@ export function SiteHeader() {
           <Link href="/plots" className="text-sm text-foreground/80 hover:text-foreground transition-colors">
             Plots
           </Link>
+          <Link href="/about" className="text-sm text-foreground/80 hover:text-foreground transition-colors">
+            About
+          </Link>
           <Link href="/blog" className="text-sm text-foreground/80 hover:text-foreground transition-colors">
             Blog
           </Link>
-          <Link
-            href="/contact"
-            className="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          >
+          <Link href="/contact" className="text-sm text-foreground/80 hover:text-foreground transition-colors">
             Contact
           </Link>
           <AuthLinks />
@@ -86,15 +87,17 @@ export function SiteHeader() {
                 </Link>
               </li>
               <li>
+                <Link href="/about" className="block rounded-md px-3 py-2 text-sm hover:bg-secondary">
+                  About
+                </Link>
+              </li>
+              <li>
                 <Link href="/blog" className="block rounded-md px-3 py-2 text-sm hover:bg-secondary">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact"
-                  className="block rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
-                >
+                <Link href="/contact" className="block rounded-md px-3 py-2 text-sm hover:bg-secondary">
                   Contact
                 </Link>
               </li>
