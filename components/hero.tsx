@@ -17,8 +17,7 @@ export function Hero() {
             Own Your Plot with Confidence
           </h1>
           <p className="text-pretty text-muted-foreground md:text-base">
-            Sasta Plots brings verified residential plots with clear titles, easy access roads, and amenities—at prices
-            the common person can trust.
+            At Sasta Plots, we believe land ownership should be simple, secure, and affordable. Our mission is to help everyday families and first-time buyers invest in plots that are not only budget-friendly but also verified, well-connected, and future-ready.
           </p>
           <Stagger className="flex flex-col gap-3 sm:flex-row" delay={0.15}>
             <Link
@@ -60,7 +59,7 @@ export function Hero() {
           </HoverLift>
           <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
             <Image src="/images/logo-sasta-plots.png" alt="" width={20} height={20} className="h-5 w-5" />
-            AAM ADMI KI PASAND
+            AAM AADMI KI PASAND
           </div>
         </FadeIn>
       </div>

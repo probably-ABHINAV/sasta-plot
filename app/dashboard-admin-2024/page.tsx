@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from "react"
@@ -70,11 +69,11 @@ export default function AdminDashboard() {
   const router = useRouter()
   const { isAdmin, loading: authLoading } = useIsAdmin()
   const [activeTab, setActiveTab] = useState("overview")
-  
+
   // SWR for data fetching
-  const { data: plotsData } = useSWR("/api/plots", fetcher)
-  const { data: inquiriesData } = useSWR("/api/inquiry", fetcher)
-  
+  const { data: plotsData, error: plotsError } = useSWR("/api/plots", fetcher)
+  const { data: inquiriesData, error: inquiriesError } = useSWR("/api/inquiry", fetcher)
+
   const plots = plotsData?.plots || []
   const inquiries = inquiriesData?.inquiries || []
 
@@ -181,7 +180,7 @@ export default function AdminDashboard() {
                   <p className="text-xs text-white/60">Active listings</p>
                 </CardContent>
               </Card>
-              
+
               <Card className="bg-black/20 border-white/10 text-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">New Inquiries</CardTitle>
@@ -192,7 +191,7 @@ export default function AdminDashboard() {
                   <p className="text-xs text-white/60">Pending responses</p>
                 </CardContent>
               </Card>
-              
+
               <Card className="bg-black/20 border-white/10 text-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Featured Plots</CardTitle>
@@ -203,7 +202,7 @@ export default function AdminDashboard() {
                   <p className="text-xs text-white/60">Currently featured</p>
                 </CardContent>
               </Card>
-              
+
               <Card className="bg-black/20 border-white/10 text-white">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Avg. Price</CardTitle>
@@ -279,7 +278,7 @@ export default function AdminDashboard() {
                 Add Plot
               </Button>
             </div>
-            
+
             <div className="grid gap-6">
               {plots.length === 0 ? (
                 <Card className="bg-black/20 border-white/10 text-white">
@@ -346,7 +345,7 @@ export default function AdminDashboard() {
                 New Post
               </Button>
             </div>
-            
+
             <Card className="bg-black/20 border-white/10 text-white">
               <CardContent className="text-center py-12">
                 <FileText className="w-16 h-16 text-white/40 mx-auto mb-4" />
@@ -363,15 +362,34 @@ export default function AdminDashboard() {
           {/* Inquiries Tab */}
           <TabsContent value="inquiries" className="space-y-6">
             <h2 className="text-3xl font-bold text-white">Customer Inquiries</h2>
-            
+
             <div className="grid gap-4">
-              {inquiries.length === 0 ? (
+              {inquiriesError ? (
+                <Card className="bg-red-500/20 border-red-500/30 text-white">
+                  <CardContent className="text-center py-12">
+                    <Mail className="w-16 h-16 text-red-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">Error Loading Inquiries</h3>
+                    <p className="text-red-200 mb-4">
+                      Failed to load inquiries. Error: {inquiriesError.message || "Unknown error"}
+                    </p>
+                    <Button 
+                      onClick={() => window.location.reload()} 
+                      className="bg-red-600 hover:bg-red-700"
+                    >
+                      Retry
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : inquiries.length === 0 ? (
                 <Card className="bg-black/20 border-white/10 text-white">
                   <CardContent className="text-center py-12">
                     <Mail className="w-16 h-16 text-white/40 mx-auto mb-4" />
                     <h3 className="text-lg font-semibold mb-2">No Inquiries Yet</h3>
                     <p className="text-white/60">
                       Customer inquiries will appear here when submitted through the contact form.
+                    </p>
+                    <p className="text-white/40 text-sm mt-2">
+                      Debug: Found {inquiries.length} inquiries in response
                     </p>
                   </CardContent>
                 </Card>

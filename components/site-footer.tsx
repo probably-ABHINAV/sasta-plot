@@ -42,8 +42,8 @@ export function SiteFooter() {
         <div>
           <h4 className="mb-2 text-sm font-medium">Reach Us</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>Email: sastaplot7@gmail.com</li>
-            <li>Phone: +917870231314</li>
+            <li>Email: sastaplots7@gmail.com</li>
+            <li>Phone: 7870231314</li>
             <li>Mon–Sat, 9:30 AM–6:30 PM</li>
           </ul>
         </div>
