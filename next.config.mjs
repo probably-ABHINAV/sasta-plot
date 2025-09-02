@@ -23,13 +23,14 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['nodemailer'],
-    // The following line is often added for CSS optimization with Next.js
-    // optimizeCss: true, // Note: This option is deprecated in favor of built-in PostCSS handling
   },
-  // Ensure Tailwind CSS is processed correctly
-  // Next.js automatically processes Tailwind CSS if `tailwind.config.js` is present
-  // and the necessary imports are in your CSS file (e.g., `globals.css`).
-  // No explicit configuration is usually needed in next.config.js for basic Tailwind setup.
+  // Ensure CSS is properly processed
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Force static optimization for better CSS handling
+  output: 'standalone',
 }
 
 export default nextConfig
