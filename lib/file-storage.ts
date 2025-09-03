@@ -30,7 +30,9 @@ export interface Inquiry {
   phone?: string;
   message?: string;
   plot_id?: string;
+  status: 'pending' | 'seen' | 'responded' | 'closed';
   created_at: string;
+  updated_at?: string;
 }
 
 export interface BlogPost {
@@ -111,11 +113,37 @@ class FileStorage {
     const inquiry: Inquiry = {
       ...inquiryData,
       id,
+      status: inquiryData.status || 'pending',
       created_at: new Date().toISOString(),
     };
     inquiries.unshift(inquiry);
     this.writeData('inquiries', inquiries);
     return inquiry;
+  }
+
+  updateInquiry(id: string, updates: Partial<Inquiry>): Inquiry | null {
+    const inquiries = this.getInquiries();
+    const index = inquiries.findIndex(i => i.id === id);
+    if (index === -1) return null;
+    
+    const updatedInquiry = {
+      ...inquiries[index],
+      ...updates,
+      updated_at: new Date().toISOString(),
+    };
+    inquiries[index] = updatedInquiry;
+    this.writeData('inquiries', inquiries);
+    return updatedInquiry;
+  }
+
+  deleteInquiry(id: string): boolean {
+    const inquiries = this.getInquiries();
+    const filteredInquiries = inquiries.filter(i => i.id !== id);
+    if (filteredInquiries.length < inquiries.length) {
+      this.writeData('inquiries', filteredInquiries);
+      return true;
+    }
+    return false;
   }
 
   // Blog operations

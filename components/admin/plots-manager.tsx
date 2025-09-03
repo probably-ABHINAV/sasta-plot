@@ -9,7 +9,7 @@ import { getBrowserSupabase } from "@/lib/supabase/browser"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import ImageUploader from "./ImageUploader" // Assuming ImageUploader is in the same directory
+import ImageUploader from "../image-uploader"
 
 type PlotRow = {
   id: string
@@ -17,6 +17,8 @@ type PlotRow = {
   location: string
   price: number
   size: number
+  size_sqyd: number
+  size_unit?: string
   description?: string
   featured?: boolean
   image?: string
@@ -242,7 +244,7 @@ export default function PlotsManager() {
         <div className="grid w-full items-center gap-1.5">
           <Label className="text-white">Plot Images</Label>
           <ImageUploader
-            onUpload={(urls) => setForm(prev => ({ ...prev, images: urls }))}
+            onUpload={(urls: string[]) => setForm(prev => ({ ...prev, images: urls }))}
             currentImages={form.images}
             maxFiles={5}
           />
@@ -315,7 +317,7 @@ export default function PlotsManager() {
                     <div>
                       <Label className="text-white">Update Images</Label>
                       <ImageUploader
-                        onUpload={(urls) => setEditForm(prev => ({ ...prev, images: urls }))}
+                        onUpload={(urls: string[]) => setEditForm(prev => ({ ...prev, images: urls }))}
                         currentImages={editForm.images}
                         maxFiles={5}
                       />

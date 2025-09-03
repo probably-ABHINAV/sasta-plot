@@ -486,9 +486,17 @@ export default function AdminDashboard() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-gray-300">
-                  <MessageSquare className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <p>Blog management functionality coming soon...</p>
+                <div className="space-y-4">
+                  <p className="text-gray-300">
+                    Create, edit, and manage your blog posts and content.
+                  </p>
+                  <Button 
+                    onClick={() => router.push('/admin/blog')} 
+                    className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30"
+                  >
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Manage Blog
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -503,9 +511,17 @@ export default function AdminDashboard() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8 text-gray-300">
-                  <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                  <p>Inquiries management functionality coming soon...</p>
+                <div className="space-y-4">
+                  <p className="text-gray-300">
+                    Manage customer inquiries, update their status, and track responses.
+                  </p>
+                  <Button 
+                    onClick={() => router.push('/admin/inquiries')} 
+                    className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30"
+                  >
+                    <Users className="h-4 w-4 mr-2" />
+                    Manage Inquiries
+                  </Button>
                 </div>
               </CardContent>
             </Card>

@@ -28,15 +28,20 @@ export function HomeEnhanced() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [featuredPlots, setFeaturedPlots] = useState<Plot[]>([])
+  const [allPlots, setAllPlots] = useState<Plot[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const plotsResponse = await fetch('/api/plots')
+        const plotsResponse = await fetch('/api/plots', {
+          cache: 'no-store' // Ensure we always get fresh data
+        })
         const plotsData = await plotsResponse.json()
-        const featured = (plotsData.plots || []).filter((plot: Plot) => plot.featured).slice(0, 6)
+        const allPlotsData = plotsData.plots || []
+        const featured = allPlotsData.filter((plot: Plot) => plot.featured).slice(0, 6)
         setFeaturedPlots(featured)
+        setAllPlots(allPlotsData)
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
@@ -303,7 +308,7 @@ export function HomeEnhanced() {
             </div>
           ) : (
             <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" delay={0.1}>
-              {featuredPlots.slice(0, 6).map((plot, index) => (
+              {allPlots.slice(0, 6).map((plot, index) => (
                 <Item key={plot.id}>
                   <Link href={`/plots/${plot.slug}`}>
                     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
