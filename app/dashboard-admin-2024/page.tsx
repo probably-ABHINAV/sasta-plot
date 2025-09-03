@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useCallback } from "react"
@@ -70,7 +69,7 @@ export default function AdminDashboard() {
       try {
         const response = await fetch('/api/auth/mock')
         const data = await response.json()
-        
+
         if (data.user && data.user.role === 'admin') {
           setIsAuthenticated(true)
         } else {
@@ -118,7 +117,7 @@ export default function AdminDashboard() {
 
   const handleCreatePlot = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     const validationError = validateForm()
     if (validationError) {
       setSubmitError(validationError)

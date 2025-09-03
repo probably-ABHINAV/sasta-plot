@@ -32,39 +32,65 @@ export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = 
 
     try {
       const newUrls: string[] = []
+      let hasErrors = false
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
         
         // Validate file type
         if (!file.type.startsWith('image/')) {
-          setError('Please select only image files')
+          setError(`File "${file.name}" is not an image. Please select only image files.`)
+          hasErrors = true
           continue
         }
 
         // Validate file size (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
-          setError('Image size should be less than 5MB')
+          setError(`File "${file.name}" is too large. Image size should be less than 5MB.`)
+          hasErrors = true
           continue
         }
 
-        const formData = new FormData()
-        formData.append('file', file)
-        formData.append('prefix', 'plots')
+        try {
+          const formData = new FormData()
+          formData.append('file', file)
+          formData.append('prefix', 'plots')
 
-        const response = await fetch('/api/storage/upload', {
-          method: 'POST',
-          body: formData
-        })
+          console.log('Uploading file:', file.name, 'Size:', file.size)
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}))
-          throw new Error(errorData.error || 'Upload failed')
-        }
+          const response = await fetch('/api/storage/upload', {
+            method: 'POST',
+            body: formData
+          })
 
-        const data = await response.json()
-        if (data.publicUrl) {
-          newUrls.push(data.publicUrl)
+          console.log('Upload response status:', response.status)
+
+          if (!response.ok) {
+            const errorText = await response.text()
+            console.error('Upload error response:', errorText)
+            
+            let errorData
+            try {
+              errorData = JSON.parse(errorText)
+            } catch {
+              errorData = { error: `HTTP ${response.status}: ${response.statusText}` }
+            }
+            
+            throw new Error(errorData.error || `Upload failed with status ${response.status}`)
+          }
+
+          const data = await response.json()
+          console.log('Upload response data:', data)
+
+          if (data.publicUrl) {
+            newUrls.push(data.publicUrl)
+          } else {
+            throw new Error('No public URL returned from upload')
+          }
+        } catch (fileError: any) {
+          console.error(`Error uploading ${file.name}:`, fileError)
+          setError(`Failed to upload "${file.name}": ${fileError.message}`)
+          hasErrors = true
         }
       }
 
@@ -72,6 +98,12 @@ export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = 
         const updatedImages = [...images, ...newUrls]
         setImages(updatedImages)
         onUpload(updatedImages)
+        
+        if (!hasErrors) {
+          setError("")
+        }
+      } else if (!hasErrors) {
+        setError('No images were uploaded successfully')
       }
     } catch (error: any) {
       console.error('Upload error:', error)
