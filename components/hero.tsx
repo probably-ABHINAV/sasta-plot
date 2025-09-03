@@ -58,7 +58,7 @@ export function Hero() {
             </div>
           </HoverLift>
           <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-            <Image src="/images/logo-sasta-plots.png" alt="" width={20} height={20} className="h-5 w-5" />
+            <Image src="/images/logo-sasta-plots.png" alt="" width={20} height={20} className="h-5 w-5" style={{ width: 'auto', height: '20px' }} />
             AAM AADMI KI PASAND
           </div>
         </FadeIn>

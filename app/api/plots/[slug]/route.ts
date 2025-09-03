@@ -46,53 +46,43 @@ export async function PATCH(
   { params }: { params: { slug: string } }
 ) {
   try {
-    const body = await request.json()
-    const { title, location, price, size_sqyd, size_unit, description, featured, imageUrl } = body
-
-    // Validate required fields
-    if (!title?.trim()) {
-      return NextResponse.json({ error: "Title is required" }, { status: 400 })
-    }
-    if (!location?.trim()) {
-      return NextResponse.json({ error: "Location is required" }, { status: 400 })
-    }
-    if (!price || isNaN(Number(price)) || Number(price) <= 0) {
-      return NextResponse.json({ error: "Valid price is required" }, { status: 400 })
-    }
-    if (!size_sqyd || isNaN(Number(size_sqyd)) || Number(size_sqyd) <= 0) {
-      return NextResponse.json({ error: "Valid size is required" }, { status: 400 })
-    }
-
+    const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
     const supabase = getServerSupabase()
 
-    if (!supabase) {
-      return NextResponse.json({ error: "Database connection failed" }, { status: 500 })
+    // Check authentication
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const body = await request.json()
+    const { title, location, price, size_sqyd, size_unit, description, featured, image_url } = body
 
     // Generate new slug if title changed
-    const generateSlug = (title: string) => {
-      return title
-        .toLowerCase()
-        .replace(/[^a-z0-9 -]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim()
-    }
+    const newSlug = title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim()
 
-    const newSlug = generateSlug(title)
-
-    const { data: plot, error } = await supabase
+    // Use admin client to bypass RLS issues
+    const { data: plot, error } = await adminSupabase
       .from('plots')
       .update({
-        title: title.trim(),
-        location: location.trim(),
-        price: Number(price),
-        size_sqyd: Number(size_sqyd),
+        title,
+        location,
+        price: parseFloat(price),
+        size_sqyd: parseInt(size_sqyd),
         size_unit: size_unit || 'sq.yd',
-        description: description?.trim() || '',
+        description,
         featured: Boolean(featured),
+        image_url,
         slug: newSlug,
-        image_url: imageUrl || null,
       })
       .eq('slug', params.slug)
       .select()
@@ -119,9 +109,21 @@ export async function DELETE(
   { params }: { params: { slug: string } }
 ) {
   try {
+    const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
     const supabase = getServerSupabase()
 
-    const { error } = await supabase
+    // Check authentication
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Use admin client to bypass RLS issues
+    const { error } = await adminSupabase
       .from('plots')
       .delete()
       .eq('slug', params.slug)

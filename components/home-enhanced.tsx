@@ -106,7 +106,6 @@ export function HomeEnhanced() {
                     fill
                     className="object-contain"
                     sizes="80px"
-                    style={{ width: 'auto', height: 'auto' }}
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-3">

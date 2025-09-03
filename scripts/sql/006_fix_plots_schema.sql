@@ -35,6 +35,7 @@ $$;
 -- Add any missing columns or constraints
 alter table public.plots 
 add column if not exists images text[] default '{}',
+add column if not exists image_url text,
 add column if not exists slug text;
 
 -- Generate slugs for existing records without slugs, handling duplicates

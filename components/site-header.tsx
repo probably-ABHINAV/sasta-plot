@@ -16,9 +16,10 @@ export function SiteHeader() {
           <Image
               src="/images/logo-sasta-plots.png"
               alt="Sasta Plots"
-              width={120}
+              width={40}
               height={40}
-              style={{ width: 'auto', height: '32px' }}
+              priority
+              style={{ width: 'auto', height: '40px' }}
             />
           <div className="flex flex-col leading-tight">
             <span className="text-xl font-semibold tracking-tight text-foreground">Sasta Plots</span>

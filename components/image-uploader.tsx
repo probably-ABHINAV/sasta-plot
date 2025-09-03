@@ -2,10 +2,9 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { Button } from "@/components/ui/button"
-import { Upload, X, AlertCircle } from "lucide-react"
 import Image from "next/image"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Upload, X } from "lucide-react"
 
 interface ImageUploaderProps {
   onUpload: (urls: string[]) => void
@@ -56,40 +55,23 @@ export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = 
           formData.append('file', file)
           formData.append('prefix', 'plots')
 
-          console.log('Uploading file:', file.name, 'Size:', file.size)
-
           const response = await fetch('/api/storage/upload', {
             method: 'POST',
-            body: formData
+            body: formData,
           })
 
-          console.log('Upload response status:', response.status)
+          const data = await response.json()
 
           if (!response.ok) {
-            const errorText = await response.text()
-            console.error('Upload error response:', errorText)
-            
-            let errorData
-            try {
-              errorData = JSON.parse(errorText)
-            } catch {
-              errorData = { error: `HTTP ${response.status}: ${response.statusText}` }
-            }
-            
-            throw new Error(errorData.error || `Upload failed with status ${response.status}`)
+            throw new Error(data.error || `HTTP error! status: ${response.status}`)
           }
 
-          const data = await response.json()
-          console.log('Upload response data:', data)
-
-          if (data.publicUrl) {
-            newUrls.push(data.publicUrl)
-          } else {
-            throw new Error('No public URL returned from upload')
+          if (data.url) {
+            newUrls.push(data.url)
           }
-        } catch (fileError: any) {
-          console.error(`Error uploading ${file.name}:`, fileError)
-          setError(`Failed to upload "${file.name}": ${fileError.message}`)
+        } catch (uploadError: any) {
+          console.error(`Failed to upload ${file.name}:`, uploadError)
+          setError(prev => prev ? `${prev}\nFailed to upload "${file.name}": ${uploadError.message}` : `Failed to upload "${file.name}": ${uploadError.message}`)
           hasErrors = true
         }
       }
@@ -142,25 +124,16 @@ export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = 
       <input
         id="image-upload"
         type="file"
-        accept="image/*"
         multiple
-        onChange={handleFileSelect}
+        accept="image/*"
         className="hidden"
+        onChange={handleFileSelect}
+        disabled={uploading || images.length >= maxFiles}
       />
 
       {error && (
-        <Alert className="border-red-200 bg-red-50">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="text-red-700">
-            {error}
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {uploading && (
-        <div className="flex items-center gap-2 text-white">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-          <span className="text-sm">Uploading images...</span>
+        <div className="rounded-md bg-red-50 border border-red-200 p-3">
+          <div className="text-sm text-red-600 whitespace-pre-line">{error}</div>
         </div>
       )}
 

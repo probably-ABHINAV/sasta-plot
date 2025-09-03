@@ -31,12 +31,23 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
+    const supabase = getServerSupabase()
+
+    // Check authentication
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const body = await request.json()
     const { title, content, excerpt, slug, published } = body
-
-    const supabase = getServerSupabase()
     
-    const { data: post, error } = await supabase
+    const { data: post, error } = await adminSupabase
       .from('posts')
       .update({
         title,
@@ -67,9 +78,20 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
     const supabase = getServerSupabase()
+
+    // Check authentication
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
     
-    const { error } = await supabase
+    const { error } = await adminSupabase
       .from('posts')
       .delete()
       .eq('id', params.id)
