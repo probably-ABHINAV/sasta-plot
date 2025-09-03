@@ -1,9 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from "@/lib/supabase/server";
 
+// GET: Fetch a plot by slug
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } },
+  { params }: { params: { slug: string } }
 ) {
   try {
     const supabase = getServerSupabase();
@@ -40,27 +41,24 @@ export async function GET(
     return NextResponse.json({ plot: normalized });
   } catch (error) {
     console.error("Error fetching plot:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch plot" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to fetch plot" }, { status: 500 });
   }
 }
 
+// PATCH: Update plot basic details and slug
 export async function PATCH(
   request: Request,
-  { params }: { params: { slug: string } },
+  { params }: { params: { slug: string } }
 ) {
   try {
     const { supabase: adminSupabase } = await import("@/lib/supabase/admin");
     const { isAdminUser } = await import("@/lib/demo-auth");
 
-    // Check demo authentication for admin access
     const isAdmin = await isAdminUser();
     if (!isAdmin) {
       return NextResponse.json(
         { error: "Unauthorized - Admin access required" },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -76,7 +74,6 @@ export async function PATCH(
       image_url,
     } = body;
 
-    // Generate new slug if title changed
     const newSlug = title
       .toLowerCase()
       .replace(/[^a-z0-9\s-]/g, "")
@@ -84,7 +81,6 @@ export async function PATCH(
       .replace(/-+/g, "-")
       .trim();
 
-    // Use admin client to bypass RLS issues
     const { data: plot, error } = await adminSupabase
       .from("plots")
       .update({
@@ -106,7 +102,7 @@ export async function PATCH(
       console.error("Supabase plot update error:", error);
       return NextResponse.json(
         { error: `Database error: ${error.message}` },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
@@ -116,73 +112,27 @@ export async function PATCH(
         message: "Plot updated successfully",
         slug: plot.slug,
       },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (error) {
     console.error("Unexpected plot update error:", error);
-    return NextResponse.json(
-      { error: "Failed to update plot" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: "Failed to update plot" }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { slug: string } },
-) {
-  try {
-    const { supabase: adminSupabase } = await import("@/lib/supabase/admin");
-    const { isAdminUser } = await import("@/lib/demo-auth");
-
-    // Check demo authentication for admin access
-    const isAdmin = await isAdminUser();
-    if (!isAdmin) {
-      return NextResponse.json(
-        { error: "Unauthorized - Admin access required" },
-        { status: 401 },
-      );
-    }
-
-    // Use admin client to bypass RLS issues
-    const { error } = await adminSupabase
-      .from("plots")
-      .delete()
-      .eq("slug", params.slug);
-
-    if (error) {
-      console.error("Delete error:", error);
-      return NextResponse.json(
-        { error: "Failed to delete plot" },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.json({ message: "Plot deleted successfully" });
-  } catch (error) {
-    console.error("Delete error:", error);
-    return NextResponse.json(
-      { error: "Failed to delete plot" },
-      { status: 500 },
-    );
-  }
-}
-
-import { NextRequest, NextResponse } from "next/server";
-
+// PUT: Full update + image array + plot_images syncing
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { slug: string } },
+  { params }: { params: { slug: string } }
 ) {
   try {
     const { isAdminUser } = await import("@/lib/demo-auth");
 
-    // Check demo authentication for admin access
     const isAdmin = await isAdminUser();
     if (!isAdmin) {
       return NextResponse.json(
         { error: "Unauthorized - Admin access required" },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -200,7 +150,6 @@ export async function PUT(
     const slug = params.slug;
 
     try {
-      // Try Supabase first
       const { supabase: adminSupabase } = await import("@/lib/supabase/admin");
 
       const { data, error } = await adminSupabase
@@ -227,10 +176,8 @@ export async function PUT(
       if (data && data.length > 0 && images && images.length > 0) {
         const plotId = data[0].id;
 
-        // Delete existing images
         await adminSupabase.from("plot_images").delete().eq("plot_id", plotId);
 
-        // Insert new images
         const imageInserts = images.map((url: string) => ({
           plot_id: plotId,
           url: url,
@@ -242,10 +189,7 @@ export async function PUT(
       return NextResponse.json({ success: true, plot: data[0] });
     } catch (supabaseError) {
       console.error("Supabase plot update error:", supabaseError);
-      return NextResponse.json(
-        { error: "Failed to update plot" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "Failed to update plot" }, { status: 500 });
     }
   } catch (error: any) {
     console.error("Unexpected API error:", error);
@@ -253,9 +197,10 @@ export async function PUT(
   }
 }
 
+// DELETE: Delete plot from Supabase or fallback to file storage
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { slug: string } },
+  { params }: { params: { slug: string } }
 ) {
   try {
     const { isAdminUser } = await import("@/lib/demo-auth");
@@ -283,25 +228,19 @@ export async function DELETE(
     } catch (supabaseError) {
       console.error("Supabase plot delete error:", supabaseError);
 
-      // Fallback to file storage
+      // Fallback to file storage (optional)
       try {
         const { fileStorage } = await import("@/lib/file-storage");
         const success = fileStorage.deletePlot(slug);
 
         if (!success) {
-          return NextResponse.json(
-            { error: "Plot not found" },
-            { status: 404 },
-          );
+          return NextResponse.json({ error: "Plot not found" }, { status: 404 });
         }
 
         return NextResponse.json({ success: true });
       } catch (fallbackError) {
         console.error("File storage delete failed:", fallbackError);
-        return NextResponse.json(
-          { error: "Failed to delete plot" },
-          { status: 500 },
-        );
+        return NextResponse.json({ error: "Failed to delete plot" }, { status: 500 });
       }
     }
   } catch (error: any) {
