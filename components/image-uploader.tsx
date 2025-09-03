@@ -1,10 +1,11 @@
+
 "use client"
 
 import { useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { getBrowserSupabase } from "@/lib/supabase/browser"
-import { Upload, X, Loader2 } from "lucide-react"
+import { Upload, X, AlertCircle } from "lucide-react"
+import Image from "next/image"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 interface ImageUploaderProps {
   onUpload: (urls: string[]) => void
@@ -12,105 +13,161 @@ interface ImageUploaderProps {
   currentImages?: string[]
 }
 
-export function ImageUploader({ onUpload, maxFiles = 5, currentImages = [] }: ImageUploaderProps) {
-  const [uploading, setUploading] = useState(false)
+export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = [] }: ImageUploaderProps) {
   const [images, setImages] = useState<string[]>(currentImages)
+  const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState("")
 
-  const uploadImages = useCallback(async (files: FileList) => {
+  const handleFileSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
     if (!files || files.length === 0) return
 
+    if (images.length + files.length > maxFiles) {
+      setError(`Maximum ${maxFiles} images allowed`)
+      return
+    }
+
     setUploading(true)
-    const supabase = getBrowserSupabase()
-    const uploadedUrls: string[] = []
+    setError("")
 
     try {
+      const newUrls: string[] = []
+
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
-        const fileExt = file.name.split('.').pop()
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
-
-        const { error: uploadError } = await supabase.storage
-          .from('plots')
-          .upload(fileName, file)
-
-        if (uploadError) {
-          console.error('Upload error:', uploadError)
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          setError('Please select only image files')
           continue
         }
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('plots')
-          .getPublicUrl(fileName)
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          setError('Image size should be less than 5MB')
+          continue
+        }
 
-        uploadedUrls.push(publicUrl)
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('prefix', 'plots')
+
+        const response = await fetch('/api/storage/upload', {
+          method: 'POST',
+          body: formData
+        })
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}))
+          throw new Error(errorData.error || 'Upload failed')
+        }
+
+        const data = await response.json()
+        if (data.publicUrl) {
+          newUrls.push(data.publicUrl)
+        }
       }
 
-      const newImages = [...images, ...uploadedUrls].slice(0, maxFiles)
-      setImages(newImages)
-      onUpload(newImages)
-    } catch (error) {
-      console.error('Upload failed:', error)
-      alert('Upload failed. Please try again.')
+      if (newUrls.length > 0) {
+        const updatedImages = [...images, ...newUrls]
+        setImages(updatedImages)
+        onUpload(updatedImages)
+      }
+    } catch (error: any) {
+      console.error('Upload error:', error)
+      setError(error.message || 'Failed to upload images. Please try again.')
     } finally {
       setUploading(false)
+      // Reset input
+      e.target.value = ''
     }
   }, [images, maxFiles, onUpload])
 
-  const removeImage = (index: number) => {
-    const newImages = images.filter((_, i) => i !== index)
-    setImages(newImages)
-    onUpload(newImages)
-  }
+  const removeImage = useCallback((index: number) => {
+    const updatedImages = images.filter((_, i) => i !== index)
+    setImages(updatedImages)
+    onUpload(updatedImages)
+  }, [images, onUpload])
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-4">
-        <Input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={(e) => e.target.files && uploadImages(e.target.files)}
-          disabled={uploading || images.length >= maxFiles}
-          className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-        />
+      <div className="flex items-center gap-2">
         <Button
           type="button"
           variant="outline"
+          onClick={() => document.getElementById('image-upload')?.click()}
           disabled={uploading || images.length >= maxFiles}
-          onClick={() => document.querySelector('input[type="file"]')?.click()}
+          className="border-white/20 text-white hover:bg-white/10"
         >
-          {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-          Upload Images
+          <Upload className="h-4 w-4 mr-2" />
+          {uploading ? 'Uploading...' : 'Upload Images'}
         </Button>
+        <span className="text-sm text-gray-400">
+          {images.length}/{maxFiles} images
+        </span>
       </div>
+
+      <input
+        id="image-upload"
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleFileSelect}
+        className="hidden"
+      />
+
+      {error && (
+        <Alert className="border-red-200 bg-red-50">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="text-red-700">
+            {error}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {uploading && (
+        <div className="flex items-center gap-2 text-white">
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+          <span className="text-sm">Uploading images...</span>
+        </div>
+      )}
 
       {images.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((url, index) => (
             <div key={index} className="relative group">
-              <img
-                src={url}
-                alt={`Upload ${index + 1}`}
-                className="w-full h-32 object-cover rounded-lg border"
-              />
-              <Button
-                type="button"
-                variant="destructive"
-                size="sm"
-                className="absolute top-1 right-1 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => removeImage(index)}
-              >
-                <X className="h-3 w-3" />
-              </Button>
+              <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-white/20 bg-white/5">
+                <Image
+                  src={url}
+                  alt={`Upload ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  onError={(e) => {
+                    console.error('Image load error:', e)
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  className="absolute top-2 right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => removeImage(index)}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
             </div>
           ))}
         </div>
       )}
 
-      {images.length >= maxFiles && (
-        <p className="text-sm text-muted-foreground">
-          Maximum {maxFiles} images allowed
-        </p>
+      {images.length === 0 && (
+        <div className="border-2 border-dashed border-white/25 rounded-lg p-8 text-center">
+          <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+          <p className="text-sm text-gray-400">
+            Click "Upload Images" to add plot images
+          </p>
+        </div>
       )}
     </div>
   )

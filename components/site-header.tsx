@@ -1,10 +1,10 @@
-
 "use client"
 
 import Link from "next/link"
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import AuthLinks from "./auth-links"
+import Image from "next/image"
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
@@ -13,7 +13,13 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-3" aria-label="Sasta Plots home">
-          <img src="/images/logo-sasta-plots.png" alt="Sasta Plots logo" className="h-9 w-auto" />
+          <Image
+              src="/images/logo-sasta-plots.png"
+              alt="Sasta Plots Logo"
+              width={120}
+              height={40}
+              style={{ width: 'auto', height: '32px' }}
+            />
           <div className="flex flex-col leading-tight">
             <span className="text-xl font-semibold tracking-tight text-foreground">Sasta Plots</span>
             <span className="text-[11px] font-medium uppercase tracking-wide text-primary">Aam Admi Ki Pasand</span>

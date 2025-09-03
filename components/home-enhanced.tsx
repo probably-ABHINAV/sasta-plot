@@ -74,7 +74,7 @@ export function HomeEnhanced() {
                     </span>
                   </h1>
                   <p className="text-lg text-muted-foreground sm:text-xl">
-                    Find affordable residential plots with verified documentation, 
+                    Find affordable residential plots with verified documentation,
                     transparent pricing, and flexible payment options.
                   </p>
                 </div>
@@ -87,7 +87,7 @@ export function HomeEnhanced() {
                   </Link>
                   <Link
                     href="/contact"
-                    className="inline-flex h-12 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                    className="inline-flex h-12 items-center justify-center rounded-md border border-primary px-8 text-sm font-medium text-primary hover:bg-primary/10"
                   >
                     Contact Us
                   </Link>
@@ -106,6 +106,7 @@ export function HomeEnhanced() {
                     fill
                     className="object-contain"
                     sizes="80px"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-3">
@@ -140,120 +141,172 @@ export function HomeEnhanced() {
         </section>
       </FadeInSection>
 
-      {/* Featured Plots */}
+      {/* Featured Plots Section */}
       <FadeInSection>
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-          <div className="mb-6 flex items-end justify-between">
-            <h2 className="text-2xl font-semibold">Featured Plots</h2>
-            <Link href="/plots" className="text-sm text-primary hover:underline">
-              View all
-            </Link>
-          </div>
-          {loading ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="overflow-hidden rounded-xl border bg-background">
-                    <div className="h-48 bg-gray-200"></div>
-                    <div className="p-4">
-                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-3 bg-gray-200 rounded mb-4"></div>
-                      <div className="h-6 bg-gray-200 rounded"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+        <section className="py-12 sm:py-16">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="text-center space-y-4 mb-10">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Featured Plots
+              </h2>
+              <p className="text-muted-foreground">
+                Handpicked premium locations with verified documentation
+              </p>
             </div>
-          ) : (
-            <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredPlots.map((plot) => (
-                <Item key={plot.id}>
-                  <Link href={`/plots/${plot.slug}`} className="block group">
-                    <article className="overflow-hidden rounded-xl border bg-background transition-all duration-300 hover:shadow-md hover:-translate-y-1">
-                      <div className="relative h-48 w-full sm:h-56 overflow-hidden">
-                        <Image
-                          src={plot.image_url || "/placeholder.svg"}
-                          alt={plot.title}
-                          fill
-                          className="object-cover transition duration-300 group-hover:scale-105"
-                        />
-                        <Badge className="absolute left-3 top-3 bg-primary/90 text-primary-foreground">
-                          Featured
-                        </Badge>
-                      </div>
-                      <div className="space-y-1 p-4">
-                        <h3 className="font-medium">{plot.title}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {plot.location} • {plot.size_sqyd} sq. yd.
-                        </p>
-                        <div className="flex items-center justify-between pt-2">
-                          <span className="font-semibold text-primary">₹{plot.price.toLocaleString()}</span>
-                          <span className="text-sm text-primary hover:underline">
-                            Details
-                          </span>
+
+            {loading ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="bg-gray-200 h-48 rounded-lg mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" delay={0.1}>
+                {featuredPlots.map((plot, index) => (
+                  <Item key={plot.id}>
+                    <Link href={`/plots/${plot.slug}`} className="group block">
+                      <div className="overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
+                        <div className="relative h-48 overflow-hidden">
+                          <Image
+                            src={plot.image_url || "/placeholder.svg"}
+                            alt={plot.title}
+                            fill
+                            className="object-cover transition-transform group-hover:scale-105"
+                          />
+                          <Badge className="absolute left-3 top-3 bg-primary">
+                            Featured
+                          </Badge>
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                            {plot.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mb-3">
+                            {plot.location}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-primary">
+                              ₹{typeof plot.price === 'number' ? plot.price.toLocaleString() : plot.price}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {plot.size_sqyd} sq. yd.
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </article>
-                  </Link>
-                </Item>
-              ))}
-            </Stagger>
-          )}
-        </div>
+                    </Link>
+                  </Item>
+                ))}
+              </Stagger>
+            )}
+
+            <div className="text-center mt-10">
+              <Link
+                href="/plots"
+                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              >
+                View All Plots
+              </Link>
+            </div>
+          </div>
+        </section>
       </FadeInSection>
 
-      {/* Latest Blog Posts */}
+      {/* Latest Blog Posts Section */}
       <FadeInSection>
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 bg-muted/30">
-          <div className="mb-6 flex items-end justify-between">
-            <h2 className="text-2xl font-semibold">Latest Insights</h2>
-            <Link href="/blog" className="text-sm text-primary hover:underline">
-              View all posts
-            </Link>
-          </div>
-          {loading ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="rounded-xl border bg-background p-6">
+        <section className="py-12 sm:py-16 bg-muted/30">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="text-center space-y-4 mb-10">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Latest Insights
+              </h2>
+              <p className="text-muted-foreground">
+                Stay updated with real estate trends and buying guides
+              </p>
+            </div>
+
+            {loading ? (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="bg-gray-200 h-32 rounded-lg mb-4"></div>
                     <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-20 bg-gray-200 rounded"></div>
+                    <div className="h-3 bg-gray-200 rounded"></div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : latestBlogs.length > 0 ? (
-            <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {latestBlogs.map((post) => (
-                <Item key={post.id}>
-                  <Link href={`/blog/${post.slug}`} className="block group">
-                    <article className="rounded-xl border bg-background p-6 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
-                      <h3 className="font-medium mb-2 group-hover:text-primary transition-colors">
-                        {post.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                        {post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 120) + '...'}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground">
-                          {new Date(post.created_at).toLocaleDateString()}
-                        </span>
-                        <span className="text-sm text-primary hover:underline">
-                          Read more
-                        </span>
+                ))}
+              </div>
+            ) : latestBlogs.length > 0 ? (
+              <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" delay={0.1}>
+                {latestBlogs.map((post) => (
+                  <Item key={post.id}>
+                    <Link href={`/blog/${post.slug}`} className="group block">
+                      <div className="overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
+                        <div className="p-6">
+                          <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                            {post.title}
+                          </h3>
+                          {post.excerpt && (
+                            <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
+                              {post.excerpt}
+                            </p>
+                          )}
+                          <div className="text-xs text-muted-foreground">
+                            {new Date(post.created_at).toLocaleDateString()}
+                          </div>
+                        </div>
                       </div>
-                    </article>
-                  </Link>
-                </Item>
-              ))}
-            </Stagger>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No blog posts available yet.</p>
+                    </Link>
+                  </Item>
+                ))}
+              </Stagger>
+            ) : (
+              <div className="text-center text-muted-foreground">
+                <p>No blog posts available yet.</p>
+              </div>
+            )}
+
+            <div className="text-center mt-10">
+              <Link
+                href="/blog"
+                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              >
+                Read More Articles
+              </Link>
             </div>
-          )}
-        </div>
+          </div>
+        </section>
+      </FadeInSection>
+
+      {/* Contact Section */}
+      <FadeInSection>
+        <section className="py-12 sm:py-16">
+          <div className="mx-auto max-w-4xl px-4 text-center">
+            <h2 className="text-3xl font-bold tracking-tight mb-4">
+              Ready to Find Your Perfect Plot?
+            </h2>
+            <p className="text-muted-foreground mb-8">
+              Get in touch with our experts for personalized assistance and site visits
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              >
+                Contact Us
+              </Link>
+              <Link
+                href="/plots"
+                className="inline-flex items-center justify-center rounded-md border border-primary px-8 py-3 text-sm font-medium text-primary hover:bg-primary/10"
+              >
+                Browse All Plots
+              </Link>
+            </div>
+          </div>
+        </section>
       </FadeInSection>
     </main>
   )

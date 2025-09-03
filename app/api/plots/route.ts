@@ -5,38 +5,70 @@ import { getServerSupabase } from "@/lib/supabase/server"
 export async function GET() {
   try {
     const supabase = getServerSupabase()
+    
+    if (!supabase) {
+      console.error("Supabase client not initialized")
+      return NextResponse.json({ plots: [], error: "Database connection failed" }, { status: 500 })
+    }
+
     const { data: plots, error } = await supabase
       .from('plots')
       .select('*')
       .order('created_at', { ascending: false })
 
     if (error) {
-      console.error("Error fetching plots:", error)
+      console.error("Supabase error fetching plots:", error)
+      return NextResponse.json({ plots: [], error: error.message }, { status: 500 })
+    }
+
+    if (!plots) {
       return NextResponse.json({ plots: [] }, { status: 200 })
     }
 
     const normalized = plots.map((p) => ({
-      id: p.id,
-      title: p.title,
-      location: p.location,
-      price: p.price ? `₹${Number(p.price).toLocaleString()}` : 'Price on request',
+      id: p.id.toString(),
+      title: p.title || '',
+      location: p.location || '',
+      price: p.price || 0,
+      size_sqyd: p.size_sqyd || 0,
+      size_unit: p.size_unit || 'sq.yd',
       size: p.size_sqyd && p.size_unit ? `${p.size_sqyd} ${p.size_unit}` : 'Size TBD',
-      description: p.description,
-      featured: p.featured,
-      slug: p.slug,
-      image: p.image_url,
+      description: p.description || '',
+      featured: Boolean(p.featured),
+      slug: p.slug || '',
+      image: p.image_url || '',
+      image_url: p.image_url || '',
+      created_at: p.created_at || new Date().toISOString()
     }))
 
     return NextResponse.json({ plots: normalized })
   } catch (error) {
-    console.error("Error fetching plots:", error)
-    return NextResponse.json({ plots: [] }, { status: 200 })
+    console.error("Unexpected error fetching plots:", error)
+    return NextResponse.json({ 
+      plots: [], 
+      error: "Failed to fetch plots" 
+    }, { status: 500 })
   }
 }
 
 export async function POST(request: Request) {
   try {
-    const { title, location, price, size_sqyd, size_unit, description, featured, imageUrl } = await request.json()
+    const body = await request.json()
+    const { title, location, price, size_sqyd, size_unit, description, featured, imageUrl } = body
+
+    // Validate required fields
+    if (!title?.trim()) {
+      return NextResponse.json({ error: "Title is required" }, { status: 400 })
+    }
+    if (!location?.trim()) {
+      return NextResponse.json({ error: "Location is required" }, { status: 400 })
+    }
+    if (!price || isNaN(Number(price)) || Number(price) <= 0) {
+      return NextResponse.json({ error: "Valid price is required" }, { status: 400 })
+    }
+    if (!size_sqyd || isNaN(Number(size_sqyd)) || Number(size_sqyd) <= 0) {
+      return NextResponse.json({ error: "Valid size is required" }, { status: 400 })
+    }
 
     // Generate slug from title
     const generateSlug = (title: string) => {
@@ -51,32 +83,51 @@ export async function POST(request: Request) {
     const slug = generateSlug(title)
     const supabase = getServerSupabase()
 
+    if (!supabase) {
+      return NextResponse.json({ error: "Database connection failed" }, { status: 500 })
+    }
+
+    // Check if slug already exists
+    const { data: existingPlot } = await supabase
+      .from('plots')
+      .select('id')
+      .eq('slug', slug)
+      .single()
+
+    if (existingPlot) {
+      return NextResponse.json({ error: "A plot with this title already exists" }, { status: 400 })
+    }
+
     const { data: plot, error } = await supabase
       .from('plots')
       .insert([
         {
-          title,
-          location,
-          price,
-          size_sqyd,
+          title: title.trim(),
+          location: location.trim(),
+          price: Number(price),
+          size_sqyd: Number(size_sqyd),
           size_unit: size_unit || 'sq.yd',
-          description,
-          featured,
+          description: description?.trim() || '',
+          featured: Boolean(featured),
           slug,
-          image_url: imageUrl,
+          image_url: imageUrl || null,
         }
       ])
       .select()
       .single()
 
     if (error) {
-      console.error("Plot creation error:", error)
-      return NextResponse.json({ error: "Failed to create plot" }, { status: 500 })
+      console.error("Supabase plot creation error:", error)
+      return NextResponse.json({ error: `Database error: ${error.message}` }, { status: 500 })
     }
 
-    return NextResponse.json({ id: plot.id }, { status: 201 })
+    return NextResponse.json({ 
+      id: plot.id, 
+      message: "Plot created successfully",
+      slug: plot.slug 
+    }, { status: 201 })
   } catch (error) {
-    console.error("Plot creation error:", error)
+    console.error("Unexpected plot creation error:", error)
     return NextResponse.json({ error: "Failed to create plot" }, { status: 500 })
   }
 }
