@@ -7,6 +7,9 @@ import useSWR from "swr"
 import Image from "next/image"
 import { getBrowserSupabase } from "@/lib/supabase/browser"
 import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import ImageUploader from "./ImageUploader" // Assuming ImageUploader is in the same directory
 
 type PlotRow = {
   id: string
@@ -17,6 +20,8 @@ type PlotRow = {
   description?: string
   featured?: boolean
   image?: string
+  image_url?: string
+  images?: string[] // Added to handle multiple images
   slug: string
 }
 
@@ -26,6 +31,26 @@ export default function PlotsManager() {
   const { data, mutate, isLoading } = useSWR<{ plots: PlotRow[] }>("/api/plots", fetcher)
   const supabase = getBrowserSupabase()
   const [creating, setCreating] = useState(false)
+  const [editing, setEditing] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState<{
+    title: string
+    location: string
+    price: string
+    size_sqyd: string
+    size_unit: string
+    description: string
+    featured: boolean
+    images: string[]
+  }>({
+    title: "",
+    location: "",
+    price: "",
+    size_sqyd: "",
+    size_unit: "sq.yd",
+    description: "",
+    featured: false,
+    images: []
+  })
   const [form, setForm] = useState({
     title: "",
     location: "",
@@ -34,31 +59,25 @@ export default function PlotsManager() {
     size_unit: "sq.yd",
     description: "",
     featured: false,
-    file: null as File | null,
+    file: null as File | null, // This will be replaced by ImageUploader's output
+    images: [] as string[], // To store multiple image URLs from ImageUploader
   })
 
   async function onCreate(e: React.FormEvent) {
     e.preventDefault()
     setCreating(true)
     try {
-      let imageUrl: string | undefined
-      if (form.file) {
-        const formData = new FormData()
-        formData.append('file', form.file)
-        formData.append('prefix', 'plots')
-        
-        const uploadRes = await fetch('/api/storage/upload', {
-          method: 'POST',
-          body: formData
-        })
-        
-        if (!uploadRes.ok) {
-          throw new Error('Upload failed')
-        }
-        
-        const uploadData = await uploadRes.json()
-        imageUrl = uploadData.url
+      let primaryImage: string | undefined;
+      let uploadedImageUrls: string[] = [];
+
+      // Use images from ImageUploader
+      if (form.images.length > 0) {
+        primaryImage = form.images[0]; // Set the first uploaded image as primary
+        uploadedImageUrls = form.images;
+      } else {
+        throw new Error('Please upload at least one image')
       }
+
 
       const res = await fetch("/api/plots", {
         method: "POST",
@@ -70,7 +89,8 @@ export default function PlotsManager() {
           size_sqyd: Number(form.size_sqyd),
           description: form.description,
           featured: form.featured,
-          imageUrl,
+          image_url: primaryImage, // Use the primary image URL
+          images: uploadedImageUrls, // Use the array of image URLs
         }),
       })
       if (!res.ok) {
@@ -86,6 +106,7 @@ export default function PlotsManager() {
         description: "",
         featured: false,
         file: null,
+        images: [], // Reset images
       })
       mutate()
     } catch (err: any) {
@@ -95,21 +116,57 @@ export default function PlotsManager() {
     }
   }
 
+  const handleEdit = (plot: PlotRow) => {
+    setEditForm({
+      title: plot.title,
+      location: plot.location,
+      price: plot.price.toString(),
+      size_sqyd: plot.size_sqyd.toString(),
+      size_unit: "sq.yd",
+      description: plot.description || "",
+      featured: plot.featured || false,
+      images: plot.images || []
+    })
+    setEditing(plot.id)
+  }
+
+  const handleUpdate = async (e: React.FormEvent, plotId: string) => {
+    e.preventDefault()
+    try {
+      const res = await fetch(`/api/plots/${plotId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: editForm.title,
+          location: editForm.location,
+          price: Number(editForm.price),
+          size_sqyd: Number(editForm.size_sqyd),
+          size_unit: editForm.size_unit,
+          description: editForm.description,
+          featured: editForm.featured,
+          images: editForm.images,
+        }),
+      })
+      if (!res.ok) {
+        const errorText = await res.text()
+        throw new Error(errorText)
+      }
+      setEditing(null)
+      mutate()
+    } catch (err: any) {
+      alert(`Update failed: ${err?.message || "unknown error"}`)
+    }
+  }
+
   const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure?")) return
-    // Assuming you want to use SWR's mutate for deletion as well
-    // and manage loading state for the delete action.
-    // The original code provided in the 'changes' was identical to itself,
-    // and did not include any state management for delete loading or error.
-    // I'm adding a placeholder for that, assuming it might be needed.
-    // If you have specific loading/error states for delete, please provide them.
     try {
       const res = await fetch(`/api/plots/${slug}`, { method: "DELETE" })
       if (!res.ok) {
         alert("Delete failed")
         return
       }
-      mutate() // Revalidate the SWR data to reflect the deletion
+      mutate()
     } catch (error) {
       console.error("Delete error:", error)
       alert("Delete failed")
@@ -181,11 +238,15 @@ export default function PlotsManager() {
           />
           Featured
         </label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setForm((f) => ({ ...f, file: e.target.files?.[0] ?? null }))}
-        />
+        {/* Replaced the single file input with ImageUploader */}
+        <div className="grid w-full items-center gap-1.5">
+          <Label className="text-white">Plot Images</Label>
+          <ImageUploader
+            onUpload={(urls) => setForm(prev => ({ ...prev, images: urls }))}
+            currentImages={form.images}
+            maxFiles={5}
+          />
+        </div>
         <button
           className="mt-2 rounded bg-primary px-4 py-2 text-primary-foreground disabled:opacity-50"
           disabled={creating}
@@ -204,26 +265,120 @@ export default function PlotsManager() {
           <ul className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {plots.map((p) => (
               <li key={p.id} className="overflow-hidden rounded-md border">
-                {p.image ? (
-                  <div className="relative aspect-video w-full">
-                    <Image src={p.image || "/placeholder.svg"} alt={p.title} fill className="object-cover" />
-                  </div>
-                ) : null}
-                <div className="p-4">
-                  <div className="mb-1 text-xs text-muted-foreground">#{p.id}</div>
-                  <h3 className="font-heading text-lg">{p.title}</h3>
-                  <p className="text-sm">{p.location}</p>
-                  <p className="text-sm">{typeof p.price === 'string' ? p.price : `₹${Number(p.price).toLocaleString()}`}</p>
-                  <p className="text-sm">Size: {typeof p.size === 'string' ? p.size : `${p.size} ${form.size_unit}`}</p>
-                  <p className="text-sm">Slug: {p.slug}</p>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleDelete(p.slug)}
-                  >
-                    Delete
-                  </Button>
-                </div>
+                {editing === p.id ? (
+                  // Edit form
+                  <form onSubmit={(e) => handleUpdate(e, p.id)} className="p-4 space-y-3">
+                    <input
+                      className="w-full rounded border px-3 py-2"
+                      placeholder="Title"
+                      value={editForm.title}
+                      onChange={(e) => setEditForm(f => ({ ...f, title: e.target.value }))}
+                      required
+                    />
+                    <input
+                      className="w-full rounded border px-3 py-2"
+                      placeholder="Location"
+                      value={editForm.location}
+                      onChange={(e) => setEditForm(f => ({ ...f, location: e.target.value }))}
+                      required
+                    />
+                    <input
+                      className="w-full rounded border px-3 py-2"
+                      placeholder="Price"
+                      type="number"
+                      value={editForm.price}
+                      onChange={(e) => setEditForm(f => ({ ...f, price: e.target.value }))}
+                      required
+                    />
+                    <input
+                      className="w-full rounded border px-3 py-2"
+                      placeholder="Size"
+                      type="number"
+                      value={editForm.size_sqyd}
+                      onChange={(e) => setEditForm(f => ({ ...f, size_sqyd: e.target.value }))}
+                      required
+                    />
+                    <textarea
+                      className="w-full rounded border px-3 py-2"
+                      placeholder="Description"
+                      value={editForm.description}
+                      onChange={(e) => setEditForm(f => ({ ...f, description: e.target.value }))}
+                    />
+                    <label className="flex items-center gap-2 text-sm">
+                      <input
+                        type="checkbox"
+                        checked={editForm.featured}
+                        onChange={(e) => setEditForm(f => ({ ...f, featured: e.target.checked }))}
+                      />
+                      Featured
+                    </label>
+                    <div>
+                      <Label className="text-white">Update Images</Label>
+                      <ImageUploader
+                        onUpload={(urls) => setEditForm(prev => ({ ...prev, images: urls }))}
+                        currentImages={editForm.images}
+                        maxFiles={5}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="submit"
+                        className="flex-1 rounded bg-green-600 px-4 py-2 text-white"
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        className="flex-1 rounded bg-gray-600 px-4 py-2 text-white"
+                        onClick={() => setEditing(null)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  // Display mode
+                  <>
+                    {(p.images && p.images.length > 0) ? (
+                      <div className="relative aspect-video w-full">
+                        <Image src={p.images[0]} alt={p.title} fill className="object-cover" />
+                      </div>
+                    ) : (p.image_url || p.image) ? (
+                      <div className="relative aspect-video w-full">
+                        <Image src={p.image_url || p.image || "/placeholder.svg"} alt={p.title} fill className="object-cover" />
+                      </div>
+                    ) : (
+                      <div className="relative aspect-video w-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-500">No Image</span>
+                      </div>
+                    )}
+                    <div className="p-4">
+                      <div className="mb-1 text-xs text-muted-foreground">#{p.id}</div>
+                      <h3 className="font-heading text-lg">{p.title}</h3>
+                      <p className="text-sm">{p.location}</p>
+                      <p className="text-sm">{typeof p.price === 'string' ? p.price : `₹${Number(p.price).toLocaleString()}`}</p>
+                      <p className="text-sm">Size: {typeof p.size_sqyd === 'string' ? p.size_sqyd : `${p.size_sqyd} sq.yd`}</p>
+                      <p className="text-sm">Slug: {p.slug}</p>
+                      <p className="text-sm">Images: {p.images?.length || 0}</p>
+                      <div className="flex gap-2 mt-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEdit(p)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleDelete(p.slug)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </li>
             ))}
           </ul>

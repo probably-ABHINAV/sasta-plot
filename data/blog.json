@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Finding the Perfect Plot: A Beginner's Guide",
+    "slug": "finding-perfect-plot-beginners-guide",
+    "content": "Buying a plot of land is one of the most important investments you'll make. Here's what you need to know to find the perfect plot for your dream home...",
+    "excerpt": "A comprehensive guide for first-time land buyers on what to look for when purchasing a plot.",
+    "published": true,
+    "author": "Sasta Plots Team",
+    "created_at": "2024-08-20T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Legal Documents You Need When Buying Land",
+    "slug": "legal-documents-buying-land",
+    "content": "Before you finalize any land purchase, ensure you have all the necessary legal documents. This includes title deeds, survey records, and approval certificates...",
+    "excerpt": "Essential legal paperwork and documentation required for secure land transactions.",
+    "published": true,
+    "author": "Legal Team",
+    "created_at": "2024-08-22T14:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Top 5 Locations for Investment Properties in NCR",
+    "slug": "top-5-investment-locations-ncr",
+    "content": "The National Capital Region offers excellent opportunities for real estate investment. Here are our top picks for areas with strong growth potential...",
+    "excerpt": "Discover the most promising locations in NCR for property investment with high growth potential.",
+    "published": true,
+    "author": "Market Research Team",
+    "created_at": "2024-08-25T09:15:00.000Z"
+  }
+]

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useCallback } from "react"
@@ -35,7 +34,7 @@ export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = 
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
-        
+
         // Validate file type
         if (!file.type.startsWith('image/')) {
           setError(`File "${file.name}" is not an image. Please select only image files.`)
@@ -55,23 +54,27 @@ export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = 
           formData.append('file', file)
           formData.append('prefix', 'plots')
 
-          const response = await fetch('/api/storage/upload', {
+          const uploadResponse = await fetch('/api/storage/upload', {
             method: 'POST',
             body: formData,
           })
 
-          const data = await response.json()
-
-          if (!response.ok) {
-            throw new Error(data.error || `HTTP error! status: ${response.status}`)
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text()
+            setError(`Upload failed for "${file.name}": ${errorText}`)
+            hasErrors = true
+            continue
           }
 
-          if (data.url) {
-            newUrls.push(data.url)
+          const result = await uploadResponse.json()
+          if (result.url) {
+            newUrls.push(result.url)
+          } else {
+            setError(`No URL returned for "${file.name}"`)
+            hasErrors = true
           }
-        } catch (uploadError: any) {
-          console.error(`Failed to upload ${file.name}:`, uploadError)
-          setError(prev => prev ? `${prev}\nFailed to upload "${file.name}": ${uploadError.message}` : `Failed to upload "${file.name}": ${uploadError.message}`)
+        } catch (error: any) {
+          setError(`Error uploading "${file.name}": ${error.message}`)
           hasErrors = true
         }
       }
@@ -80,12 +83,9 @@ export default function ImageUploader({ onUpload, maxFiles = 5, currentImages = 
         const updatedImages = [...images, ...newUrls]
         setImages(updatedImages)
         onUpload(updatedImages)
-        
-        if (!hasErrors) {
-          setError("")
-        }
-      } else if (!hasErrors) {
-        setError('No images were uploaded successfully')
+      } else if (hasErrors) {
+        // Still call onUpload with current images if there were errors
+        onUpload(images)
       }
     } catch (error: any) {
       console.error('Upload error:', error)

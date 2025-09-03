@@ -1,10 +1,14 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { FadeInSection, Stagger, Item } from "@/components/animated-section"
+import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useState, useEffect } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { FadeInSection, Stagger, Item } from "@/components/animated-section"
+import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } from "lucide-react"
+import PlotsGallery from "@/components/plots-gallery"
 
 interface Plot {
   id: string
@@ -15,39 +19,24 @@ interface Plot {
   location: string
   size_sqyd: number
   image_url?: string
+  images?: string[]; // Add this if your Supabase schema includes multiple images
   featured: boolean
   created_at: string
 }
 
-interface BlogPost {
-  id: string
-  title: string
-  slug: string
-  content: string
-  excerpt?: string
-  published: boolean
-  created_at: string
-}
-
 export function HomeEnhanced() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
   const [featuredPlots, setFeaturedPlots] = useState<Plot[]>([])
-  const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch featured plots
         const plotsResponse = await fetch('/api/plots')
         const plotsData = await plotsResponse.json()
-        const featured = (plotsData.plots || []).filter((plot: Plot) => plot.featured).slice(0, 3)
+        const featured = (plotsData.plots || []).filter((plot: Plot) => plot.featured).slice(0, 6)
         setFeaturedPlots(featured)
-
-        // Fetch latest blog posts
-        const blogsResponse = await fetch('/api/blog')
-        const blogsData = await blogsResponse.json()
-        const latest = (blogsData.posts || []).slice(0, 3)
-        setLatestBlogs(latest)
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
@@ -59,81 +48,137 @@ export function HomeEnhanced() {
   }, [])
 
   return (
-    <main className="flex-1">
+    <div className="flex-1">
       {/* Hero Section */}
       <FadeInSection>
-        <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/20">
-          <div className="mx-auto max-w-6xl px-4 py-12 sm:py-20">
-            <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-6">
-                <div className="space-y-4">
-                  <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                    Aam Admi Ki{" "}
-                    <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                      Pasand
-                    </span>
-                  </h1>
-                  <p className="text-lg text-muted-foreground sm:text-xl">
-                    Find affordable residential plots with verified documentation,
-                    transparent pricing, and flexible payment options.
-                  </p>
+        <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-background to-red-50 min-h-[90vh] flex items-center">
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_24%,rgba(251,146,60,.03)_25%,rgba(251,146,60,.03)_26%,transparent_27%,transparent_74%,rgba(251,146,60,.03)_75%,rgba(251,146,60,.03)_76%,transparent_77%,transparent)] bg-[length:30px_30px]"></div>
+
+          <div className="relative z-10 mx-auto max-w-7xl px-4 py-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Hero Content */}
+              <div className="space-y-8">
+                <div className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-4 py-2 text-sm font-medium text-orange-800 ring-1 ring-orange-200">
+                  <span className="relative flex h-2 w-2 rounded-full bg-orange-600 animate-pulse" />
+                  Trusted & Affordable Plots
                 </div>
-                <div className="flex flex-col gap-3 sm:flex-row">
+
+                <h1 className="text-5xl font-black tracking-tight lg:text-7xl">
+                  <span className="text-gray-900">Premium</span>
+                  <br />
+                  <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                    Plot Ownership
+                  </span>
+                  <br />
+                  <span className="text-orange-700 text-3xl lg:text-4xl font-bold">
+                    Made Simple
+                  </span>
+                </h1>
+
+                <p className="text-xl text-gray-600 leading-relaxed max-w-xl">
+                  Discover verified residential and commercial plots in prime locations. 
+                  Clear titles, competitive prices, and hassle-free documentation.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4">
                   <Link
                     href="/plots"
-                    className="inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+                    className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-orange-600 to-red-600 px-8 py-4 text-lg font-bold text-white shadow-xl hover:shadow-orange-500/25 transform hover:scale-105 transition-all duration-300"
                   >
-                    Browse Plots
+                    Browse All Plots
                   </Link>
                   <Link
                     href="/contact"
-                    className="inline-flex h-12 items-center justify-center rounded-md border border-primary px-8 text-sm font-medium text-primary hover:bg-primary/10"
+                    className="inline-flex items-center justify-center rounded-xl border-2 border-orange-600 bg-background px-8 py-4 text-lg font-bold text-orange-600 hover:bg-orange-50 transform hover:scale-105 transition-all duration-300"
                   >
-                    Contact Us
+                    Schedule Site Visit
                   </Link>
                 </div>
-                <ul className="grid grid-cols-2 gap-4 pt-4 text-sm text-muted-foreground sm:grid-cols-3">
-                  <li>RERA-aligned listings</li>
-                  <li>Zero hidden charges</li>
-                  <li>Flexible payment plans</li>
-                </ul>
+
+                {/* Trust Indicators */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-orange-600">1000+</div>
+                    <div className="text-sm text-gray-600">Happy Families</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-orange-600">100%</div>
+                    <div className="text-sm text-gray-600">Verified Docs</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-orange-600">50+</div>
+                    <div className="text-sm text-gray-600">Prime Locations</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-orange-600">24/7</div>
+                    <div className="text-sm text-gray-600">Support</div>
+                  </div>
+                </div>
               </div>
+
+              {/* Hero Image */}
               <div className="relative">
-                <div className="absolute -left-6 -top-6 hidden h-20 w-20 opacity-10 sm:block">
+                <div className="absolute -inset-4 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-3xl blur-xl"></div>
+                <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
                   <Image
-                    src="/images/logo-sasta-plots.png"
-                    alt="Sasta Plots logo watermark"
-                    fill
-                    className="object-contain"
-                    sizes="80px"
+                    src="/images/plots/plot-1.png"
+                    alt="Premium residential plot"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto object-cover"
+                    priority
                   />
-                </div>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="relative aspect-video">
-                    <Image
-                      src="/images/plots/plot-1.png"
-                      alt="Featured plot 1"
-                      fill
-                      className="rounded-lg object-cover"
-                    />
-                  </div>
-                  <div className="relative aspect-video">
-                    <Image
-                      src="/images/plots/plot-2.png"
-                      alt="Featured plot 2"
-                      fill
-                      className="rounded-lg object-cover"
-                    />
-                  </div>
-                  <div className="relative aspect-video">
-                    <Image
-                      src="/images/plots/plot-3.png"
-                      alt="Featured plot 3"
-                      fill
-                      className="rounded-lg object-cover"
-                    />
+                  <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2">
+                    <div className="text-orange-600 font-bold text-lg">Starting from ₹4.5L</div>
+                    <div className="text-sm text-gray-600">Verified plots with clear titles</div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </FadeInSection>
+
+      {/* Why Choose Us Section */}
+      <FadeInSection>
+        <section className="py-20 bg-white">
+          <div className="mx-auto max-w-7xl px-4">
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="text-4xl font-bold text-gray-900">Why Choose Sasta Plots?</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                We make land ownership accessible with transparent processes, verified documentation, and unbeatable prices
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center space-y-6 p-8 rounded-2xl bg-orange-50 hover:bg-orange-100 transition-all duration-300 transform hover:scale-105">
+                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto">
+                  💰
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Affordable Pricing</h3>
+                <p className="text-gray-600">
+                  Premium plots at 30% below market rates with flexible payment options
+                </p>
+              </div>
+
+              <div className="text-center space-y-6 p-8 rounded-2xl bg-red-50 hover:bg-red-100 transition-all duration-300 transform hover:scale-105">
+                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto">
+                  📋
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Clear Documentation</h3>
+                <p className="text-gray-600">
+                  All legal documents verified and ready for immediate transfer
+                </p>
+              </div>
+
+              <div className="text-center space-y-6 p-8 rounded-2xl bg-orange-50 hover:bg-orange-100 transition-all duration-300 transform hover:scale-105">
+                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto">
+                  🏗️
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Ready Infrastructure</h3>
+                <p className="text-gray-600">
+                  Complete infrastructure with roads, electricity, and water connections
+                </p>
               </div>
             </div>
           </div>
@@ -142,171 +187,382 @@ export function HomeEnhanced() {
 
       {/* Featured Plots Section */}
       <FadeInSection>
-        <section className="py-12 sm:py-16">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="text-center space-y-4 mb-10">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Featured Plots
-              </h2>
-              <p className="text-muted-foreground">
-                Handpicked premium locations with verified documentation
-              </p>
-            </div>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Featured Properties
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Discover our handpicked selection of premium plots in prime locations
+            </p>
+          </div>
 
-            {loading ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="bg-gray-200 h-48 rounded-lg mb-4"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded"></div>
-                  </div>
-                ))}
+          {loading ? (
+            <div className="animate-pulse">
+              <div className="h-96 bg-gray-200 rounded-2xl"></div>
+            </div>
+          ) : featuredPlots.length > 0 ? (
+            <div className="relative">
+              <div className="overflow-hidden rounded-2xl">
+                <div
+                  className="flex transition-transform duration-500 ease-in-out"
+                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                  {featuredPlots.map((plot, index) => (
+                    <div key={plot.id} className="w-full flex-shrink-0">
+                      <div className="relative h-96 overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10">
+                        <Image
+                          src={plot.image_url || (plot.images && plot.images[0]) || `/images/plots/plot-${index + 1}.png`}
+                          alt={plot.title}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                        <div className="absolute bottom-6 left-6 text-white">
+                          <h3 className="mb-2 text-2xl font-bold">{plot.title}</h3>
+                          <div className="mb-4 flex items-center gap-4">
+                            <p className="flex items-center gap-1">
+                              <MapPin className="h-4 w-4" />
+                              {plot.location}
+                            </p>
+                            <p className="flex items-center gap-1">
+                              <Square className="h-4 w-4" />
+                              {plot.size_sqyd} sq. yd.
+                            </p>
+                          </div>
+                          <p className="text-xl font-bold text-emerald-400">₹{plot.price?.toLocaleString()}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ) : (
-              <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" delay={0.1}>
-                {featuredPlots.map((plot, index) => (
-                  <Item key={plot.id}>
-                    <Link href={`/plots/${plot.slug}`} className="group block">
-                      <div className="overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
-                        <div className="relative h-48 overflow-hidden">
-                          <Image
-                            src={plot.image_url || "/placeholder.svg"}
-                            alt={plot.title}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-105"
-                          />
-                          <Badge className="absolute left-3 top-3 bg-primary">
+
+              {featuredPlots.length > 1 && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 text-black hover:bg-white"
+                    onClick={() => setCurrentSlide(currentSlide === 0 ? featuredPlots.length - 1 : currentSlide - 1)}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 text-black hover:bg-white"
+                    onClick={() => setCurrentSlide(currentSlide === featuredPlots.length - 1 ? 0 : currentSlide + 1)}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+
+                  <div className="mt-6 flex justify-center gap-2">
+                    {featuredPlots.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`h-2 w-8 rounded-full transition-colors ${
+                          index === currentSlide ? "bg-primary" : "bg-muted"
+                        }`}
+                        onClick={() => setCurrentSlide(index)}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No featured plots available at the moment.</p>
+            </div>
+          )}
+        </section>
+      </FadeInSection>
+
+      {/* Latest Properties Section */}
+      <FadeInSection>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Latest Properties
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Fresh opportunities just added to our collection
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="h-64 bg-gray-200 rounded-xl mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded"></div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" delay={0.1}>
+              {featuredPlots.slice(0, 6).map((plot, index) => (
+                <Item key={plot.id}>
+                  <Link href={`/plots/${plot.slug}`}>
+                    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <Image
+                          src={plot.image_url || (plot.images && plot.images[0]) || "/placeholder.svg"}
+                          alt={plot.title}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        {plot.featured && (
+                          <Badge className="absolute left-3 top-3 bg-emerald-600 hover:bg-emerald-700">
                             Featured
                           </Badge>
-                        </div>
-                        <div className="p-4">
-                          <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                            {plot.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {plot.location}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <span className="font-semibold text-primary">
-                              ₹{typeof plot.price === 'number' ? plot.price.toLocaleString() : plot.price}
-                            </span>
-                            <span className="text-sm text-muted-foreground">
-                              {plot.size_sqyd} sq. yd.
-                            </span>
+                        )}
+                      </div>
+                      <CardContent className="p-6">
+                        <h3 className="mb-2 text-xl font-semibold">{plot.title}</h3>
+                        <div className="mb-4 space-y-2 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4" />
+                            <span>{plot.location}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Square className="h-4 w-4" />
+                            <span>{plot.size_sqyd} sq. yd.</span>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  </Item>
-                ))}
-              </Stagger>
-            )}
-
-            <div className="text-center mt-10">
-              <Link
-                href="/plots"
-                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                View All Plots
-              </Link>
-            </div>
-          </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-emerald-600">₹{plot.price?.toLocaleString()}</span>
+                          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                            View Details
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Item>
+              ))}
+            </Stagger>
+          )}
         </section>
       </FadeInSection>
 
-      {/* Latest Blog Posts Section */}
+      {/* How It Works Section */}
       <FadeInSection>
-        <section className="py-12 sm:py-16 bg-muted/30">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="text-center space-y-4 mb-10">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Latest Insights
-              </h2>
-              <p className="text-muted-foreground">
-                Stay updated with real estate trends and buying guides
+        <section className="py-20 bg-white">
+          <div className="mx-auto max-w-7xl px-4">
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="text-4xl font-bold text-gray-900">How It Works</h2>
+              <p className="text-lg text-gray-600">
+                Three simple steps to own your dream plot
               </p>
             </div>
 
-            {loading ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="bg-gray-200 h-32 rounded-lg mb-4"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded"></div>
+            <div className="grid md:grid-cols-3 gap-12">
+              <div className="text-center space-y-6">
+                <div className="relative">
+                  <div className="w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">
+                    1
                   </div>
-                ))}
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-100 rounded-full"></div>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Browse & Select</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Explore our curated collection of verified plots. Filter by location, 
+                  price, and size to find your perfect match.
+                </p>
               </div>
-            ) : latestBlogs.length > 0 ? (
-              <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" delay={0.1}>
-                {latestBlogs.map((post) => (
-                  <Item key={post.id}>
-                    <Link href={`/blog/${post.slug}`} className="group block">
-                      <div className="overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
-                        <div className="p-6">
-                          <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                            {post.title}
-                          </h3>
-                          {post.excerpt && (
-                            <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
-                              {post.excerpt}
-                            </p>
-                          )}
-                          <div className="text-xs text-muted-foreground">
-                            {new Date(post.created_at).toLocaleDateString()}
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </Item>
-                ))}
-              </Stagger>
-            ) : (
-              <div className="text-center text-muted-foreground">
-                <p>No blog posts available yet.</p>
-              </div>
-            )}
 
-            <div className="text-center mt-10">
-              <Link
-                href="/blog"
-                className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Read More Articles
-              </Link>
+              <div className="text-center space-y-6">
+                <div className="relative">
+                  <div className="w-20 h-20 bg-gradient-to-r from-red-600 to-orange-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">
+                    2
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-100 rounded-full"></div>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Site Inspection</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Schedule a free site visit with our experts. Verify all documents 
+                  and inspect the plot thoroughly before making a decision.
+                </p>
+              </div>
+
+              <div className="text-center space-y-6">
+                <div className="relative">
+                  <div className="w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">
+                    3
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-100 rounded-full"></div>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900">Secure & Own</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Complete the payment process and legal formalities. 
+                  Get your registered documents and start building your future.
+                </p>
+              </div>
             </div>
           </div>
         </section>
       </FadeInSection>
 
-      {/* Contact Section */}
+      {/* Plot Gallery Section */}
       <FadeInSection>
-        <section className="py-12 sm:py-16">
-          <div className="mx-auto max-w-4xl px-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tight mb-4">
-              Ready to Find Your Perfect Plot?
-            </h2>
-            <p className="text-muted-foreground mb-8">
-              Get in touch with our experts for personalized assistance and site visits
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Contact Us
-              </Link>
+        <section className="py-20 bg-gradient-to-r from-orange-600 to-red-600">
+          <div className="mx-auto max-w-7xl px-4">
+            <div className="text-center space-y-6 mb-16">
+              <h2 className="text-4xl font-bold text-white">Our Plot Gallery</h2>
+              <p className="text-xl text-orange-100 max-w-3xl mx-auto">
+                Take a visual tour of our available plots across different locations
+              </p>
+            </div>
+
+            <PlotsGallery />
+
+            <div className="text-center mt-12">
               <Link
                 href="/plots"
-                className="inline-flex items-center justify-center rounded-md border border-primary px-8 py-3 text-sm font-medium text-primary hover:bg-primary/10"
+                className="inline-flex items-center justify-center rounded-2xl bg-white text-orange-600 px-8 py-4 text-lg font-bold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300"
               >
-                Browse All Plots
+                View Complete Gallery
               </Link>
             </div>
           </div>
         </section>
       </FadeInSection>
-    </main>
+
+      {/* Value Proposition */}
+      <FadeInSection>
+        <section className="py-20 bg-gray-50">
+          <div className="mx-auto max-w-7xl px-4">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h2 className="text-4xl font-bold text-gray-900">
+                    Your Trusted Partner in 
+                    <span className="text-orange-600"> Land Investment</span>
+                  </h2>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    At Sasta Plots, we believe everyone deserves to own a piece of land. 
+                    That's why we've simplified the entire process, making it transparent, 
+                    affordable, and stress-free.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">15+</div>
+                    <div className="text-sm text-gray-600">Years Experience</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">₹25Cr+</div>
+                    <div className="text-sm text-gray-600">Property Value</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">Zero</div>
+                    <div className="text-sm text-gray-600">Hidden Charges</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">100%</div>
+                    <div className="text-sm text-gray-600">Customer Satisfaction</div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    asChild
+                    className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-6 text-lg rounded-xl"
+                  >
+                    <Link href="/about">Learn More About Us</Link>
+                  </Button>
+                  <Button 
+                    asChild
+                    variant="outline"
+                    className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-6 text-lg rounded-xl"
+                  >
+                    <Link href="/contact">Get Free Consultation</Link>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/plots/plot-2.png"
+                      alt="Residential plot"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/plots/plot-4.png"
+                      alt="Commercial plot"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-4 pt-8">
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/plots/plot-3.png"
+                      alt="Premium plot"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/plots/plot-5.png"
+                      alt="Investment plot"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </FadeInSection>
+
+      {/* Call to Action */}
+      <FadeInSection>
+        <section className="py-20 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+          <div className="mx-auto max-w-4xl px-4 text-center space-y-8">
+            <h2 className="text-4xl font-bold">Ready to Own Your Dream Plot?</h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Join thousands of satisfied customers who have found their perfect plot with us. 
+              Start your journey towards land ownership today.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
+              <Link
+                href="/plots"
+                className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-orange-600 to-red-600 px-10 py-4 text-lg font-bold hover:shadow-xl transform hover:scale-105 transition-all duration-300 min-w-[250px]"
+              >
+                Explore Available Plots
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-2xl border-2 border-white bg-transparent text-white px-10 py-4 text-lg font-bold hover:bg-white hover:text-gray-900 transform hover:scale-105 transition-all duration-300 min-w-[250px]"
+              >
+                Schedule Site Visit
+              </Link>
+            </div>
+
+            <div className="pt-8 text-center">
+              <p className="text-orange-400 font-medium">📞 Call us: +91-9876543210 | ✉️ Email: sastaplots7@gmail.com</p>
+            </div>
+          </div>
+        </section>
+      </FadeInSection>
+    </div>
   )
 }

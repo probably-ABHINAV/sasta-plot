@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { MapPin, Square, DollarSign, Calendar } from "lucide-react"
+import { MapPin, Square, Calendar } from "lucide-react"
 import { FadeInSection, Stagger, Item } from "@/components/animated-section"
 import { useState, useEffect } from "react"
 
@@ -17,6 +17,7 @@ interface Plot {
   location: string
   size_sqyd: number
   image_url?: string
+  images?: string[]; // Added to handle multiple images
   featured: boolean
   created_at: string
 }
@@ -67,17 +68,27 @@ export function PlotsGrid() {
   return (
     <FadeInSection>
       <section className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
-        <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" delay={0.05}>
-          {plots.map((plot, index) => (
+        <Stagger className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" delay={0.05}>
+          {plots.map((plot) => {
+            // Prioritize uploaded images from database
+            const imageUrl = (plot.images && plot.images.length > 0)
+              ? plot.images[0]
+              : plot.image_url ||
+                `/images/plots/plot-${(plots.indexOf(plot) % 6) + 1}.png`
+            return (
             <Item key={plot.id}>
               <Link href={`/plots/${plot.slug}`} className="group block">
-                <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                  <div className="relative h-48 overflow-hidden">
+                <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] h-full flex flex-col rounded-xl shadow-lg">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gray-100">
                     <Image
-                      src={plot.image_url || "/placeholder.svg"}
+                      src={imageUrl}
                       alt={plot.title}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover transition-transform duration-300 hover:scale-105"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = "/placeholder.svg";
+                      }}
                     />
                     {plot.featured && (
                       <Badge className="absolute left-3 top-3 bg-primary/90 text-primary-foreground">
@@ -103,7 +114,6 @@ export function PlotsGrid() {
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1 font-semibold text-primary">
-                        <DollarSign className="h-4 w-4" />
                         <span>₹{plot.price.toLocaleString()}</span>
                       </div>
                       <span className="text-xs text-muted-foreground">
@@ -114,7 +124,7 @@ export function PlotsGrid() {
                 </Card>
               </Link>
             </Item>
-          ))}
+          )})}
         </Stagger>
       </section>
     </FadeInSection>

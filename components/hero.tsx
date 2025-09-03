@@ -7,28 +7,28 @@ import { FadeIn, HoverLift, Stagger } from "@/components/animate"
 export function Hero() {
   return (
     <section className="relative overflow-hidden border-b">
-      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-12 md:grid-cols-2 md:gap-12 md:py-16">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 md:grid-cols-2 md:gap-16 md:py-24">
         <FadeIn className="space-y-5" delay={0.05}>
           <div className="inline-flex items-center gap-2 rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground">
             <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             Trusted affordable plots
           </div>
-          <h1 className="font-heading text-pretty text-3xl font-semibold leading-tight md:text-4xl">
+          <h1 className="font-heading text-pretty text-4xl font-black leading-tight md:text-6xl lg:text-7xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Own Your Plot with Confidence
           </h1>
-          <p className="text-pretty text-muted-foreground md:text-base">
+          <p className="text-pretty text-muted-foreground md:text-lg lg:text-xl font-medium leading-relaxed">
             At Sasta Plots, we believe land ownership should be simple, secure, and affordable. Our mission is to help everyday families and first-time buyers invest in plots that are not only budget-friendly but also verified, well-connected, and future-ready.
           </p>
           <Stagger className="flex flex-col gap-3 sm:flex-row" delay={0.15}>
             <Link
               href="/plots"
-              className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-xl bg-primary px-8 py-4 text-lg font-bold text-primary-foreground hover:opacity-90 transform hover:scale-105 transition-all duration-300 shadow-xl"
             >
               Browse Plots
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-md border px-5 py-2.5 text-sm font-medium hover:bg-muted"
+              className="inline-flex items-center justify-center rounded-xl border px-8 py-4 text-lg font-bold hover:bg-muted transform hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Talk to Sales
             </Link>
@@ -46,13 +46,13 @@ export function Hero() {
         <FadeIn delay={0.1} className="relative">
           <div className="pointer-events-none absolute -inset-4 -z-10 rounded-2xl bg-primary/5" />
           <HoverLift>
-            <div className="rounded-xl border bg-card p-4 transition-shadow hover:shadow-md">
+            <div className="rounded-2xl border bg-card p-6 transition-shadow hover:shadow-2xl shadow-xl">
               <Image
                 src="/images/plots/plot-1.png"
                 alt="Featured residential plot"
                 width={800}
                 height={600}
-                className="h-auto w-full rounded-md object-cover"
+                className="h-auto w-full rounded-xl object-cover"
                 priority
               />
             </div>

@@ -14,10 +14,12 @@ export interface Plot {
   location: string;
   price: number;
   size_sqyd: number;
+  size_unit?: string;
   description?: string;
   featured: boolean;
   slug: string;
   image?: string;
+  images?: string[];
   created_at: string;
 }
 
@@ -28,6 +30,17 @@ export interface Inquiry {
   phone?: string;
   message?: string;
   plot_id?: string;
+  created_at: string;
+}
+
+export interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt?: string;
+  published: boolean;
+  author?: string;
   created_at: string;
 }
 
@@ -103,6 +116,24 @@ class FileStorage {
     inquiries.unshift(inquiry);
     this.writeData('inquiries', inquiries);
     return inquiry;
+  }
+
+  // Blog operations
+  getBlogPosts(): BlogPost[] {
+    return this.readData<BlogPost>('blog');
+  }
+
+  createBlogPost(postData: Omit<BlogPost, 'id' | 'created_at'>): BlogPost {
+    const posts = this.getBlogPosts();
+    const id = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
+    const post: BlogPost = {
+      ...postData,
+      id,
+      created_at: new Date().toISOString(),
+    };
+    posts.unshift(post);
+    this.writeData('blog', posts);
+    return post;
   }
 }
 
