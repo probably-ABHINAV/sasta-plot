@@ -40,6 +40,7 @@ type Plot = {
   price: number
   location: string
   size_sqyd: number
+  size_unit: string
   image_url?: string
   featured: boolean
   created_at: string
@@ -71,11 +72,25 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("overview")
 
   // SWR for data fetching
-  const { data: plotsData, error: plotsError } = useSWR("/api/plots", fetcher)
+  const { data: plotsData, error: plotsError, mutate: mutatePlots } = useSWR("/api/plots", fetcher)
   const { data: inquiriesData, error: inquiriesError } = useSWR("/api/inquiry", fetcher)
 
   const plots = plotsData?.plots || []
   const inquiries = inquiriesData?.inquiries || []
+
+  // State for dialogs and form
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [plotForm, setPlotForm] = useState<Partial<Plot>>({
+    title: "",
+    location: "",
+    price: 0,
+    size_sqyd: 0,
+    size_unit: "sq.yd",
+    description: "",
+    featured: false,
+  })
+  const [editingPlotId, setEditingPlotId] = useState<string | null>(null)
 
   // Redirect if not admin
   useEffect(() => {
@@ -93,6 +108,128 @@ export default function AdminDashboard() {
       console.error("Logout error:", error)
     }
   }
+
+  // Plot Management Handlers
+  const handleCreatePlot = async () => {
+    try {
+      const res = await fetch("/api/plots", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(plotForm),
+      })
+      if (res.ok) {
+        mutatePlots() // Revalidate SWR cache
+        setIsCreateDialogOpen(false)
+        setPlotForm({ title: "", location: "", price: 0, size_sqyd: 0, size_unit: "sq.yd", description: "", featured: false })
+      } else {
+        console.error("Failed to create plot")
+      }
+    } catch (error) {
+      console.error("Error creating plot:", error)
+    }
+  }
+
+  const handleEditPlot = async () => {
+    if (!editingPlotId) return
+
+    try {
+      const res = await fetch(`/api/plots/${editingPlotId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...plotForm,
+          size_unit: plotForm.size_unit || "sq.yd"
+        }),
+      })
+      if (res.ok) {
+        mutatePlots() // Revalidate SWR cache
+        setIsEditDialogOpen(false)
+        setEditingPlotId(null)
+        setPlotForm({ title: "", location: "", price: 0, size_sqyd: 0, size_unit: "sq.yd", description: "", featured: false })
+      } else {
+        console.error("Failed to edit plot")
+        alert("Failed to edit plot")
+      }
+    } catch (error) {
+      console.error("Edit plot error:", error)
+      alert("Error editing plot")
+    }
+  }
+
+  const handleDeletePlot = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this plot?")) return;
+    try {
+      // Find the plot to get its slug for deletion
+      const plotToDelete = plots.find(p => p.id === id)
+      if (!plotToDelete) {
+        console.error("Plot not found for deletion")
+        return
+      }
+
+      const res = await fetch(`/api/plots/${plotToDelete.slug}`, {
+        method: "DELETE",
+      })
+      if (res.ok) {
+        mutatePlots() // Revalidate SWR cache
+      } else {
+        console.error("Failed to delete plot")
+      }
+    } catch (error) {
+      console.error("Error deleting plot:", error)
+    }
+  }
+
+  const handleEditPlotOpen = async (plot: Plot) => {
+    try {
+      // Fetch the full plot data to get size_unit
+      const response = await fetch(`/api/plots/${plot.slug}`)
+      const data = await response.json()
+
+      setPlotForm({
+        title: plot.title,
+        location: plot.location,
+        price: Number(plot.price.replace(/[₹,]/g, "")),
+        size_sqyd: Number(plot.size.replace(/[^0-9]/g, "")),
+        size_unit: data.plot?.size_unit || "sq.yd",
+        description: plot.description,
+        featured: plot.featured,
+      })
+      setEditingPlotId(plot.id)
+      setIsEditDialogOpen(true)
+    } catch (error) {
+      console.error("Error loading plot for edit:", error)
+      // Fallback with default values
+      setPlotForm({
+        title: plot.title,
+        location: plot.location,
+        price: Number(plot.price.replace(/[₹,]/g, "")),
+        size_sqyd: Number(plot.size.replace(/[^0-9]/g, "")),
+        size_unit: "sq.yd",
+        description: plot.description,
+        featured: plot.featured,
+      })
+      setEditingPlotId(plot.id)
+      setIsEditDialogOpen(true)
+    }
+  }
+
+  // Blog Management - Navigate to blog admin page
+  const handleCreateBlogPost = () => {
+    router.push("/admin/blog")
+  }
+
+  const handleCreateFirstBlogPost = () => {
+    router.push("/admin/blog")
+  }
+
+  const handleAddPlot = () => {
+    setIsCreateDialogOpen(true)
+  }
+
+  const handleAddFirstPlot = () => {
+    setIsCreateDialogOpen(true)
+  }
+
 
   if (authLoading) {
     return (
@@ -273,20 +410,36 @@ export default function AdminDashboard() {
           <TabsContent value="plots" className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-3xl font-bold text-white">Manage Plots</h2>
-              <Button className="bg-green-600 hover:bg-green-700">
+              <Button onClick={handleAddPlot} className="bg-green-600 hover:bg-green-700">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Plot
               </Button>
             </div>
 
             <div className="grid gap-6">
-              {plots.length === 0 ? (
+              {plotsError ? (
+                <Card className="bg-red-500/20 border-red-500/30 text-white">
+                  <CardContent className="text-center py-12">
+                    <MapPin className="w-16 h-16 text-red-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">Error Loading Plots</h3>
+                    <p className="text-red-200 mb-4">
+                      Failed to load plots. Please try again.
+                    </p>
+                    <Button 
+                      onClick={() => window.location.reload()} 
+                      className="bg-red-600 hover:bg-red-700"
+                    >
+                      Retry
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : plots.length === 0 ? (
                 <Card className="bg-black/20 border-white/10 text-white">
                   <CardContent className="text-center py-12">
                     <MapPin className="w-16 h-16 text-white/40 mx-auto mb-4" />
                     <h3 className="text-lg font-semibold mb-2">No Plots Added</h3>
                     <p className="text-white/60 mb-4">Start by adding your first plot listing.</p>
-                    <Button className="bg-green-600 hover:bg-green-700">
+                    <Button onClick={handleAddFirstPlot} className="bg-green-600 hover:bg-green-700">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Your First Plot
                     </Button>
@@ -315,14 +468,14 @@ export default function AdminDashboard() {
                           </div>
                           <div className="flex justify-between text-sm">
                             <span className="text-white/60">Size:</span>
-                            <span>{plot.size_sqyd} sq.yd</span>
+                            <span>{plot.size_sqyd} {plot.size_unit}</span>
                           </div>
                           <div className="flex space-x-2 mt-4">
-                            <Button size="sm" variant="outline" className="flex-1 border-white/20 text-white hover:bg-white/10">
+                            <Button size="sm" variant="outline" className="flex-1 border-white/20 text-white hover:bg-white/10" onClick={() => handleEditPlotOpen(plot)}>
                               <Edit className="w-3 h-3 mr-1" />
                               Edit
                             </Button>
-                            <Button size="sm" variant="outline" className="flex-1 border-red-400/20 text-red-300 hover:bg-red-500/10">
+                            <Button size="sm" variant="outline" className="flex-1 border-red-400/20 text-red-300 hover:bg-red-500/10" onClick={() => handleDeletePlot(plot.id)}>
                               <Trash2 className="w-3 h-3 mr-1" />
                               Delete
                             </Button>
@@ -340,7 +493,7 @@ export default function AdminDashboard() {
           <TabsContent value="blog" className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-3xl font-bold text-white">Manage Blog</h2>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button onClick={handleCreateBlogPost} className="bg-blue-600 hover:bg-blue-700">
                 <Plus className="w-4 h-4 mr-2" />
                 New Post
               </Button>
@@ -351,7 +504,7 @@ export default function AdminDashboard() {
                 <FileText className="w-16 h-16 text-white/40 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Blog Management</h3>
                 <p className="text-white/60 mb-4">Create and manage blog posts for your website.</p>
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button onClick={handleCreateFirstBlogPost} className="bg-blue-600 hover:bg-blue-700">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Your First Post
                 </Button>
@@ -423,6 +576,196 @@ export default function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Create Plot Dialog */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent className="bg-slate-900 border-white/20 text-white">
+          <DialogHeader>
+            <DialogTitle>Create New Plot</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                value={plotForm.title}
+                onChange={(e) => setPlotForm({...plotForm, title: e.target.value})}
+                className="bg-black/20 border-white/20 text-white"
+              />
+            </div>
+            <div>
+              <Label htmlFor="location">Location</Label>
+              <Input
+                id="location"
+                value={plotForm.location}
+                onChange={(e) => setPlotForm({...plotForm, location: e.target.value})}
+                className="bg-black/20 border-white/20 text-white"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="price">Price (₹)</Label>
+                <Input
+                  id="price"
+                  type="number"
+                  value={plotForm.price}
+                  onChange={(e) => setPlotForm({...plotForm, price: Number(e.target.value)})}
+                  className="bg-black/20 border-white/20 text-white"
+                  placeholder="Enter price in rupees"
+                />
+              </div>
+              <div>
+                <Label htmlFor="size">Size</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="size"
+                    type="number"
+                    value={plotForm.size_sqyd}
+                    onChange={(e) => setPlotForm({...plotForm, size_sqyd: Number(e.target.value)})}
+                    className="flex-1"
+                    placeholder="Enter size"
+                  />
+                  <select
+                    value={plotForm.size_unit || "sq.yd"}
+                    onChange={(e) => setPlotForm({...plotForm, size_unit: e.target.value})}
+                    className="flex rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  >
+                    <option value="sq.ft">sq.ft</option>
+                    <option value="sq.yd">sq.yd</option>
+                    <option value="sq.m">sq.m</option>
+                    <option value="acres">acres</option>
+                    <option value="hectares">hectares</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                value={plotForm.description}
+                onChange={(e) => setPlotForm({...plotForm, description: e.target.value})}
+                className="bg-black/20 border-white/20 text-white"
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="featured"
+                checked={plotForm.featured}
+                onCheckedChange={(checked) => setPlotForm({...plotForm, featured: checked})}
+              />
+              <Label htmlFor="featured">Featured Plot</Label>
+            </div>
+            <div className="flex space-x-2 pt-4">
+              <Button onClick={handleCreatePlot} className="flex-1 bg-green-600 hover:bg-green-700">
+                Create Plot
+              </Button>
+              <Button 
+                onClick={() => setIsCreateDialogOpen(false)} 
+                variant="outline" 
+                className="flex-1 border-white/20 text-white hover:bg-white/10"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Plot Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="bg-slate-900 border-white/20 text-white">
+          <DialogHeader>
+            <DialogTitle>Edit Plot</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="edit-title">Title</Label>
+              <Input
+                id="edit-title"
+                value={plotForm.title}
+                onChange={(e) => setPlotForm({...plotForm, title: e.target.value})}
+                className="bg-black/20 border-white/20 text-white"
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-location">Location</Label>
+              <Input
+                id="edit-location"
+                value={plotForm.location}
+                onChange={(e) => setPlotForm({...plotForm, location: e.target.value})}
+                className="bg-black/20 border-white/20 text-white"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="edit-price">Price (₹)</Label>
+                <Input
+                  id="edit-price"
+                  type="number"
+                  value={plotForm.price}
+                  onChange={(e) => setPlotForm({...plotForm, price: Number(e.target.value)})}
+                  className="bg-black/20 border-white/20 text-white"
+                  placeholder="Enter price in rupees"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit-size">Size</Label>
+                <div className="col-span-3 flex gap-2">
+                  <Input
+                    id="edit-size"
+                    type="number"
+                    value={plotForm.size_sqyd}
+                    onChange={(e) => setPlotForm({...plotForm, size_sqyd: Number(e.target.value)})}
+                    className="flex-1"
+                    placeholder="Enter size"
+                  />
+                  <select
+                    value={plotForm.size_unit || "sq.yd"}
+                    onChange={(e) => setPlotForm({...plotForm, size_unit: e.target.value})}
+                    className="flex rounded-md border border-input bg-background px-3 py-1 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  >
+                    <option value="sq.ft">sq.ft</option>
+                    <option value="sq.yd">sq.yd</option>
+                    <option value="sq.m">sq.m</option>
+                    <option value="acres">acres</option>
+                    <option value="hectares">hectares</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="edit-description">Description</Label>
+              <Textarea
+                id="edit-description"
+                value={plotForm.description}
+                onChange={(e) => setPlotForm({...plotForm, description: e.target.value})}
+                className="bg-black/20 border-white/20 text-white"
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="edit-featured"
+                checked={plotForm.featured}
+                onCheckedChange={(checked) => setPlotForm({...plotForm, featured: checked})}
+              />
+              <Label htmlFor="edit-featured">Featured Plot</Label>
+            </div>
+            <div className="flex space-x-2 pt-4">
+              <Button onClick={handleEditPlot} className="flex-1 bg-blue-600 hover:bg-blue-700">
+                Update Plot
+              </Button>
+              <Button 
+                onClick={() => setIsEditDialogOpen(false)} 
+                variant="outline" 
+                className="flex-1 border-white/20 text-white hover:bg-white/10"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

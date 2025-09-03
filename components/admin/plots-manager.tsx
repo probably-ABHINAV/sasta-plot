@@ -31,6 +31,7 @@ export default function PlotsManager() {
     location: "",
     price: "",
     size_sqyd: "",
+    size_unit: "sq.yd",
     description: "",
     featured: false,
     file: null as File | null,
@@ -81,6 +82,7 @@ export default function PlotsManager() {
         location: "",
         price: "",
         size_sqyd: "",
+        size_unit: "sq.yd",
         description: "",
         featured: false,
         file: null,
@@ -142,14 +144,28 @@ export default function PlotsManager() {
             onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
             required
           />
-          <input
-            className="rounded border px-3 py-2"
-            placeholder="Size (sq. yd.)"
-            type="number"
-            value={form.size_sqyd}
-            onChange={(e) => setForm((f) => ({ ...f, size_sqyd: e.target.value }))}
-            required
-          />
+          <div className="flex gap-2">
+            <input
+              className="flex-1 rounded border px-3 py-2"
+              placeholder="Size"
+              type="number"
+              value={form.size_sqyd}
+              onChange={(e) => setForm((f) => ({ ...f, size_sqyd: e.target.value }))}
+              required
+            />
+            <select
+              className="rounded border px-3 py-2 bg-background"
+              value={form.size_unit}
+              onChange={(e) => setForm((f) => ({ ...f, size_unit: e.target.value }))}
+            >
+              <option value="sq.yd">sq.yd</option>
+              <option value="sq.ft">sq.ft</option>
+              <option value="sq.m">sq.m</option>
+              <option value="acres">acres</option>
+              <option value="bigha">bigha</option>
+              <option value="katha">katha</option>
+            </select>
+          </div>
         </div>
         <textarea
           className="rounded border px-3 py-2"
@@ -198,7 +214,7 @@ export default function PlotsManager() {
                   <h3 className="font-heading text-lg">{p.title}</h3>
                   <p className="text-sm">{p.location}</p>
                   <p className="text-sm">{typeof p.price === 'string' ? p.price : `₹${Number(p.price).toLocaleString()}`}</p>
-                  <p className="text-sm">Size: {typeof p.size === 'string' ? p.size : `${p.size} sq. yd.`}</p>
+                  <p className="text-sm">Size: {typeof p.size === 'string' ? p.size : `${p.size} ${form.size_unit}`}</p>
                   <p className="text-sm">Slug: {p.slug}</p>
                   <Button
                     variant="destructive"

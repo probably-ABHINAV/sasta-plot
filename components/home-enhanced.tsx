@@ -4,35 +4,60 @@ import Image from "next/image"
 import Link from "next/link"
 import { FadeInSection, Stagger, Item } from "@/components/animated-section"
 import { Badge } from "@/components/ui/badge"
+import { useState, useEffect } from "react"
 
-const plots = [
-  {
-    id: "1",
-    title: "Green Valley Residency",
-    location: "Sector 12, Gurgaon",
-    size: "200 sq. yd.",
-    price: "₹25,00,000",
-    img: "/images/plots/plot-1.png",
-  },
-  {
-    id: "2", 
-    title: "Sunrise Heights",
-    location: "New Town, Kolkata",
-    size: "150 sq. yd.",
-    price: "₹18,00,000",
-    img: "/images/plots/plot-2.png",
-  },
-  {
-    id: "3",
-    title: "Palm Grove Estates",
-    location: "Whitefield, Bangalore",
-    size: "300 sq. yd.",
-    price: "₹45,00,000", 
-    img: "/images/plots/plot-3.png",
-  },
-]
+interface Plot {
+  id: string
+  title: string
+  slug: string
+  description: string
+  price: number
+  location: string
+  size_sqyd: number
+  image_url?: string
+  featured: boolean
+  created_at: string
+}
+
+interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  content: string
+  excerpt?: string
+  published: boolean
+  created_at: string
+}
 
 export function HomeEnhanced() {
+  const [featuredPlots, setFeaturedPlots] = useState<Plot[]>([])
+  const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch featured plots
+        const plotsResponse = await fetch('/api/plots')
+        const plotsData = await plotsResponse.json()
+        const featured = (plotsData.plots || []).filter((plot: Plot) => plot.featured).slice(0, 3)
+        setFeaturedPlots(featured)
+
+        // Fetch latest blog posts
+        const blogsResponse = await fetch('/api/blog')
+        const blogsData = await blogsResponse.json()
+        const latest = (blogsData.posts || []).slice(0, 3)
+        setLatestBlogs(latest)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <main className="flex-1">
       {/* Hero Section */}
@@ -124,36 +149,110 @@ export function HomeEnhanced() {
               View all
             </Link>
           </div>
-          <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {plots.map((p) => (
-              <Item key={p.id}>
-                <Link href={`/plots/plot-${p.id}`} className="block group">
-                  <article className="overflow-hidden rounded-xl border bg-background transition-all duration-300 hover:shadow-md hover:-translate-y-1">
-                    <div className="relative h-48 w-full sm:h-56 overflow-hidden">
-                      <Image
-                        src={p.img || "/placeholder.svg"}
-                        alt={p.title}
-                        fill
-                        className="object-cover transition duration-300 group-hover:scale-105"
-                      />
+          {loading ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="overflow-hidden rounded-xl border bg-background">
+                    <div className="h-48 bg-gray-200"></div>
+                    <div className="p-4">
+                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded mb-4"></div>
+                      <div className="h-6 bg-gray-200 rounded"></div>
                     </div>
-                    <div className="space-y-1 p-4">
-                      <h3 className="font-medium">{p.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {p.location} • {p.size}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredPlots.map((plot) => (
+                <Item key={plot.id}>
+                  <Link href={`/plots/${plot.slug}`} className="block group">
+                    <article className="overflow-hidden rounded-xl border bg-background transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                      <div className="relative h-48 w-full sm:h-56 overflow-hidden">
+                        <Image
+                          src={plot.image_url || "/placeholder.svg"}
+                          alt={plot.title}
+                          fill
+                          className="object-cover transition duration-300 group-hover:scale-105"
+                        />
+                        <Badge className="absolute left-3 top-3 bg-primary/90 text-primary-foreground">
+                          Featured
+                        </Badge>
+                      </div>
+                      <div className="space-y-1 p-4">
+                        <h3 className="font-medium">{plot.title}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {plot.location} • {plot.size_sqyd} sq. yd.
+                        </p>
+                        <div className="flex items-center justify-between pt-2">
+                          <span className="font-semibold text-primary">₹{plot.price.toLocaleString()}</span>
+                          <span className="text-sm text-primary hover:underline">
+                            Details
+                          </span>
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                </Item>
+              ))}
+            </Stagger>
+          )}
+        </div>
+      </FadeInSection>
+
+      {/* Latest Blog Posts */}
+      <FadeInSection>
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 bg-muted/30">
+          <div className="mb-6 flex items-end justify-between">
+            <h2 className="text-2xl font-semibold">Latest Insights</h2>
+            <Link href="/blog" className="text-sm text-primary hover:underline">
+              View all posts
+            </Link>
+          </div>
+          {loading ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="rounded-xl border bg-background p-6">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded mb-4"></div>
+                    <div className="h-20 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : latestBlogs.length > 0 ? (
+            <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {latestBlogs.map((post) => (
+                <Item key={post.id}>
+                  <Link href={`/blog/${post.slug}`} className="block group">
+                    <article className="rounded-xl border bg-background p-6 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                      <h3 className="font-medium mb-2 group-hover:text-primary transition-colors">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                        {post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 120) + '...'}
                       </p>
-                      <div className="flex items-center justify-between pt-2">
-                        <span className="font-semibold text-primary">{p.price}</span>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">
+                          {new Date(post.created_at).toLocaleDateString()}
+                        </span>
                         <span className="text-sm text-primary hover:underline">
-                          Details
+                          Read more
                         </span>
                       </div>
-                    </div>
-                  </article>
-                </Link>
-              </Item>
-            ))}
-          </Stagger>
+                    </article>
+                  </Link>
+                </Item>
+              ))}
+            </Stagger>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No blog posts available yet.</p>
+            </div>
+          )}
         </div>
       </FadeInSection>
     </main>
