@@ -15,7 +15,7 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-3" aria-label="Sasta Plots home">
           <Image
               src="/images/logo-sasta-plots.png"
-              alt="Sasta Plots Logo"
+              alt="Sasta Plots"
               width={120}
               height={40}
               style={{ width: 'auto', height: '32px' }}
