@@ -67,13 +67,19 @@ export default function AdminDashboard() {
   // Check authentication
   React.useEffect(() => {
     const checkAuth = async () => {
-      const supabase = getBrowserSupabase()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/auth/login')
-        return
+      try {
+        const response = await fetch('/api/auth/mock')
+        const data = await response.json()
+        
+        if (data.user && data.user.role === 'admin') {
+          setIsAuthenticated(true)
+        } else {
+          router.push('/sign-in')
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error)
+        router.push('/sign-in')
       }
-      setIsAuthenticated(true)
     }
     checkAuth()
   }, [router])
