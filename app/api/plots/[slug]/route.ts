@@ -47,16 +47,12 @@ export async function PATCH(
 ) {
   try {
     const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
-    const supabase = getServerSupabase()
+    const { isAdminUser } = await import('@/lib/demo-auth')
 
-    // Check authentication
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser()
-
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Check demo authentication for admin access
+    const isAdmin = await isAdminUser()
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 401 })
     }
 
     const body = await request.json()
@@ -110,16 +106,12 @@ export async function DELETE(
 ) {
   try {
     const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
-    const supabase = getServerSupabase()
+    const { isAdminUser } = await import('@/lib/demo-auth')
 
-    // Check authentication
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser()
-
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Check demo authentication for admin access
+    const isAdmin = await isAdminUser()
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 401 })
     }
 
     // Use admin client to bypass RLS issues

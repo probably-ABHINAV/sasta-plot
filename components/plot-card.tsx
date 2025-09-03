@@ -13,6 +13,7 @@ export interface Plot {
   area?: string
   type?: string
   available?: boolean
+  image_url?: string // Added image_url to the interface
 }
 
 interface PlotCardProps {
@@ -27,11 +28,15 @@ export function PlotCard({ plot }: PlotCardProps) {
       <article className="border-border bg-card text-card-foreground overflow-hidden rounded-lg border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
         <div className="aspect-video relative overflow-hidden">
           <Image
-            src={plot.image || "/placeholder.svg"}
+            src={plot.image_url || plot.image || "/placeholder.svg"}
             alt={plot.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "/placeholder.svg"; // Fallback to placeholder.svg if image_url or image fails
+            }}
           />
         </div>
         <div className="space-y-3 p-6">

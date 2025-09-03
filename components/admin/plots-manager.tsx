@@ -57,7 +57,7 @@ export default function PlotsManager() {
         }
         
         const uploadData = await uploadRes.json()
-        imageUrl = uploadData.publicUrl
+        imageUrl = uploadData.url
       }
 
       const res = await fetch("/api/plots", {

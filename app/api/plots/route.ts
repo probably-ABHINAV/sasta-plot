@@ -18,13 +18,37 @@ export async function GET() {
         description,
         featured,
         slug,
-        image_url
+        image_url,
+        created_at
       `)
       .order('created_at', { ascending: false })
 
     if (error) {
       console.error("Supabase error fetching plots:", error)
-      return NextResponse.json({ plots: [], error: error.message }, { status: 500 })
+      // Fallback to file storage if Supabase fails
+      try {
+        const { fileStorage } = await import('@/lib/file-storage')
+        const filePlots = fileStorage.getPlots()
+        const normalized = filePlots.map((p) => ({
+          id: p.id.toString(),
+          title: p.title || '',
+          location: p.location || '',
+          price: p.price || 0,
+          size_sqyd: p.size_sqyd || 0,
+          size_unit: p.size_unit || 'sq.yd',
+          size: p.size_sqyd && p.size_unit ? `${p.size_sqyd} ${p.size_unit}` : 'Size TBD',
+          description: p.description || '',
+          featured: Boolean(p.featured),
+          slug: p.slug || '',
+          image: p.image || '',
+          image_url: p.image || '',
+          created_at: p.created_at || new Date().toISOString()
+        }))
+        return NextResponse.json({ plots: normalized })
+      } catch (fallbackError) {
+        console.error("File storage fallback failed:", fallbackError)
+        return NextResponse.json({ plots: [], error: error.message }, { status: 500 })
+      }
     }
 
     if (!plots) {
@@ -60,20 +84,12 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
-    const supabase = getServerSupabase()
+    const { isAdminUser } = await import('@/lib/demo-auth')
 
-    // Check authentication - Allow both authenticated users and demo mode
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser()
-
-    // For demo purposes, allow creation without authentication
-    // In production, you'd want to enforce authentication
-    const isDemoMode = process.env.NODE_ENV === 'development'
-    
-    if (!isDemoMode && (authError || !user)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // Check demo authentication for admin access
+    const isAdmin = await isAdminUser()
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 401 })
     }
 
     const body = await request.json()
@@ -101,7 +117,7 @@ export async function POST(request: Request) {
           featured: Boolean(featured),
           image_url,
           slug,
-          created_by: user.id,
+          created_by: null, // Using demo mode
         },
       ])
       .select()

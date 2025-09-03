@@ -22,24 +22,32 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("Error fetching posts:", error)
-      return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 })
+      // Return empty posts array as fallback
+      return NextResponse.json({ posts: [] })
     }
 
-    return NextResponse.json({ posts })
+    return NextResponse.json({ posts: posts || [] })
   } catch (error) {
     console.error("Error fetching posts:", error)
-    return NextResponse.json({ error: "Failed to fetch posts" }, { status: 500 })
+    return NextResponse.json({ posts: [] })
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const { isAdminUser } = await import('@/lib/demo-auth')
+    const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
+
+    // Check demo authentication for admin access
+    const isAdmin = await isAdminUser()
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 401 })
+    }
+
     const body = await request.json()
     const { title, content, excerpt, slug, published = false } = body
-
-    const supabase = getServerSupabase()
     
-    const { data: post, error } = await supabase
+    const { data: post, error } = await adminSupabase
       .from('posts')
       .insert([
         {

@@ -22,10 +22,10 @@ export async function POST() {
       return NextResponse.json({ error: listError.message }, { status: 500 })
     }
 
-    const bucketExists = buckets?.some(bucket => bucket.name === 'plots-images')
+    const bucketExists = buckets?.some(bucket => bucket.name === 'plots')
 
     if (!bucketExists) {
-      const { data, error } = await supabase.storage.createBucket('plots-images', {
+      const { data, error } = await supabase.storage.createBucket('plots', {
         public: true,
         allowedMimeTypes: ['image/*'],
         fileSizeLimit: 5242880 // 5MB
