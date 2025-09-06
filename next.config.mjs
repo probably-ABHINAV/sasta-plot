@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow all hosts for Replit environment
+  // Production-friendly configuration
   async headers() {
     return [
       {
@@ -14,6 +14,8 @@ const nextConfig = {
       },
     ]
   },
+  // Add output configuration for better compatibility
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },

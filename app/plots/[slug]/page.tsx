@@ -10,7 +10,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function PlotDetail({ params }: { params: { slug: string } }) {
   try {
     // Use the API route with fallback mechanism
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5000'}/api/plots/${params.slug}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 
+                   (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000')
+    const response = await fetch(`${baseUrl}/api/plots/${params.slug}`, {
       cache: 'no-store'
     })
     
