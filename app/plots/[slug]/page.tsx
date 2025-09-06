@@ -9,27 +9,95 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function PlotDetail({ params }: { params: { slug: string } }) {
   try {
-    // Use the API route with fallback mechanism
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 
-                   (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000')
-    const response = await fetch(`${baseUrl}/api/plots/${params.slug}`, {
-      cache: 'no-store'
-    })
+    // Direct API call - let Next.js handle the routing internally
+    const { getServerSupabase } = await import("@/lib/supabase/server");
     
-    if (!response.ok) {
-      return notFound()
-    }
-    
-    const { plot } = await response.json()
-    
-    if (!plot) {
-      return notFound()
-    }
+    // Try Supabase first
+    const supabase = getServerSupabase();
+    const { data: plot, error } = await supabase
+      .from("plots")
+      .select(`
+        id,
+        title,
+        location,
+        price,
+        size_sqyd,
+        size_unit,
+        description,
+        featured,
+        slug,
+        image_url,
+        created_at,
+        plot_images (
+          url
+        )
+      `)
+      .eq("slug", params.slug)
+      .single();
 
-    const images: string[] = plot.plot_images?.length 
-      ? plot.plot_images.map((img: any) => img.url) 
-      : plot.image 
-        ? [plot.image] 
+    let plotData = null;
+
+    if (!error && plot) {
+      plotData = {
+        id: plot.id.toString(),
+        title: plot.title,
+        location: plot.location,
+        price: plot.price,
+        size_sqyd: plot.size_sqyd,
+        size_unit: plot.size_unit || "sq.yd",
+        size: plot.size_sqyd && plot.size_unit
+          ? `${plot.size_sqyd} ${plot.size_unit}`
+          : "Size TBD",
+        description: plot.description,
+        featured: plot.featured,
+        slug: plot.slug,
+        image: plot.image_url,
+        image_url: plot.image_url,
+        created_at: plot.created_at,
+        plot_images: plot.plot_images || []
+      };
+    } else {
+      // Fallback to file storage
+      console.log('Supabase failed for plot slug, falling back to file storage:', error?.message || 'No data');
+      
+      try {
+        const { fileStorage } = await import('@/lib/file-storage');
+        const plots = fileStorage.getPlots();
+        const foundPlot = plots.find(p => p.slug === params.slug);
+        
+        if (foundPlot) {
+          plotData = {
+            id: foundPlot.id.toString(),
+            title: foundPlot.title || '',
+            location: foundPlot.location || '',
+            price: foundPlot.price || 0,
+            size_sqyd: foundPlot.size_sqyd || 0,
+            size_unit: foundPlot.size_unit || 'sq.yd',
+            size: foundPlot.size_sqyd && foundPlot.size_unit 
+              ? `${foundPlot.size_sqyd} ${foundPlot.size_unit}` 
+              : 'Size TBD',
+            description: foundPlot.description || '',
+            featured: Boolean(foundPlot.featured),
+            slug: foundPlot.slug || '',
+            image: foundPlot.image || '',
+            image_url: foundPlot.image || '',
+            created_at: foundPlot.created_at || new Date().toISOString(),
+            plot_images: foundPlot.image ? [{ url: foundPlot.image }] : []
+          };
+        }
+      } catch (fileError) {
+        console.error('File storage also failed:', fileError);
+      }
+    }
+    
+    if (!plotData) {
+      return notFound()
+    }
+    
+    const images: string[] = plotData.plot_images?.length 
+      ? plotData.plot_images.map((img: any) => img.url) 
+      : plotData.image 
+        ? [plotData.image] 
         : ["/images/plots/plot-1.png"]
 
     return (
@@ -37,27 +105,27 @@ export default async function PlotDetail({ params }: { params: { slug: string } 
         <div className="grid gap-8 md:grid-cols-2">
           <div className="grid gap-3">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border">
-              <Image src={images[0] || "/placeholder.svg"} alt={plot.title} fill className="object-cover" />
+              <Image src={images[0] || "/placeholder.svg"} alt={plotData.title} fill className="object-cover" />
             </div>
             <div className="grid grid-cols-4 gap-2">
               {images.slice(1, 5).map((src, i) => (
                 <div key={i} className="relative aspect-[4/3] overflow-hidden rounded border">
-                  <Image src={src || "/placeholder.svg"} alt={`${plot.title} ${i + 2}`} fill className="object-cover" />
+                  <Image src={src || "/placeholder.svg"} alt={`${plotData.title} ${i + 2}`} fill className="object-cover" />
                 </div>
               ))}
             </div>
           </div>
           <div className="space-y-4">
-            <h1 className="text-2xl font-semibold md:text-3xl">{plot.title}</h1>
-            <p className="text-muted-foreground">{plot.location}</p>
+            <h1 className="text-2xl font-semibold md:text-3xl">{plotData.title}</h1>
+            <p className="text-muted-foreground">{plotData.location}</p>
             <div className="flex flex-wrap gap-2 text-sm">
-              {plot.size ? <span className="rounded bg-muted px-2 py-0.5">{plot.size}</span> : null}
-              {plot.price ? (
-                <span className="rounded bg-muted px-2 py-0.5">{formatPrice(Number(plot.price), getPriceFormatSuggestion(Number(plot.price)))}</span>
+              {plotData.size ? <span className="rounded bg-muted px-2 py-0.5">{plotData.size}</span> : null}
+              {plotData.price ? (
+                <span className="rounded bg-muted px-2 py-0.5">{formatPrice(Number(plotData.price), getPriceFormatSuggestion(Number(plotData.price)))}</span>
               ) : null}
             </div>
-            <p>{plot.description}</p>
-            <InquiryForm plotId={plot.id} />
+            <p>{plotData.description}</p>
+            <InquiryForm plotId={plotData.id} />
           </div>
         </div>
       </main>
