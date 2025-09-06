@@ -7,40 +7,93 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
+    // Try Supabase first
     const supabase = getServerSupabase();
     const { data: plot, error } = await supabase
       .from("plots")
-      .select("*")
+      .select(`
+        id,
+        title,
+        location,
+        price,
+        size_sqyd,
+        size_unit,
+        description,
+        featured,
+        slug,
+        image_url,
+        created_at,
+        plot_images (
+          url
+        )
+      `)
       .eq("slug", params.slug)
       .single();
 
-    if (error) {
-      console.error("Error fetching plot:", error);
-      return NextResponse.json({ error: "Plot not found" }, { status: 404 });
-    }
-
-    const normalized = {
-      id: plot.id.toString(),
-      title: plot.title,
-      location: plot.location,
-      price: plot.price,
-      size_sqyd: plot.size_sqyd,
-      size_unit: plot.size_unit || "sq.yd",
-      size:
-        plot.size_sqyd && plot.size_unit
+    if (!error && plot) {
+      const normalized = {
+        id: plot.id.toString(),
+        title: plot.title,
+        location: plot.location,
+        price: plot.price,
+        size_sqyd: plot.size_sqyd,
+        size_unit: plot.size_unit || "sq.yd",
+        size: plot.size_sqyd && plot.size_unit
           ? `${plot.size_sqyd} ${plot.size_unit}`
           : "Size TBD",
-      description: plot.description,
-      featured: plot.featured,
-      slug: plot.slug,
-      image: plot.image_url,
-      image_url: plot.image_url,
-      created_at: plot.created_at,
-    };
+        description: plot.description,
+        featured: plot.featured,
+        slug: plot.slug,
+        image: plot.image_url,
+        image_url: plot.image_url,
+        created_at: plot.created_at,
+        plot_images: plot.plot_images || []
+      };
+      return NextResponse.json({ plot: normalized });
+    }
 
-    return NextResponse.json({ plot: normalized });
+    // Fallback to file storage
+    console.log('Supabase failed for plot slug, falling back to file storage:', error?.message || 'No data');
+    
+    try {
+      const { fileStorage } = await import('@/lib/file-storage');
+      const plots = fileStorage.getPlots();
+      const foundPlot = plots.find(p => p.slug === params.slug);
+      
+      if (!foundPlot) {
+        return NextResponse.json({ error: "Plot not found" }, { status: 404 });
+      }
+
+      // Normalize the plot data to match expected structure
+      const normalizedPlot = {
+        id: foundPlot.id.toString(),
+        title: foundPlot.title || '',
+        location: foundPlot.location || '',
+        price: foundPlot.price || 0,
+        size_sqyd: foundPlot.size_sqyd || 0,
+        size_unit: foundPlot.size_unit || 'sq.yd',
+        size: foundPlot.size_sqyd && foundPlot.size_unit 
+          ? `${foundPlot.size_sqyd} ${foundPlot.size_unit}` 
+          : 'Size TBD',
+        description: foundPlot.description || '',
+        featured: Boolean(foundPlot.featured),
+        slug: foundPlot.slug || '',
+        image: foundPlot.image || '',
+        image_url: foundPlot.image || '',
+        created_at: foundPlot.created_at || new Date().toISOString(),
+        plot_images: foundPlot.image ? [{ url: foundPlot.image }] : []
+      };
+
+      return NextResponse.json({ plot: normalizedPlot });
+    } catch (fileError) {
+      console.error('File storage also failed:', fileError);
+      return NextResponse.json(
+        { error: 'Unable to fetch plot data' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    console.error("Error fetching plot:", error);
+    console.error("Unexpected error fetching plot:", error);
     return NextResponse.json({ error: "Failed to fetch plot" }, { status: 500 });
   }
 }

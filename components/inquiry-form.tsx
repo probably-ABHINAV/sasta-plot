@@ -4,7 +4,11 @@ import type React from "react"
 import { useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
-export function InquiryForm() {
+interface InquiryFormProps {
+  plotId?: string | number
+}
+
+export function InquiryForm({ plotId }: InquiryFormProps) {
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<null | { ok: boolean; message: string }>(null)
 
@@ -29,7 +33,13 @@ export function InquiryForm() {
       const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, email, message: msg }),
+        body: JSON.stringify({ 
+          name, 
+          phone, 
+          email, 
+          message: msg,
+          plotId: plotId 
+        }),
       })
       const payload = await res.json()
       if (res.ok) {

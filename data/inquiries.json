@@ -3,6 +3,26 @@
     "name": "Test User",
     "email": "test@example.com",
     "phone": "1234567890",
+    "message": "Test inquiry",
+    "plot_id": "1",
+    "status": "pending",
+    "id": "6",
+    "created_at": "2025-09-05T17:22:02.837Z"
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": "1234567890",
+    "message": "Test inquiry",
+    "plot_id": "1",
+    "status": "pending",
+    "id": "5",
+    "created_at": "2025-09-05T17:21:53.289Z"
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": "1234567890",
     "message": "This is a test inquiry to check the system",
     "id": "4",
     "status": "pending",

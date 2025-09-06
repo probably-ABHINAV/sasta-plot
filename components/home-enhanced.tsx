@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { FadeInSection, Stagger, Item } from "@/components/animated-section"
 import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } from "lucide-react"
 import PlotsGallery from "@/components/plots-gallery"
+import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 
 interface Plot {
   id: string
@@ -235,7 +236,7 @@ export function HomeEnhanced() {
                               {plot.size_sqyd} sq. yd.
                             </p>
                           </div>
-                          <p className="text-xl font-bold text-emerald-400">₹{plot.price?.toLocaleString()}</p>
+                          <p className="text-xl font-bold text-emerald-400">{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</p>
                         </div>
                       </div>
                     </div>
@@ -338,7 +339,7 @@ export function HomeEnhanced() {
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-emerald-600">₹{plot.price?.toLocaleString()}</span>
+                          <span className="text-2xl font-bold text-emerald-600">{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</span>
                           <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                             View Details
                           </Button>

@@ -2,9 +2,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSupabase } from "@/lib/supabase/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await getServerSupabase()
+    const supabase = getServerSupabase()
     const { data: { user }, error } = await supabase.auth.getUser()
 
     if (error || !user) {
