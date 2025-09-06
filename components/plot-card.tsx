@@ -22,7 +22,7 @@ interface PlotCardProps {
 }
 
 export function PlotCard({ plot }: PlotCardProps) {
-  const plotSlug = plot.slug || `plot-${plot.id}`
+  const plotSlug = plot.slug || plot.id.toString()
 
   return (
     <Link href={`/plots/${plotSlug}`} className="block group h-full">
