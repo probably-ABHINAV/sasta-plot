@@ -10,26 +10,29 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '*.supabase.co',
+        hostname: 'blob.v0.app',
         port: '',
-        pathname: '/storage/v1/object/public/**',
+        pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'images.pexels.com',
+        hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
+        port: '',
+        pathname: '/**',
       },
     ],
     unoptimized: true,
   },
+  // Optimize for production deployment
   experimental: {
-    serverComponentsExternalPackages: ['nodemailer'],
-    // The following line is often added for CSS optimization with Next.js
-    // optimizeCss: true, // Note: This option is deprecated in favor of built-in PostCSS handling
+    optimizePackageImports: ['lucide-react', 'recharts'],
   },
-  // Ensure Tailwind CSS is processed correctly
-  // Next.js automatically processes Tailwind CSS if `tailwind.config.js` is present
-  // and the necessary imports are in your CSS file (e.g., `globals.css`).
-  // No explicit configuration is usually needed in next.config.js for basic Tailwind setup.
+  // Enable static optimization
+  output: 'standalone',
+  // Compress images
+  compress: true,
+  // Enable SWC minification
+  swcMinify: true,
 }
 
 export default nextConfig

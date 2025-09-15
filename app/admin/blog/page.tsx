@@ -1,398 +1,515 @@
-
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useIsAdmin } from "@/hooks/use-is-admin"
-import { Button } from "@/components/ui/button"
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { Trash2, Edit, Plus, Eye, ArrowLeft } from "lucide-react"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Plus, Edit, Trash2, Eye, Search, ArrowLeft, FileText, Globe, Clock } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { AuthGuard } from "@/components/auth-guard"
+import { LogoutButton } from "@/components/logout-button"
 
-interface BlogPost {
-  id: string
-  title: string
-  slug: string
-  content: string
-  excerpt?: string
-  published: boolean
-  created_at: string
-}
+// Mock blog data
+const mockBlogPosts = [
+  {
+    id: 1,
+    title: "Top 5 Investment Opportunities in Uttrakhand Hill Stations",
+    slug: "top-5-investment-opportunities-uttrakhand",
+    excerpt:
+      "Discover the most promising investment opportunities in Uttrakhand's scenic hill stations, from Mussoorie to Nainital.",
+    content:
+      "Uttrakhand's hill stations offer incredible investment potential with their growing tourism industry and spiritual significance...",
+    category: "Investment",
+    tags: ["Investment", "Hill Stations", "Real Estate", "Tourism"],
+    author: "Admin User",
+    status: "Published",
+    publishedDate: "2024-01-20",
+    lastModified: "2024-01-22",
+    views: 1250,
+    featured: true,
+    metaTitle: "Best Investment Opportunities in Uttrakhand Hill Stations 2024",
+    metaDescription:
+      "Explore top investment opportunities in Uttrakhand's hill stations. Complete guide to real estate investment in Mussoorie, Nainital, and more.",
+  },
+  {
+    id: 2,
+    title: "Spiritual Tourism Boom: Why Rishikesh Properties Are in High Demand",
+    slug: "spiritual-tourism-boom-rishikesh-properties",
+    excerpt:
+      "The spiritual tourism industry in Rishikesh is experiencing unprecedented growth, making it a hotspot for property investment.",
+    content: "Rishikesh, known as the Yoga Capital of the World, has seen a massive surge in spiritual tourism...",
+    category: "Market Trends",
+    tags: ["Rishikesh", "Spiritual Tourism", "Property Demand", "Yoga"],
+    author: "Property Manager",
+    status: "Published",
+    publishedDate: "2024-01-18",
+    lastModified: "2024-01-19",
+    views: 890,
+    featured: false,
+    metaTitle: "Rishikesh Property Investment: Spiritual Tourism Boom 2024",
+    metaDescription:
+      "Why Rishikesh properties are in high demand due to the spiritual tourism boom. Investment insights and market analysis.",
+  },
+  {
+    id: 3,
+    title: "Hill Station Property Market Trends: What to Expect in 2024",
+    slug: "hill-station-property-market-trends-2024",
+    excerpt: "An in-depth analysis of the hill station property market trends and predictions for 2024.",
+    content: "The hill station property market in Uttrakhand is showing strong growth indicators...",
+    category: "Market Analysis",
+    tags: ["Market Trends", "2024 Predictions", "Hill Stations", "Property Market"],
+    author: "Admin User",
+    status: "Draft",
+    publishedDate: null,
+    lastModified: "2024-01-25",
+    views: 0,
+    featured: false,
+    metaTitle: "Hill Station Property Market Trends & Predictions 2024",
+    metaDescription:
+      "Complete analysis of hill station property market trends in Uttrakhand. Expert predictions and investment insights for 2024.",
+  },
+]
 
-export default function BlogAdminPage() {
-  const router = useRouter()
-  const { isAdmin, loading: authLoading } = useIsAdmin()
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+const categories = ["Investment", "Market Trends", "Market Analysis", "Destinations", "Spiritual Places", "Tourism"]
+
+function BlogManagementContent() {
+  const [posts, setPosts] = useState(mockBlogPosts)
+  const [selectedPost, setSelectedPost] = useState<(typeof mockBlogPosts)[0] | null>(null)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-  const [editingPost, setEditingPost] = useState<BlogPost | null>(null)
-  const [formData, setFormData] = useState({
-    title: "",
-    slug: "",
-    content: "",
-    excerpt: "",
-    published: false
+  const [searchTerm, setSearchTerm] = useState("")
+  const [statusFilter, setStatusFilter] = useState("all")
+  const [categoryFilter, setCategoryFilter] = useState("all")
+
+  const filteredPosts = posts.filter((post) => {
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    const matchesStatus = statusFilter === "all" || post.status.toLowerCase() === statusFilter.toLowerCase()
+    const matchesCategory = categoryFilter === "all" || post.category.toLowerCase() === categoryFilter.toLowerCase()
+
+    return matchesSearch && matchesStatus && matchesCategory
   })
 
-  // Redirect if not admin
-  useEffect(() => {
-    if (!authLoading && !isAdmin) {
-      router.push("/sign-in")
-    }
-  }, [isAdmin, authLoading, router])
-
-  // Fetch posts
-  useEffect(() => {
-    if (isAdmin) {
-      fetchPosts()
-    }
-  }, [isAdmin])
-
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch('/api/blog?admin=true')
-      const data = await response.json()
-      setPosts(data.posts || [])
-    } catch (error) {
-      console.error('Error fetching posts:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const generateSlug = (title: string) => {
-    return title
+  const handleAddPost = (formData: FormData) => {
+    const title = formData.get("title") as string
+    const slug = title
       .toLowerCase()
-      .replace(/[^a-z0-9 -]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim()
-  }
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "")
 
-  const handleCreatePost = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const slug = formData.slug || generateSlug(formData.title)
-      
-      const response = await fetch('/api/blog', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          slug
-        }),
-      })
-
-      if (response.ok) {
-        await fetchPosts()
-        setIsCreateDialogOpen(false)
-        setFormData({
-          title: "",
-          slug: "",
-          content: "",
-          excerpt: "",
-          published: false
-        })
-      }
-    } catch (error) {
-      console.error('Error creating post:', error)
+    const newPost = {
+      id: posts.length + 1,
+      title,
+      slug,
+      excerpt: formData.get("excerpt") as string,
+      content: formData.get("content") as string,
+      category: formData.get("category") as string,
+      tags: (formData.get("tags") as string).split(",").map((tag) => tag.trim()),
+      author: "Admin User",
+      status: formData.get("status") as string,
+      publishedDate: formData.get("status") === "Published" ? new Date().toISOString().split("T")[0] : null,
+      lastModified: new Date().toISOString().split("T")[0],
+      views: 0,
+      featured: formData.get("featured") === "on",
+      metaTitle: formData.get("metaTitle") as string,
+      metaDescription: formData.get("metaDescription") as string,
     }
+    setPosts([...posts, newPost])
+    setIsAddDialogOpen(false)
   }
 
-  const handleEditPost = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!editingPost) return
-
-    try {
-      const response = await fetch(`/api/blog/${editingPost.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        await fetchPosts()
-        setIsEditDialogOpen(false)
-        setEditingPost(null)
-        setFormData({
-          title: "",
-          slug: "",
-          content: "",
-          excerpt: "",
-          published: false
-        })
-      }
-    } catch (error) {
-      console.error('Error updating post:', error)
-    }
+  const handleDeletePost = (postId: number) => {
+    setPosts(posts.filter((post) => post.id !== postId))
   }
 
-  const handleDeletePost = async (postId: string) => {
-    if (!confirm('Are you sure you want to delete this post?')) return
-
-    try {
-      const response = await fetch(`/api/blog/${postId}`, {
-        method: 'DELETE',
-      })
-
-      if (response.ok) {
-        await fetchPosts()
-      }
-    } catch (error) {
-      console.error('Error deleting post:', error)
-    }
-  }
-
-  const openEditDialog = (post: BlogPost) => {
-    setEditingPost(post)
-    setFormData({
-      title: post.title,
-      slug: post.slug,
-      content: post.content,
-      excerpt: post.excerpt || "",
-      published: post.published
-    })
-    setIsEditDialogOpen(true)
-  }
-
-  if (authLoading || loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
+  const handleToggleStatus = (postId: number) => {
+    setPosts(
+      posts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              status: post.status === "Published" ? "Draft" : "Published",
+              publishedDate: post.status === "Draft" ? new Date().toISOString().split("T")[0] : post.publishedDate,
+            }
+          : post,
+      ),
     )
   }
 
-  if (!isAdmin) {
-    return null
+  const getStatusColor = (status: string) => {
+    return status === "Published" ? "default" : "secondary"
   }
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="flex items-center gap-4 mb-6">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => router.push('/dashboard-admin-2024')}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Dashboard
-        </Button>
-      </div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/admin" className="text-muted-foreground hover:text-primary">
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <Image
+              src="/images/mascot.png"
+              alt="Property in Uttrakhand"
+              width={40}
+              height={40}
+              className="rounded-lg"
+            />
+            <div>
+              <h1 className="font-serif font-black text-lg text-primary">Blog Management</h1>
+              <p className="text-sm text-muted-foreground">Create and manage blog content</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-sm text-muted-foreground hover:text-primary">
+              View Website
+            </Link>
+            <LogoutButton />
+          </div>
+        </div>
+      </header>
 
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold">Blog Management</h1>
-          <p className="text-muted-foreground">Create and manage blog posts</p>
+      <div className="container mx-auto px-4 py-6">
+        {/* Filters and Actions */}
+        <div className="flex flex-col lg:flex-row gap-4 mb-6">
+          <div className="flex-1 flex gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search posts by title, content, or tags..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="published">Published</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category.toLowerCase()}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-primary hover:bg-primary/90">
+                <Plus className="w-4 h-4 mr-2" />
+                New Post
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Create New Blog Post</DialogTitle>
+                <DialogDescription>Write and publish a new blog post</DialogDescription>
+              </DialogHeader>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleAddPost(new FormData(e.currentTarget))
+                }}
+                className="space-y-6"
+              >
+                <Tabs defaultValue="content" className="w-full">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="content">Content</TabsTrigger>
+                    <TabsTrigger value="settings">Settings</TabsTrigger>
+                    <TabsTrigger value="seo">SEO</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="content" className="space-y-4">
+                    <div>
+                      <Label htmlFor="title">Title</Label>
+                      <Input id="title" name="title" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="excerpt">Excerpt</Label>
+                      <Textarea id="excerpt" name="excerpt" rows={2} required />
+                    </div>
+                    <div>
+                      <Label htmlFor="content">Content</Label>
+                      <Textarea id="content" name="content" rows={12} required />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="settings" className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="category">Category</Label>
+                        <Select name="category" required>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {categories.map((category) => (
+                              <SelectItem key={category} value={category}>
+                                {category}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="status">Status</Label>
+                        <Select name="status" defaultValue="Draft">
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Draft">Draft</SelectItem>
+                            <SelectItem value="Published">Published</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="tags">Tags (comma separated)</Label>
+                      <Input id="tags" name="tags" placeholder="e.g., Investment, Hill Stations, Real Estate" />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input type="checkbox" id="featured" name="featured" className="rounded" />
+                      <Label htmlFor="featured">Featured Post</Label>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="seo" className="space-y-4">
+                    <div>
+                      <Label htmlFor="metaTitle">Meta Title</Label>
+                      <Input id="metaTitle" name="metaTitle" />
+                    </div>
+                    <div>
+                      <Label htmlFor="metaDescription">Meta Description</Label>
+                      <Textarea id="metaDescription" name="metaDescription" rows={3} />
+                    </div>
+                  </TabsContent>
+                </Tabs>
+
+                <div className="flex justify-end gap-2">
+                  <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" className="bg-primary hover:bg-primary/90">
+                    Create Post
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
 
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              New Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Create New Blog Post</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleCreatePost} className="space-y-4">
-              <div>
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => {
-                    setFormData({ ...formData, title: e.target.value })
-                    if (!formData.slug) {
-                      setFormData(prev => ({ ...prev, slug: generateSlug(e.target.value) }))
-                    }
-                  }}
-                  required
-                />
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Posts</p>
+                  <p className="text-2xl font-bold">{posts.length}</p>
+                </div>
+                <FileText className="h-8 w-8 text-primary" />
               </div>
-              <div>
-                <Label htmlFor="slug">Slug</Label>
-                <Input
-                  id="slug"
-                  value={formData.slug}
-                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  required
-                />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Published</p>
+                  <p className="text-2xl font-bold text-green-600">
+                    {posts.filter((p) => p.status === "Published").length}
+                  </p>
+                </div>
+                <Globe className="h-8 w-8 text-green-600" />
               </div>
-              <div>
-                <Label htmlFor="excerpt">Excerpt</Label>
-                <Textarea
-                  id="excerpt"
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  rows={3}
-                />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Drafts</p>
+                  <p className="text-2xl font-bold text-yellow-600">
+                    {posts.filter((p) => p.status === "Draft").length}
+                  </p>
+                </div>
+                <Clock className="h-8 w-8 text-yellow-600" />
               </div>
-              <div>
-                <Label htmlFor="content">Content (HTML)</Label>
-                <Textarea
-                  id="content"
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  rows={10}
-                  required
-                />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Views</p>
+                  <p className="text-2xl font-bold">
+                    {posts.reduce((sum, post) => sum + post.views, 0).toLocaleString()}
+                  </p>
+                </div>
+                <Eye className="h-8 w-8 text-primary" />
               </div>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="published"
-                  checked={formData.published}
-                  onCheckedChange={(checked) => setFormData({ ...formData, published: checked })}
-                />
-                <Label htmlFor="published">Published</Label>
-              </div>
-              <div className="flex gap-2">
-                <Button type="submit">Create Post</Button>
-                <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      {posts.length === 0 ? (
+        {/* Posts Table */}
         <Card>
-          <CardContent className="text-center py-8">
-            <p className="text-muted-foreground mb-4">No blog posts yet.</p>
-            <Button onClick={() => setIsCreateDialogOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Create Your First Post
-            </Button>
+          <CardHeader>
+            <CardTitle>Blog Posts ({filteredPosts.length})</CardTitle>
+            <CardDescription>Manage your blog content and publications</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Author</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Views</TableHead>
+                  <TableHead>Published</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredPosts.map((post) => (
+                  <TableRow key={post.id}>
+                    <TableCell>
+                      <div>
+                        <p className="font-medium">{post.title}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-1">{post.excerpt}</p>
+                        {post.featured && (
+                          <Badge variant="outline" className="mt-1">
+                            Featured
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{post.category}</Badge>
+                    </TableCell>
+                    <TableCell className="text-sm">{post.author}</TableCell>
+                    <TableCell>
+                      <Badge variant={getStatusColor(post.status) as any}>{post.status}</Badge>
+                    </TableCell>
+                    <TableCell>{post.views.toLocaleString()}</TableCell>
+                    <TableCell className="text-sm">{post.publishedDate || "—"}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button size="sm" variant="outline" onClick={() => setSelectedPost(post)}>
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle>{selectedPost?.title}</DialogTitle>
+                              <DialogDescription>
+                                {selectedPost?.category} • {selectedPost?.publishedDate || "Draft"}
+                              </DialogDescription>
+                            </DialogHeader>
+                            {selectedPost && (
+                              <div className="space-y-4">
+                                <div>
+                                  <h4 className="font-semibold mb-2">Excerpt</h4>
+                                  <p className="text-sm text-muted-foreground">{selectedPost.excerpt}</p>
+                                </div>
+                                <div>
+                                  <h4 className="font-semibold mb-2">Content</h4>
+                                  <div className="text-sm max-h-60 overflow-y-auto border rounded p-3">
+                                    {selectedPost.content}
+                                  </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div>
+                                    <h4 className="font-semibold mb-2">Tags</h4>
+                                    <div className="flex flex-wrap gap-1">
+                                      {selectedPost.tags.map((tag, index) => (
+                                        <Badge key={index} variant="outline" className="text-xs">
+                                          {tag}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <h4 className="font-semibold mb-2">Stats</h4>
+                                    <p className="text-sm">Views: {selectedPost.views.toLocaleString()}</p>
+                                    <p className="text-sm">Last Modified: {selectedPost.lastModified}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </DialogContent>
+                        </Dialog>
+                        <Button size="sm" variant="outline">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleToggleStatus(post.id)}
+                          className={post.status === "Published" ? "text-yellow-600" : "text-green-600"}
+                        >
+                          {post.status === "Published" ? "Unpublish" : "Publish"}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleDeletePost(post.id)}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
-      ) : (
-        <div className="grid gap-4">
-          {posts.map((post) => (
-            <Card key={post.id}>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      {post.title}
-                      <Badge variant={post.published ? "default" : "secondary"}>
-                        {post.published ? "Published" : "Draft"}
-                      </Badge>
-                    </CardTitle>
-                    <CardDescription>
-                      Slug: {post.slug} • Created: {new Date(post.created_at).toLocaleDateString()}
-                    </CardDescription>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => router.push(`/blog/${post.slug}`)}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => openEditDialog(post)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => handleDeletePost(post.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              {post.excerpt && (
-                <CardContent>
-                  <p className="text-muted-foreground">{post.excerpt}</p>
-                </CardContent>
-              )}
-            </Card>
-          ))}
-        </div>
-      )}
+      </div>
+    </div>
+  )
+}
 
-      {/* Edit Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Edit Blog Post</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleEditPost} className="space-y-4">
-            <div>
-              <Label htmlFor="edit-title">Title</Label>
-              <Input
-                id="edit-title"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="edit-slug">Slug</Label>
-              <Input
-                id="edit-slug"
-                value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="edit-excerpt">Excerpt</Label>
-              <Textarea
-                id="edit-excerpt"
-                value={formData.excerpt}
-                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                rows={3}
-              />
-            </div>
-            <div>
-              <Label htmlFor="edit-content">Content (HTML)</Label>
-              <Textarea
-                id="edit-content"
-                value={formData.content}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                rows={10}
-                required
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="edit-published"
-                checked={formData.published}
-                onCheckedChange={(checked) => setFormData({ ...formData, published: checked })}
-              />
-              <Label htmlFor="edit-published">Published</Label>
-            </div>
-            <div className="flex gap-2">
-              <Button type="submit">Update Post</Button>
-              <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </main>
+export default function BlogManagementPage() {
+  return (
+    <AuthGuard requireAuth={true}>
+      <BlogManagementContent />
+    </AuthGuard>
   )
 }
