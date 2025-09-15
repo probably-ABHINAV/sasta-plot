@@ -1,520 +1,297 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useIsAdmin } from "@/hooks/use-is-admin"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Trash2, Mail, Phone, User, MessageSquare, Clock, ArrowLeft, Eye, EyeOff } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MessageSquare, Eye, Reply, Phone, Search, ArrowLeft, Clock, CheckCircle, AlertCircle } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { AuthGuard } from "@/components/auth-guard"
-import { LogoutButton } from "@/components/logout-button"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
-// Mock inquiry data
-const mockInquiries = [
-  {
-    id: 1,
-    name: "Rajesh Sharma",
-    email: "rajesh.sharma@email.com",
-    phone: "+91 98765 43210",
-    property: "Himalayan Villa in Mussoorie",
-    propertyId: "PLT001",
-    subject: "Property Viewing Request",
-    message:
-      "I am interested in viewing this property. Could you please arrange a site visit? I am available on weekends.",
-    date: "2024-01-25",
-    time: "14:30",
-    status: "New",
-    priority: "High",
-    source: "Website",
-    assignedTo: "Admin User",
-    lastResponse: null,
-    notes: [],
-    budget: "₹2-3 Cr",
-    timeline: "Within 3 months",
-    location: "Delhi",
-  },
-  {
-    id: 2,
-    name: "Priya Gupta",
-    email: "priya.gupta@email.com",
-    phone: "+91 87654 32109",
-    property: "Mountain View Cottage in Nainital",
-    propertyId: "PLT003",
-    subject: "Investment Inquiry",
-    message:
-      "Looking for a weekend home investment. Is this property available for immediate purchase? What are the legal formalities?",
-    date: "2024-01-24",
-    time: "10:15",
-    status: "In Progress",
-    priority: "Medium",
-    source: "Phone Call",
-    assignedTo: "Property Manager",
-    lastResponse: "2024-01-24",
-    notes: [
-      { date: "2024-01-24", note: "Called customer, scheduled site visit for weekend", author: "Property Manager" },
-    ],
-    budget: "₹80L - 1Cr",
-    timeline: "Within 6 months",
-    location: "Mumbai",
-  },
-  {
-    id: 3,
-    name: "Amit Kumar",
-    email: "amit.kumar@email.com",
-    phone: "+91 76543 21098",
-    property: "Spiritual Retreat Plot - Rishikesh",
-    propertyId: "PLT002",
-    subject: "Commercial Investment",
-    message:
-      "Interested in this plot for developing a yoga retreat center. Need details about commercial approvals and development guidelines.",
-    date: "2024-01-23",
-    time: "16:45",
-    status: "Closed",
-    priority: "Low",
-    source: "Email",
-    assignedTo: "Admin User",
-    lastResponse: "2024-01-23",
-    notes: [
-      { date: "2024-01-23", note: "Provided all commercial development details", author: "Admin User" },
-      { date: "2024-01-23", note: "Customer decided to proceed with purchase", author: "Admin User" },
-    ],
-    budget: "₹50L - 80L",
-    timeline: "Immediate",
-    location: "Bangalore",
-  },
-]
+interface Inquiry {
+  id: string
+  name: string
+  email: string
+  phone?: string
+  message?: string
+  plot_id?: string
+  status: 'pending' | 'seen' | 'responded' | 'closed'
+  created_at: string
+  updated_at?: string
+}
 
-const inquiryStatuses = ["New", "In Progress", "Closed", "Follow Up Required"]
-const priorities = ["Low", "Medium", "High", "Urgent"]
-const sources = ["Website", "Phone Call", "Email", "Walk-in", "Referral"]
+export default function InquiriesAdminPage() {
+  const router = useRouter()
+  const { isAdmin, loading: authLoading } = useIsAdmin()
+  const [inquiries, setInquiries] = useState<Inquiry[]>([])
+  const [loading, setLoading] = useState(true)
+  const [filter, setFilter] = useState<string>('all')
 
-function InquiryManagementContent() {
-  const [inquiries, setInquiries] = useState(mockInquiries)
-  const [selectedInquiry, setSelectedInquiry] = useState<(typeof mockInquiries)[0] | null>(null)
-  const [isReplyDialogOpen, setIsReplyDialogOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
-  const [priorityFilter, setPriorityFilter] = useState("all")
+  // Redirect if not admin
+  useEffect(() => {
+    if (!authLoading && !isAdmin) {
+      router.push("/sign-in")
+    }
+  }, [isAdmin, authLoading, router])
 
-  const filteredInquiries = inquiries.filter((inquiry) => {
-    const matchesSearch =
-      inquiry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      inquiry.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      inquiry.property.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      inquiry.subject.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === "all" || inquiry.status.toLowerCase() === statusFilter.toLowerCase()
-    const matchesPriority = priorityFilter === "all" || inquiry.priority.toLowerCase() === priorityFilter.toLowerCase()
+  // Fetch inquiries
+  useEffect(() => {
+    if (isAdmin) {
+      fetchInquiries()
+    }
+  }, [isAdmin])
 
-    return matchesSearch && matchesStatus && matchesPriority
-  })
-
-  const handleStatusChange = (inquiryId: number, newStatus: string) => {
-    setInquiries(inquiries.map((inquiry) => (inquiry.id === inquiryId ? { ...inquiry, status: newStatus } : inquiry)))
+  const fetchInquiries = async () => {
+    try {
+      const response = await fetch('/api/inquiry?admin=true')
+      const data = await response.json()
+      // Add default status to existing inquiries that might not have it
+      const inquiriesWithStatus = (data.inquiries || []).map((inquiry: any) => ({
+        ...inquiry,
+        status: inquiry.status || 'pending'
+      }))
+      setInquiries(inquiriesWithStatus)
+    } catch (error) {
+      console.error('Error fetching inquiries:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleAddNote = (inquiryId: number, note: string) => {
-    setInquiries(
-      inquiries.map((inquiry) =>
-        inquiry.id === inquiryId
-          ? {
-              ...inquiry,
-              notes: [
-                ...inquiry.notes,
-                {
-                  date: new Date().toISOString().split("T")[0],
-                  note,
-                  author: "Admin User",
-                },
-              ],
-            }
-          : inquiry,
-      ),
-    )
+  const handleStatusUpdate = async (inquiryId: string, newStatus: string) => {
+    try {
+      const response = await fetch(`/api/inquiry/${inquiryId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      })
+
+      if (response.ok) {
+        await fetchInquiries()
+      } else {
+        console.error('Failed to update inquiry status')
+      }
+    } catch (error) {
+      console.error('Error updating inquiry status:', error)
+    }
+  }
+
+  const handleDeleteInquiry = async (inquiryId: string) => {
+    if (!confirm('Are you sure you want to delete this inquiry?')) return
+
+    try {
+      const response = await fetch(`/api/inquiry/${inquiryId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        await fetchInquiries()
+      } else {
+        console.error('Failed to delete inquiry')
+      }
+    } catch (error) {
+      console.error('Error deleting inquiry:', error)
+    }
   }
 
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "new":
-        return "destructive"
-      case "in progress":
-        return "default"
-      case "closed":
-        return "secondary"
-      case "follow up required":
-        return "outline"
+    switch (status) {
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+      case 'seen':
+        return 'bg-blue-100 text-blue-800 hover:bg-blue-200'
+      case 'responded':
+        return 'bg-green-100 text-green-800 hover:bg-green-200'
+      case 'closed':
+        return 'bg-gray-100 text-gray-800 hover:bg-gray-200'
       default:
-        return "default"
+        return 'bg-gray-100 text-gray-800 hover:bg-gray-200'
     }
   }
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority.toLowerCase()) {
-      case "urgent":
-        return "destructive"
-      case "high":
-        return "default"
-      case "medium":
-        return "secondary"
-      case "low":
-        return "outline"
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return <Clock className="h-3 w-3" />
+      case 'seen':
+        return <Eye className="h-3 w-3" />
+      case 'responded':
+        return <MessageSquare className="h-3 w-3" />
+      case 'closed':
+        return <EyeOff className="h-3 w-3" />
       default:
-        return "outline"
+        return <Clock className="h-3 w-3" />
     }
+  }
+
+  const filteredInquiries = inquiries.filter(inquiry => {
+    if (filter === 'all') return true
+    return inquiry.status === filter
+  })
+
+  const statusCounts = {
+    all: inquiries.length,
+    pending: inquiries.filter(i => i.status === 'pending').length,
+    seen: inquiries.filter(i => i.status === 'seen').length,
+    responded: inquiries.filter(i => i.status === 'responded').length,
+    closed: inquiries.filter(i => i.status === 'closed').length,
+  }
+
+  if (authLoading || loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
+    return null
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/admin" className="text-muted-foreground hover:text-primary">
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-            <Image
-              src="/images/mascot.png"
-              alt="Property in Uttrakhand"
-              width={40}
-              height={40}
-              className="rounded-lg"
-            />
-            <div>
-              <h1 className="font-serif font-black text-lg text-primary">Inquiry Management</h1>
-              <p className="text-sm text-muted-foreground">Track and manage customer inquiries</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-sm text-muted-foreground hover:text-primary">
-              View Website
-            </Link>
-            <LogoutButton />
-          </div>
-        </div>
-      </header>
+    <main className="container mx-auto px-4 py-8">
+      <div className="flex items-center gap-4 mb-6">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.push('/dashboard-admin-2024')}
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Dashboard
+        </Button>
+      </div>
 
-      <div className="container mx-auto px-4 py-6">
-        {/* Filters and Actions */}
-        <div className="flex flex-col lg:flex-row gap-4 mb-6">
-          <div className="flex-1 flex gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search inquiries by name, email, property, or subject..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                {inquiryStatuses.map((status) => (
-                  <SelectItem key={status} value={status.toLowerCase()}>
-                    {status}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Priority</SelectItem>
-                {priorities.map((priority) => (
-                  <SelectItem key={priority} value={priority.toLowerCase()}>
-                    {priority}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-3xl font-bold">Inquiry Management</h1>
+          <p className="text-muted-foreground">Manage customer inquiries and track their status</p>
         </div>
+      </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Inquiries</p>
-                  <p className="text-2xl font-bold">{inquiries.length}</p>
-                </div>
-                <MessageSquare className="h-8 w-8 text-primary" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">New</p>
-                  <p className="text-2xl font-bold text-red-600">
-                    {inquiries.filter((i) => i.status === "New").length}
-                  </p>
-                </div>
-                <AlertCircle className="h-8 w-8 text-red-600" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">In Progress</p>
-                  <p className="text-2xl font-bold text-blue-600">
-                    {inquiries.filter((i) => i.status === "In Progress").length}
-                  </p>
-                </div>
-                <Clock className="h-8 w-8 text-blue-600" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Closed</p>
-                  <p className="text-2xl font-bold text-green-600">
-                    {inquiries.filter((i) => i.status === "Closed").length}
-                  </p>
-                </div>
-                <CheckCircle className="h-8 w-8 text-green-600" />
-              </div>
-            </CardContent>
-          </Card>
+      {/* Status Filter Tabs */}
+      <div className="mb-6">
+        <div className="flex gap-2 flex-wrap">
+          {[
+            { key: 'all', label: 'All', count: statusCounts.all },
+            { key: 'pending', label: 'Pending', count: statusCounts.pending },
+            { key: 'seen', label: 'Seen', count: statusCounts.seen },
+            { key: 'responded', label: 'Responded', count: statusCounts.responded },
+            { key: 'closed', label: 'Closed', count: statusCounts.closed },
+          ].map((item) => (
+            <Button
+              key={item.key}
+              variant={filter === item.key ? "default" : "outline"}
+              onClick={() => setFilter(item.key)}
+              className="gap-2"
+            >
+              {item.label}
+              <Badge variant="secondary" className="ml-1">
+                {item.count}
+              </Badge>
+            </Button>
+          ))}
         </div>
+      </div>
 
-        {/* Inquiries Table */}
+      {filteredInquiries.length === 0 ? (
         <Card>
-          <CardHeader>
-            <CardTitle>Customer Inquiries ({filteredInquiries.length})</CardTitle>
-            <CardDescription>Manage and respond to customer inquiries</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Property</TableHead>
-                  <TableHead>Subject</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Priority</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredInquiries.map((inquiry) => (
-                  <TableRow key={inquiry.id}>
-                    <TableCell>
-                      <div>
-                        <p className="font-medium">{inquiry.name}</p>
-                        <p className="text-sm text-muted-foreground">{inquiry.email}</p>
-                        <p className="text-sm text-muted-foreground">{inquiry.phone}</p>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <p className="font-medium text-sm">{inquiry.property}</p>
-                        <p className="text-xs text-muted-foreground">ID: {inquiry.propertyId}</p>
-                      </div>
-                    </TableCell>
-                    <TableCell className="max-w-xs">
-                      <p className="font-medium text-sm">{inquiry.subject}</p>
-                      <p className="text-xs text-muted-foreground line-clamp-2">{inquiry.message}</p>
-                    </TableCell>
-                    <TableCell>
-                      <Select value={inquiry.status} onValueChange={(value) => handleStatusChange(inquiry.id, value)}>
-                        <SelectTrigger className="w-32">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {inquiryStatuses.map((status) => (
-                            <SelectItem key={status} value={status}>
-                              {status}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={getPriorityColor(inquiry.priority) as any}>{inquiry.priority}</Badge>
-                    </TableCell>
-                    <TableCell className="text-sm">
-                      {inquiry.date}
-                      <br />
-                      <span className="text-xs text-muted-foreground">{inquiry.time}</span>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button size="sm" variant="outline" onClick={() => setSelectedInquiry(inquiry)}>
-                              <Eye className="w-4 h-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-                            <DialogHeader>
-                              <DialogTitle>Inquiry Details - {selectedInquiry?.name}</DialogTitle>
-                              <DialogDescription>
-                                {selectedInquiry?.subject} • {selectedInquiry?.date}
-                              </DialogDescription>
-                            </DialogHeader>
-                            {selectedInquiry && (
-                              <Tabs defaultValue="details" className="w-full">
-                                <TabsList className="grid w-full grid-cols-4">
-                                  <TabsTrigger value="details">Details</TabsTrigger>
-                                  <TabsTrigger value="message">Message</TabsTrigger>
-                                  <TabsTrigger value="notes">Notes</TabsTrigger>
-                                  <TabsTrigger value="response">Response</TabsTrigger>
-                                </TabsList>
-
-                                <TabsContent value="details" className="space-y-4">
-                                  <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                      <Label>Customer Name</Label>
-                                      <p className="text-sm">{selectedInquiry.name}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Email</Label>
-                                      <p className="text-sm">{selectedInquiry.email}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Phone</Label>
-                                      <p className="text-sm">{selectedInquiry.phone}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Location</Label>
-                                      <p className="text-sm">{selectedInquiry.location}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Property</Label>
-                                      <p className="text-sm">{selectedInquiry.property}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Property ID</Label>
-                                      <p className="text-sm">{selectedInquiry.propertyId}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Budget</Label>
-                                      <p className="text-sm">{selectedInquiry.budget}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Timeline</Label>
-                                      <p className="text-sm">{selectedInquiry.timeline}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Source</Label>
-                                      <p className="text-sm">{selectedInquiry.source}</p>
-                                    </div>
-                                    <div>
-                                      <Label>Assigned To</Label>
-                                      <p className="text-sm">{selectedInquiry.assignedTo}</p>
-                                    </div>
-                                  </div>
-                                </TabsContent>
-
-                                <TabsContent value="message" className="space-y-4">
-                                  <div>
-                                    <Label>Subject</Label>
-                                    <p className="text-sm font-medium">{selectedInquiry.subject}</p>
-                                  </div>
-                                  <div>
-                                    <Label>Message</Label>
-                                    <div className="text-sm border rounded p-3 bg-muted/50">
-                                      {selectedInquiry.message}
-                                    </div>
-                                  </div>
-                                </TabsContent>
-
-                                <TabsContent value="notes" className="space-y-4">
-                                  <div>
-                                    <Label>Internal Notes</Label>
-                                    <div className="space-y-2 mt-2">
-                                      {selectedInquiry.notes.length > 0 ? (
-                                        selectedInquiry.notes.map((note, index) => (
-                                          <div key={index} className="border rounded p-3 bg-muted/50">
-                                            <p className="text-sm">{note.note}</p>
-                                            <p className="text-xs text-muted-foreground mt-1">
-                                              {note.author} • {note.date}
-                                            </p>
-                                          </div>
-                                        ))
-                                      ) : (
-                                        <p className="text-sm text-muted-foreground">No notes added yet.</p>
-                                      )}
-                                    </div>
-                                    <div className="mt-4">
-                                      <Textarea placeholder="Add a note..." rows={3} />
-                                      <Button className="mt-2 bg-primary hover:bg-primary/90" size="sm">
-                                        Add Note
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </TabsContent>
-
-                                <TabsContent value="response" className="space-y-4">
-                                  <div>
-                                    <Label>Send Response</Label>
-                                    <div className="space-y-3 mt-2">
-                                      <Input placeholder="Subject" defaultValue={`Re: ${selectedInquiry.subject}`} />
-                                      <Textarea placeholder="Type your response..." rows={6} />
-                                      <div className="flex gap-2">
-                                        <Button className="bg-primary hover:bg-primary/90">
-                                          <Reply className="w-4 h-4 mr-2" />
-                                          Send Email
-                                        </Button>
-                                        <Button variant="outline">
-                                          <Phone className="w-4 h-4 mr-2" />
-                                          Call Customer
-                                        </Button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </TabsContent>
-                              </Tabs>
-                            )}
-                          </DialogContent>
-                        </Dialog>
-                        <Button size="sm" className="bg-primary hover:bg-primary/90">
-                          <Reply className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <CardContent className="text-center py-8">
+            <MessageSquare className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+            <p className="text-muted-foreground">
+              {filter === 'all' ? 'No inquiries yet.' : `No ${filter} inquiries.`}
+            </p>
           </CardContent>
         </Card>
-      </div>
-    </div>
-  )
-}
-
-export default function InquiryManagementPage() {
-  return (
-    <AuthGuard requireAuth={true}>
-      <InquiryManagementContent />
-    </AuthGuard>
+      ) : (
+        <div className="grid gap-4">
+          {filteredInquiries.map((inquiry) => (
+            <Card key={inquiry.id} className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div className="space-y-2">
+                    <CardTitle className="flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      {inquiry.name}
+                      <Badge className={`${getStatusColor(inquiry.status)} flex items-center gap-1`}>
+                        {getStatusIcon(inquiry.status)}
+                        {inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
+                      </Badge>
+                    </CardTitle>
+                    <CardDescription className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-3 w-3" />
+                        <a href={`mailto:${inquiry.email}`} className="hover:underline">
+                          {inquiry.email}
+                        </a>
+                      </div>
+                      {inquiry.phone && (
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-3 w-3" />
+                          <a href={`tel:${inquiry.phone}`} className="hover:underline">
+                            {inquiry.phone}
+                          </a>
+                        </div>
+                      )}
+                      <div className="text-xs text-muted-foreground">
+                        Created: {new Date(inquiry.created_at).toLocaleDateString()} at {new Date(inquiry.created_at).toLocaleTimeString()}
+                        {inquiry.updated_at && (
+                          <> • Updated: {new Date(inquiry.updated_at).toLocaleDateString()}</>
+                        )}
+                      </div>
+                    </CardDescription>
+                  </div>
+                  <div className="flex gap-2">
+                    <Select
+                      value={inquiry.status}
+                      onValueChange={(value) => handleStatusUpdate(inquiry.id, value)}
+                    >
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="seen">Seen</SelectItem>
+                        <SelectItem value="responded">Responded</SelectItem>
+                        <SelectItem value="closed">Closed</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDeleteInquiry(inquiry.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              {inquiry.message && (
+                <CardContent>
+                  <div className="bg-muted p-4 rounded-lg">
+                    <div className="flex items-start gap-2">
+                      <MessageSquare className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                      <div>
+                        <p className="text-sm font-medium mb-1">Message:</p>
+                        <p className="text-sm text-muted-foreground">{inquiry.message}</p>
+                        {inquiry.plot_id && (
+                          <p className="text-xs text-muted-foreground mt-2">
+                            Related to Plot ID: {inquiry.plot_id}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              )}
+            </Card>
+          ))}
+        </div>
+      )}
+    </main>
   )
 }

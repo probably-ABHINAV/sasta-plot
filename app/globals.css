@@ -1,273 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import "tailwindcss";
-
-@custom-variant dark (&:is(.dark *));
-
-:root {
-  --background: #ffffff;
-  --foreground: #1f2937;
-  --card: #ffffff;
-  --card-foreground: #1f2937;
-  --popover: #ffffff;
-  --popover-foreground: #1f2937;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #1f2937;
-  --muted: #f8fafc;
-  --muted-foreground: #64748b;
-  --accent: #e11d48;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --border: #e2e8f0;
-  --input: #f8fafc;
-  --ring: #3b82f6;
-  --radius: 0.75rem;
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card: #1e293b;
-  --card-foreground: #f8fafc;
-  --popover: #0f172a;
-  --popover-foreground: #f8fafc;
-  --primary: #3b82f6;
-  --primary-foreground: #0f172a;
-  --secondary: #1e293b;
-  --secondary-foreground: #f8fafc;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #e11d48;
-  --accent-foreground: #f8fafc;
-  --destructive: #ef4444;
-  --destructive-foreground: #f8fafc;
-  --border: #334155;
-  --input: #1e293b;
-  --ring: #3b82f6;
-}
-
-@theme inline {
-  --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-serif: ui-serif, Georgia, serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
 }
 
 @layer base {
+  :root {
+    /* 🎨 Light mode colors - Logo matching theme (Orange/Red from logo) */
+    --background: 0 0% 100%;
+    --foreground: 14 100% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 14 100% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 14 100% 15%;
+
+    --primary: 14 100% 45%; /* Orange from logo */
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 20 100% 96%;
+    --secondary-foreground: 14 100% 15%;
+
+    --muted: 30 40% 96%;
+    --muted-foreground: 20 50% 45%;
+
+    --accent: 20 100% 94%;
+    --accent-foreground: 14 100% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 20 30% 89%;
+    --input: 20 30% 89%;
+    --ring: 14 100% 45%;
+
+    --radius: 0.5rem;
+
+    /* Chart palette - Logo inspired (Orange/Red theme) */
+    --chart-1: 14 100% 50%; /* Primary orange */
+    --chart-2: 20 100% 45%; /* Secondary orange */
+    --chart-3: 10 90% 55%; /* Red-orange */
+    --chart-4: 30 85% 50%; /* Yellow-orange */
+    --chart-5: 5 95% 60%; /* Deep orange-red */
+  }
+
+  .dark {
+    /* 🌙 Dark mode colors - Logo matching theme (Orange/Red from logo) */
+    --background: 14 30% 4%;
+    --foreground: 20 100% 95%;
+
+    --card: 14 30% 6%;
+    --card-foreground: 20 100% 95%;
+
+    --popover: 14 30% 6%;
+    --popover-foreground: 20 100% 95%;
+
+    --primary: 14 100% 60%; /* Bright orange for dark mode */
+    --primary-foreground: 14 30% 10%;
+
+    --secondary: 14 20% 12%;
+    --secondary-foreground: 20 100% 95%;
+
+    --muted: 14 20% 12%;
+    --muted-foreground: 20 30% 65%;
+
+    --accent: 14 20% 15%;
+    --accent-foreground: 20 100% 95%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 14 20% 15%;
+    --input: 14 20% 15%;
+    --ring: 14 100% 60%;
+
+    /* Dark chart palette - Logo inspired (Orange/Red theme) */
+    --chart-1: 14 100% 60%; /* Primary orange */
+    --chart-2: 20 100% 55%; /* Secondary orange */
+    --chart-3: 10 90% 65%; /* Red-orange */
+    --chart-4: 30 85% 60%; /* Yellow-orange */
+    --chart-5: 5 95% 70%; /* Deep orange-red */
+  }
+
+  /* Global reset */
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  html {
+    color-scheme: light dark;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-inter), var(--font-open-sans), system-ui, sans-serif;
   }
-}
 
-/* Custom animations */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  /* Custom font utilities */
+  .font-heading {
+    font-family: var(--font-montserrat), system-ui, sans-serif;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .font-mono {
+    font-family: var(--font-geist-mono), "Courier New", monospace;
   }
-}
-
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounce-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  70% {
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out;
-}
-
-.animate-slide-in-left {
-  animation: slide-in-left 0.6s ease-out;
-}
-
-.animate-slide-in-right {
-  animation: slide-in-right 0.6s ease-out;
-}
-
-.animate-scale-in {
-  animation: scale-in 0.4s ease-out;
-}
-
-.animate-bounce-in {
-  animation: bounce-in 0.6s ease-out;
-}
-
-/* Gradient text */
-.text-gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
-}
-
-/* Animation delays */
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-/* Glassmorphism effect */
-.glass {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Hover effects */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Loading states */
-.loading {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* Responsive typography */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2.5rem !important;
-  }
-  h2 {
-    font-size: 2rem !important;
-  }
-}
-
-/* Button hover effects */
-.btn-glow {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-glow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.btn-glow:hover::before {
-  left: 100%;
 }
