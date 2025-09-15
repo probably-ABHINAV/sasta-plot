@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { MapPin, Square, Calendar } from "lucide-react"
 import { FadeInSection, Stagger, Item } from "@/components/animated-section"
 import { useState, useEffect } from "react"
+import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 
 interface Plot {
   id: string
@@ -114,7 +115,7 @@ export function PlotsGrid() {
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1 font-semibold text-primary">
-                        <span>₹{plot.price.toLocaleString()}</span>
+                        <span>{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</span>
                       </div>
                       <span className="text-xs text-muted-foreground">
                         {new Date(plot.created_at).toLocaleDateString()}

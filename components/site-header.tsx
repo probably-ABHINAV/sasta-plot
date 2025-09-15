@@ -18,6 +18,7 @@ export function SiteHeader() {
               alt="Sasta Plots"
               width={120}
               height={40}
+              priority
               className="h-8"
               style={{ width: 'auto', height: '32px' }}
             />

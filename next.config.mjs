@@ -1,5 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Production-friendly configuration
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+        ],
+      },
+    ]
+  },
+  // Add output configuration for better compatibility
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },

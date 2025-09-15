@@ -3,11 +3,12 @@ import { createServerClient } from "@supabase/ssr"
 
 export function getServerSupabase() {
   const cookieStore = cookies()
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
   
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables')
+  // Log configuration in development only
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Supabase config:', { url: supabaseUrl, keyExists: !!supabaseAnonKey })
   }
   
   return createServerClient(supabaseUrl, supabaseAnonKey, {

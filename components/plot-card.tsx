@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge";
+import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 
 export interface Plot {
   id: string
@@ -21,7 +22,7 @@ interface PlotCardProps {
 }
 
 export function PlotCard({ plot }: PlotCardProps) {
-  const plotSlug = plot.slug || `plot-${plot.id}`
+  const plotSlug = plot.slug || plot.id.toString()
 
   return (
     <Link href={`/plots/${plotSlug}`} className="block group h-full">
@@ -46,7 +47,7 @@ export function PlotCard({ plot }: PlotCardProps) {
           </div>
           <div className="flex items-center justify-between mt-auto">
             <div className="space-y-1">
-              <p className="text-2xl font-black text-primary bg-primary/10 px-3 py-1 rounded-lg">₹{typeof plot.price === 'string' ? plot.price : plot.price.toLocaleString()}</p>
+              <p className="text-2xl font-black text-primary bg-primary/10 px-3 py-1 rounded-lg">{typeof plot.price === 'string' ? plot.price : formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</p>
               <p className="text-muted-foreground text-sm font-medium">
                 {plot.size}
               </p>

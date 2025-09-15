@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import ImageUploader from "../image-uploader"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { formatPrice, calculatePriceFromFormatted, getPriceFormatSuggestion, type PriceFormat } from "@/lib/utils/price"
 
 type PlotRow = {
   id: string
@@ -38,6 +40,7 @@ export default function PlotsManager() {
     title: string
     location: string
     price: string
+    priceFormat: PriceFormat
     size_sqyd: string
     size_unit: string
     description: string
@@ -47,6 +50,7 @@ export default function PlotsManager() {
     title: "",
     location: "",
     price: "",
+    priceFormat: "lakh" as PriceFormat,
     size_sqyd: "",
     size_unit: "sq.yd",
     description: "",
@@ -57,6 +61,7 @@ export default function PlotsManager() {
     title: "",
     location: "",
     price: "",
+    priceFormat: "lakh" as PriceFormat,
     size_sqyd: "",
     size_unit: "sq.yd",
     description: "",
@@ -87,7 +92,7 @@ export default function PlotsManager() {
         body: JSON.stringify({
           title: form.title,
           location: form.location,
-          price: Number(form.price),
+          price: calculatePriceFromFormatted(form.price, form.priceFormat),
           size_sqyd: Number(form.size_sqyd),
           description: form.description,
           featured: form.featured,
@@ -103,6 +108,7 @@ export default function PlotsManager() {
         title: "",
         location: "",
         price: "",
+        priceFormat: "lakh" as PriceFormat,
         size_sqyd: "",
         size_unit: "sq.yd",
         description: "",
@@ -122,7 +128,8 @@ export default function PlotsManager() {
     setEditForm({
       title: plot.title,
       location: plot.location,
-      price: plot.price.toString(),
+      price: (plot.price / 100000).toFixed(2), // Convert to lakh format for editing
+      priceFormat: getPriceFormatSuggestion(plot.price),
       size_sqyd: plot.size_sqyd.toString(),
       size_unit: "sq.yd",
       description: plot.description || "",
@@ -141,7 +148,7 @@ export default function PlotsManager() {
         body: JSON.stringify({
           title: editForm.title,
           location: editForm.location,
-          price: Number(editForm.price),
+          price: calculatePriceFromFormatted(editForm.price, editForm.priceFormat),
           size_sqyd: Number(editForm.size_sqyd),
           size_unit: editForm.size_unit,
           description: editForm.description,
@@ -195,14 +202,27 @@ export default function PlotsManager() {
             onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
             required
           />
-          <input
-            className="rounded border px-3 py-2"
-            placeholder="Price (INR)"
-            type="number"
-            value={form.price}
-            onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
-            required
-          />
+          <div className="flex gap-2">
+            <input
+              className="flex-1 rounded border px-3 py-2"
+              placeholder="Price"
+              type="number"
+              step="0.01"
+              value={form.price}
+              onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
+              required
+            />
+            <select
+              className="rounded border px-3 py-2 bg-background"
+              value={form.priceFormat}
+              onChange={(e) => setForm((f) => ({ ...f, priceFormat: e.target.value as PriceFormat }))}
+            >
+              <option value="lakh">Lakh</option>
+              <option value="crore">Crore</option>
+              <option value="thousand">Thousand</option>
+              <option value="raw">Raw (₹)</option>
+            </select>
+          </div>
           <div className="flex gap-2">
             <input
               className="flex-1 rounded border px-3 py-2"
@@ -284,14 +304,27 @@ export default function PlotsManager() {
                       onChange={(e) => setEditForm(f => ({ ...f, location: e.target.value }))}
                       required
                     />
-                    <input
-                      className="w-full rounded border px-3 py-2"
-                      placeholder="Price"
-                      type="number"
-                      value={editForm.price}
-                      onChange={(e) => setEditForm(f => ({ ...f, price: e.target.value }))}
-                      required
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        className="flex-1 rounded border px-3 py-2"
+                        placeholder="Price"
+                        type="number"
+                        step="0.01"
+                        value={editForm.price}
+                        onChange={(e) => setEditForm(f => ({ ...f, price: e.target.value }))}
+                        required
+                      />
+                      <select
+                        className="rounded border px-3 py-2 bg-background"
+                        value={editForm.priceFormat}
+                        onChange={(e) => setEditForm(f => ({ ...f, priceFormat: e.target.value as PriceFormat }))}
+                      >
+                        <option value="lakh">Lakh</option>
+                        <option value="crore">Crore</option>
+                        <option value="thousand">Thousand</option>
+                        <option value="raw">Raw (₹)</option>
+                      </select>
+                    </div>
                     <input
                       className="w-full rounded border px-3 py-2"
                       placeholder="Size"
@@ -358,7 +391,7 @@ export default function PlotsManager() {
                       <div className="mb-1 text-xs text-muted-foreground">#{p.id}</div>
                       <h3 className="font-heading text-lg">{p.title}</h3>
                       <p className="text-sm">{p.location}</p>
-                      <p className="text-sm">{typeof p.price === 'string' ? p.price : `₹${Number(p.price).toLocaleString()}`}</p>
+                      <p className="text-sm">{typeof p.price === 'string' ? p.price : formatPrice(Number(p.price), getPriceFormatSuggestion(Number(p.price)))}</p>
                       <p className="text-sm">Size: {typeof p.size_sqyd === 'string' ? p.size_sqyd : `${p.size_sqyd} sq.yd`}</p>
                       <p className="text-sm">Slug: {p.slug}</p>
                       <p className="text-sm">Images: {p.images?.length || 0}</p>
