@@ -6,6 +6,7 @@ import { Montserrat, Open_Sans, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { Chatbot } from "@/components/chatbot";
 import { Suspense } from "react";
 import { MotionProvider } from "@/components/motion-provider";
 
@@ -55,6 +56,7 @@ export default function RootLayout({
             <SiteHeader />
             {children}
             <SiteFooter />
+            <Chatbot />
           </MotionProvider>
         </Suspense>
         <Analytics />

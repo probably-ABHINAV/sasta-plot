@@ -42,6 +42,9 @@ export function SiteHeader() {
           <Link href="/blog" className="text-sm text-foreground/80 hover:text-foreground transition-colors">
             Blog
           </Link>
+          <Link href="/faq" className="text-sm text-foreground/80 hover:text-foreground transition-colors">
+            FAQ
+          </Link>
           <Link href="/contact" className="text-sm text-foreground/80 hover:text-foreground transition-colors">
             Contact
           </Link>
@@ -102,6 +105,11 @@ export function SiteHeader() {
               <li>
                 <Link href="/blog" className="block rounded-md px-3 py-2 text-sm hover:bg-secondary">
                   Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="block rounded-md px-3 py-2 text-sm hover:bg-secondary">
+                  FAQ
                 </Link>
               </li>
               <li>
