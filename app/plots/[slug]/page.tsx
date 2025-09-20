@@ -1,7 +1,14 @@
 import Image from "next/image"
 import { notFound } from "next/navigation"
+import dynamic from "next/dynamic"
 import InquiryForm from "@/components/inquiry-form"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
+
+// Dynamic import to avoid SSR issues with Leaflet
+const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
+  ssr: false,
+  loading: () => <div className="h-[400px] bg-muted rounded-lg flex items-center justify-center">Loading map...</div>
+})
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   return { title: `${params.slug} | Sasta Plots` }
@@ -27,6 +34,8 @@ export default async function PlotDetail({ params }: { params: { slug: string } 
         featured,
         slug,
         image_url,
+        latitude,
+        longitude,
         created_at,
         plot_images (
           url
@@ -53,6 +62,8 @@ export default async function PlotDetail({ params }: { params: { slug: string } 
         slug: plot.slug,
         image: plot.image_url,
         image_url: plot.image_url,
+        latitude: plot.latitude,
+        longitude: plot.longitude,
         created_at: plot.created_at,
         plot_images: plot.plot_images || []
       };
@@ -81,6 +92,8 @@ export default async function PlotDetail({ params }: { params: { slug: string } 
             slug: foundPlot.slug || '',
             image: foundPlot.image || '',
             image_url: foundPlot.image || '',
+            latitude: foundPlot.latitude,
+            longitude: foundPlot.longitude,
             created_at: foundPlot.created_at || new Date().toISOString(),
             plot_images: foundPlot.image ? [{ url: foundPlot.image }] : []
           };
@@ -128,6 +141,20 @@ export default async function PlotDetail({ params }: { params: { slug: string } 
             <InquiryForm plotId={plotData.id} />
           </div>
         </div>
+        
+        {/* Map Section */}
+        {plotData.latitude != null && plotData.longitude != null && (
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">Location</h2>
+            <Map 
+              latitude={plotData.latitude} 
+              longitude={plotData.longitude}
+              title={plotData.title}
+              height="400px"
+              className="w-full"
+            />
+          </div>
+        )}
       </main>
     )
   } catch (error) {

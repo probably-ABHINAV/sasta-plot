@@ -117,3 +117,6 @@
     font-family: var(--font-geist-mono), "Courier New", monospace;
   }
 }
+
+/* Leaflet CSS for map component */
+@import 'leaflet/dist/leaflet.css';

@@ -6,42 +6,16 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { MapPin, Square, Calendar } from "lucide-react"
 import { FadeInSection, Stagger, Item } from "@/components/animated-section"
-import { useState, useEffect } from "react"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 
-interface Plot {
-  id: string
-  title: string
-  slug: string
-  description: string
-  price: number
-  location: string
-  size_sqyd: number
-  image_url?: string
-  images?: string[]; // Added to handle multiple images
-  featured: boolean
-  created_at: string
+import { Plot } from "@/types"
+
+interface PlotsGridProps {
+  plots: Plot[]
+  loading: boolean
 }
 
-export function PlotsGrid() {
-  const [plots, setPlots] = useState<Plot[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchPlots = async () => {
-      try {
-        const response = await fetch('/api/plots')
-        const data = await response.json()
-        setPlots(data.plots || [])
-      } catch (error) {
-        console.error('Error fetching plots:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchPlots()
-  }, [])
+export function PlotsGrid({ plots, loading }: PlotsGridProps) {
 
   if (loading) {
     return (
@@ -74,11 +48,11 @@ export function PlotsGrid() {
             // Prioritize uploaded images from database
             const imageUrl = (plot.images && plot.images.length > 0)
               ? plot.images[0]
-              : plot.image_url ||
+              : plot.image ||
                 `/images/plots/plot-${(plots.indexOf(plot) % 6) + 1}.png`
             return (
             <Item key={plot.id}>
-              <Link href={`/plots/${plot.slug}`} className="group block">
+              <Link href={`/plots/${plot.slug || plot.id}`} className="group block">
                 <Card className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] h-full flex flex-col rounded-xl shadow-lg">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gray-100">
                     <Image
@@ -109,16 +83,16 @@ export function PlotsGrid() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Square className="h-4 w-4" />
-                        <span>{plot.size_sqyd} sq. yd.</span>
+                        <span>{plot.size_sqyd ? `${plot.size_sqyd} sq. yd.` : plot.size || 'Size TBD'}</span>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1 font-semibold text-primary">
-                        <span>{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</span>
+                        <span>{plot.price ? formatPrice(Number(plot.price), getPriceFormatSuggestion(Number(plot.price))) : 'Price on request'}</span>
                       </div>
                       <span className="text-xs text-muted-foreground">
-                        {new Date(plot.created_at).toLocaleDateString()}
+                        {plot.created_at ? new Date(plot.created_at).toLocaleDateString() : ''}
                       </span>
                     </div>
                   </CardContent>

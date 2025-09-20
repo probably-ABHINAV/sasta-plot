@@ -12,6 +12,8 @@ export interface Plot {
   facing?: string
   approval_type?: string
   featured?: boolean
+  latitude?: number
+  longitude?: number
   created_at?: string
   updated_at?: string
 }

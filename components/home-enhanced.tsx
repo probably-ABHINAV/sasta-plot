@@ -10,6 +10,15 @@ import { FadeInSection, Stagger, Item } from "@/components/animated-section"
 import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } from "lucide-react"
 import PlotsGallery from "@/components/plots-gallery"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
+import dynamic from "next/dynamic"
+
+// Dynamic import to avoid SSR issues with Leaflet
+const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
+  ssr: false,
+  loading: () => <div className="h-[400px] bg-muted rounded-lg flex items-center justify-center">Loading map...</div>
+})
+import { Testimonials } from "@/components/testimonials"
+import { CtaBanner } from "@/components/cta-banner"
 
 interface Plot {
   id: string
@@ -102,11 +111,7 @@ export function HomeEnhanced() {
                 </div>
 
                 {/* Trust Indicators */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8">
-                  <div className="text-center">
-                    <div className="text-2xl font-black text-orange-600">1000+</div>
-                    <div className="text-sm text-gray-600">Happy Families</div>
-                  </div>
+                <div className="grid grid-cols-3 gap-6 pt-8">
                   <div className="text-center">
                     <div className="text-2xl font-black text-orange-600">100%</div>
                     <div className="text-sm text-gray-600">Verified Docs</div>
@@ -569,6 +574,24 @@ export function HomeEnhanced() {
           </div>
         </section>
       </FadeInSection>
+
+      {/* Map Section */}
+      <section className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+        <div className="text-center mb-8">
+          <h2 className="font-heading text-3xl font-semibold md:text-4xl">Our Location</h2>
+          <p className="mt-2 text-muted-foreground">Find us on the map</p>
+        </div>
+        <Map 
+          latitude={30.402437}
+          longitude={77.750105}
+          zoom={16}
+          title="Our Office Location"
+          height="400px"
+        />
+      </section>
+
+      {/* CTA Banner */}
+      <CtaBanner />
     </div>
   )
 }

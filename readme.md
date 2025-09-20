@@ -1,5 +1,17 @@
 # Sasta Plots - Real Estate Platform
 
+## Recent Changes
+
+### September 20, 2025 - Replit Environment Setup
+- Configured Next.js application for Replit environment
+- Updated next.config.mjs to remove X-Frame-Options header for iframe compatibility
+- Added Cache-Control headers to prevent caching issues in development
+- Installed all Node.js dependencies (389 packages)
+- Set up development workflow on port 5000 with 0.0.0.0 host binding
+- Created .env.local with placeholder Supabase configuration
+- Configured deployment settings for production (autoscale with npm build/start)
+- Verified application runs successfully with all core features operational
+
 ## Overview
 
 Sasta Plots is a modern real estate platform focused on making affordable plot ownership accessible to everyday families. The application serves as a marketplace for residential and commercial plots with verified documentation, transparent pricing, and flexible payment options. Built with Next.js 14 and TypeScript, the platform features a clean, user-friendly interface that emphasizes trust and transparency in real estate transactions.

@@ -1,4 +1,4 @@
-import { PlotsGrid } from "@/components/plots-grid"
+import { PlotsPageClient } from "@/components/plots-page-client"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -13,7 +13,8 @@ export default function PlotsPage() {
         <h1 className="font-heading text-3xl font-semibold md:text-4xl">Explore Plots</h1>
         <p className="mt-2 text-muted-foreground">Handpicked projects with clear documentation and great access.</p>
       </section>
-      <PlotsGrid />
+      
+      <PlotsPageClient />
     </main>
   )
 }
