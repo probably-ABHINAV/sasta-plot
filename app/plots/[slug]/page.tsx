@@ -128,16 +128,113 @@ export default async function PlotDetail({ params }: { params: { slug: string } 
               ))}
             </div>
           </div>
-          <div className="space-y-4">
-            <h1 className="text-2xl font-semibold md:text-3xl">{plotData.title}</h1>
-            <p className="text-muted-foreground">{plotData.location}</p>
-            <div className="flex flex-wrap gap-2 text-sm">
-              {plotData.size ? <span className="rounded bg-muted px-2 py-0.5">{plotData.size}</span> : null}
-              {plotData.price ? (
-                <span className="rounded bg-muted px-2 py-0.5">{formatPrice(Number(plotData.price), getPriceFormatSuggestion(Number(plotData.price)))}</span>
-              ) : null}
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <h1 className="text-3xl font-bold text-gray-900 md:text-4xl leading-tight">{plotData.title}</h1>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <p className="text-base">{plotData.location}</p>
+              </div>
             </div>
-            <p>{plotData.description}</p>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
+                <div className="text-sm text-orange-700 font-medium mb-1">Total Price</div>
+                <div className="text-2xl font-bold text-orange-900">
+                  {plotData.price ? formatPrice(Number(plotData.price), getPriceFormatSuggestion(Number(plotData.price))) : 'Contact Us'}
+                </div>
+                {plotData.price && plotData.size_sqyd > 0 && (
+                  <div className="text-xs text-orange-600 mt-1">
+                    ₹{Math.round(Number(plotData.price) / plotData.size_sqyd).toLocaleString('en-IN')}/sq.yd
+                  </div>
+                )}
+              </div>
+              
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
+                <div className="text-sm text-blue-700 font-medium mb-1">Plot Size</div>
+                <div className="text-2xl font-bold text-blue-900">
+                  {plotData.size_sqyd || 'TBD'} <span className="text-lg">sq.yd</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200 space-y-5">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3 border-b pb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+                Property Details
+              </h2>
+              
+              {(() => {
+                const description = plotData.description || '';
+                const parts = description.split('Highlights:');
+                const mainDescription = parts[0]?.trim();
+                const highlights = parts[1]?.trim();
+                
+                return (
+                  <>
+                    {mainDescription && (
+                      <div className="bg-white rounded-xl p-6 border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-gray-100">
+                          <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <circle cx="12" cy="12" r="10"/>
+                              <path d="M12 16v-4"/>
+                              <path d="M12 8h.01"/>
+                            </svg>
+                          </div>
+                          <h3 className="text-xl font-bold text-gray-900">Overview</h3>
+                        </div>
+                        <div className="space-y-4">
+                          {mainDescription.split('. ').filter(sentence => sentence.trim()).map((sentence, idx, arr) => {
+                            const fullSentence = sentence.trim() + (idx < arr.length - 1 && !sentence.endsWith('.') ? '.' : '');
+                            return fullSentence ? (
+                              <p key={idx} className="text-gray-700 leading-relaxed text-base pl-4 border-l-2 border-blue-200">
+                                {fullSentence}
+                              </p>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {highlights && (
+                      <div className="bg-white rounded-lg p-5 border border-gray-200">
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          Key Highlights
+                        </h3>
+                        <div className="space-y-4">
+                          {highlights.split('\n').filter(line => line.trim()).map((line, idx) => {
+                            const trimmedLine = line.trim();
+                            if (trimmedLine.match(/^[A-Z][^:]+:/)) {
+                              const [heading, ...rest] = trimmedLine.split(':');
+                              return (
+                                <div key={idx} className="border-l-4 border-orange-500 pl-4 py-2 bg-orange-50 rounded-r">
+                                  <h4 className="font-semibold text-orange-900 mb-1">{heading}</h4>
+                                  <p className="text-gray-700 text-sm">{rest.join(':').trim()}</p>
+                                </div>
+                              );
+                            }
+                            return trimmedLine ? (
+                              <p key={idx} className="text-gray-700 text-sm pl-4">{trimmedLine}</p>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
+
             <InquiryForm plotId={plotData.id} />
           </div>
         </div>

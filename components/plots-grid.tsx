@@ -87,13 +87,15 @@ export function PlotsGrid({ plots, loading }: PlotsGridProps) {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 font-semibold text-primary">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-1 font-bold text-xl text-primary">
                         <span>{plot.price ? formatPrice(Number(plot.price), getPriceFormatSuggestion(Number(plot.price))) : 'Price on request'}</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">
-                        {plot.created_at ? new Date(plot.created_at).toLocaleDateString() : ''}
-                      </span>
+                      {plot.price && plot.size_sqyd && plot.size_sqyd > 0 && (
+                        <div className="text-xs text-muted-foreground">
+                          ₹{Math.round(Number(plot.price) / plot.size_sqyd).toLocaleString('en-IN')}/sq.yd
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

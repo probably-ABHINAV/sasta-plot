@@ -241,7 +241,14 @@ export function HomeEnhanced() {
                               {plot.size_sqyd} sq. yd.
                             </p>
                           </div>
-                          <p className="text-xl font-bold text-emerald-400">{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</p>
+                          <div>
+                            <p className="text-xl font-bold text-emerald-400">{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</p>
+                            {plot.price && plot.size_sqyd > 0 && (
+                              <p className="text-sm text-emerald-300">
+                                ₹{Math.round(Number(plot.price) / plot.size_sqyd).toLocaleString('en-IN')}/sq.yd
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -344,7 +351,14 @@ export function HomeEnhanced() {
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-2xl font-bold text-emerald-600">{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</span>
+                          <div>
+                            <span className="text-2xl font-bold text-emerald-600">{formatPrice(plot.price, getPriceFormatSuggestion(plot.price))}</span>
+                            {plot.price && plot.size_sqyd > 0 && (
+                              <p className="text-xs text-muted-foreground mt-1">
+                                ₹{Math.round(Number(plot.price) / plot.size_sqyd).toLocaleString('en-IN')}/sq.yd
+                              </p>
+                            )}
+                          </div>
                           <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                             View Details
                           </Button>

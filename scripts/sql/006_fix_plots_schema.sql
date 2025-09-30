@@ -36,7 +36,9 @@ $$;
 alter table public.plots 
 add column if not exists images text[] default '{}',
 add column if not exists image_url text,
-add column if not exists slug text;
+add column if not exists slug text,
+add column if not exists latitude double precision,
+add column if not exists longitude double precision;
 
 -- Generate slugs for existing records without slugs, handling duplicates
 DO $$

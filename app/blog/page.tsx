@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from "next/link"
@@ -68,7 +67,7 @@ export default function BlogPage() {
       <p className="mt-2 max-w-prose text-muted-foreground">
         Buying tips, location spotlights, and legal checklists to help you make confident decisions.
       </p>
-      
+
       {posts.length > 0 ? (
         <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (

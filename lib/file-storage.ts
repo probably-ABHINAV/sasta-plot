@@ -1,3 +1,4 @@
+
 import fs from 'fs';
 import path from 'path';
 
@@ -148,7 +149,28 @@ class FileStorage {
 
   // Blog operations
   getBlogPosts(): BlogPost[] {
-    return this.readData<BlogPost>('blog');
+    try {
+      // Try to get from file storage first
+      const posts = this.readData<BlogPost>('blog');
+      if (posts.length > 0) {
+        return posts;
+      }
+      
+      // Fallback to JSON data if no posts in file storage
+      const blogDataPath = path.join(process.cwd(), 'data', 'blog.json');
+      if (fs.existsSync(blogDataPath)) {
+        const blogData = JSON.parse(fs.readFileSync(blogDataPath, 'utf-8'));
+        return blogData.map((post: any) => ({
+          ...post,
+          id: post.id
+        }));
+      }
+      
+      return [];
+    } catch (error) {
+      console.error('Error loading blog posts:', error);
+      return [];
+    }
   }
 
   createBlogPost(postData: Omit<BlogPost, 'id' | 'created_at'>): BlogPost {
