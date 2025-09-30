@@ -113,145 +113,137 @@ export default async function PlotDetail({ params }: { params: { slug: string } 
         ? [plotData.image] 
         : ["/images/plots/plot-1.png"]
 
+    const description = plotData.description || '';
+    const parts = description.split('Highlights:');
+    const mainDescription = parts[0]?.trim();
+    const highlights = parts[1]?.trim();
+
     return (
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid gap-8 md:grid-cols-2">
-          <div className="grid gap-3">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border">
-              <Image src={images[0] || "/placeholder.svg"} alt={plotData.title} fill className="object-cover" />
-            </div>
-            <div className="grid grid-cols-4 gap-2">
-              {images.slice(1, 5).map((src, i) => (
-                <div key={i} className="relative aspect-[4/3] overflow-hidden rounded border">
-                  <Image src={src || "/placeholder.svg"} alt={`${plotData.title} ${i + 2}`} fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <h1 className="text-3xl font-bold text-gray-900 md:text-4xl leading-tight">{plotData.title}</h1>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-                <p className="text-base">{plotData.location}</p>
+      <main className="min-h-screen bg-gradient-to-b from-orange-50/30 via-white to-blue-50/30">
+        <div className="mx-auto max-w-7xl px-4 py-12">
+          <div className="grid gap-12 lg:grid-cols-5">
+            <div className="lg:col-span-3 space-y-6">
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-gray-200">
+                <Image src={images[0] || "/placeholder.svg"} alt={plotData.title} fill className="object-cover" priority />
+              </div>
+              <div className="grid grid-cols-4 gap-3">
+                {images.slice(1, 5).map((src, i) => (
+                  <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-xl shadow-lg ring-1 ring-gray-200 hover:ring-primary transition-all cursor-pointer hover:scale-105">
+                    <Image src={src || "/placeholder.svg"} alt={`${plotData.title} ${i + 2}`} fill className="object-cover" />
+                  </div>
+                ))}
               </div>
             </div>
+            
+            <div className="lg:col-span-2 space-y-8">
+              <div className="space-y-4">
+                <h1 className="text-4xl font-black text-gray-900 leading-tight bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+                  {plotData.title}
+                </h1>
+                
+                <div className="flex flex-wrap gap-3 text-sm font-semibold">
+                  <div className="flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd"/>
+                    </svg>
+                    {plotData.size_sqyd ? `${plotData.size_sqyd} sq.yd` : 'Size TBD'}
+                  </div>
+                  <div className="flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                    </svg>
+                    Freehold
+                  </div>
+                  <div className="flex items-center gap-2 bg-purple-100 text-purple-800 px-4 py-2 rounded-full">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd"/>
+                    </svg>
+                    {plotData.price && plotData.size_sqyd > 0 ? `₹${Math.round(Number(plotData.price) / plotData.size_sqyd).toLocaleString('en-IN')}/sq.yd` : 'Price on request'}
+                  </div>
+                </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
-                <div className="text-sm text-orange-700 font-medium mb-1">Total Price</div>
-                <div className="text-2xl font-bold text-orange-900">
+                <div className="flex items-center gap-2 text-gray-600">
+                  <svg className="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                  </svg>
+                  <span className="font-medium">{plotData.location}</span>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-8 shadow-xl text-white">
+                <div className="text-sm font-semibold uppercase tracking-wider mb-2 opacity-90">Total Investment</div>
+                <div className="text-4xl font-black mb-3">
                   {plotData.price ? formatPrice(Number(plotData.price), getPriceFormatSuggestion(Number(plotData.price))) : 'Contact Us'}
                 </div>
-                {plotData.price && plotData.size_sqyd > 0 && (
-                  <div className="text-xs text-orange-600 mt-1">
-                    ₹{Math.round(Number(plotData.price) / plotData.size_sqyd).toLocaleString('en-IN')}/sq.yd
-                  </div>
-                )}
+                <div className="text-sm opacity-90">Ready to develop • Clear title</div>
               </div>
               
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
-                <div className="text-sm text-blue-700 font-medium mb-1">Plot Size</div>
-                <div className="text-2xl font-bold text-blue-900">
-                  {plotData.size_sqyd || 'TBD'} <span className="text-lg">sq.yd</span>
+              <InquiryForm plotId={plotData.id} />
+            </div>
+          </div>
+          
+          {mainDescription && (
+            <div className="mt-16 bg-white rounded-2xl shadow-lg p-8 ring-1 ring-gray-200">
+              <p className="text-lg text-gray-700 leading-relaxed">{mainDescription}</p>
+            </div>
+          )}
+          
+          <div className="mt-12 grid md:grid-cols-2 gap-6">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg ring-1 ring-blue-200">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-blue-500 p-3 rounded-xl">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                  </svg>
                 </div>
+                <h2 className="text-2xl font-bold text-gray-900">Lifestyle & Convenience</h2>
+              </div>
+              <p className="text-gray-700 leading-relaxed">Perfect for families seeking peaceful surroundings with easy access to schools, markets, and daily essentials. Enjoy morning walks, private gardens, and space for personal landscaping in a well-connected neighborhood.</p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 shadow-lg ring-1 ring-green-200">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-green-500 p-3 rounded-xl">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">Investment Rationale</h2>
+              </div>
+              <p className="text-gray-700 leading-relaxed">Steady appreciation potential with limited supply in the area. Ideal for conservative investors and family offices seeking low-volatility land parcels with improving local infrastructure.</p>
+            </div>
+          </div>
+          
+          <div className="mt-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 shadow-2xl text-white">
+            <div className="flex items-start gap-4">
+              <div className="bg-white/20 p-3 rounded-xl">
+                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold mb-3">Our Assurance to You</h2>
+                <p className="text-white/95 leading-relaxed">Every plot comes with a verified title pack. We provide complete assistance with registration, transfer procedures, and construction permission guidance to ensure a smooth, hassle-free experience.</p>
               </div>
             </div>
-
-            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200 space-y-5">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3 border-b pb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                </svg>
-                Property Details
-              </h2>
-              
-              {(() => {
-                const description = plotData.description || '';
-                const parts = description.split('Highlights:');
-                const mainDescription = parts[0]?.trim();
-                const highlights = parts[1]?.trim();
-                
-                return (
-                  <>
-                    {mainDescription && (
-                      <div className="bg-white rounded-xl p-6 border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-4 pb-3 border-b-2 border-gray-100">
-                          <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <circle cx="12" cy="12" r="10"/>
-                              <path d="M12 16v-4"/>
-                              <path d="M12 8h.01"/>
-                            </svg>
-                          </div>
-                          <h3 className="text-xl font-bold text-gray-900">Overview</h3>
-                        </div>
-                        <div className="space-y-4">
-                          {mainDescription.split('. ').filter(sentence => sentence.trim()).map((sentence, idx, arr) => {
-                            const fullSentence = sentence.trim() + (idx < arr.length - 1 && !sentence.endsWith('.') ? '.' : '');
-                            return fullSentence ? (
-                              <p key={idx} className="text-gray-700 leading-relaxed text-base pl-4 border-l-2 border-blue-200">
-                                {fullSentence}
-                              </p>
-                            ) : null;
-                          })}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {highlights && (
-                      <div className="bg-white rounded-lg p-5 border border-gray-200">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polyline points="20 6 9 17 4 12"/>
-                          </svg>
-                          Key Highlights
-                        </h3>
-                        <div className="space-y-4">
-                          {highlights.split('\n').filter(line => line.trim()).map((line, idx) => {
-                            const trimmedLine = line.trim();
-                            if (trimmedLine.match(/^[A-Z][^:]+:/)) {
-                              const [heading, ...rest] = trimmedLine.split(':');
-                              return (
-                                <div key={idx} className="border-l-4 border-orange-500 pl-4 py-2 bg-orange-50 rounded-r">
-                                  <h4 className="font-semibold text-orange-900 mb-1">{heading}</h4>
-                                  <p className="text-gray-700 text-sm">{rest.join(':').trim()}</p>
-                                </div>
-                              );
-                            }
-                            return trimmedLine ? (
-                              <p key={idx} className="text-gray-700 text-sm pl-4">{trimmedLine}</p>
-                            ) : null;
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                );
-              })()}
+          </div>
+          
+          {plotData.latitude != null && plotData.longitude != null && (
+            <div className="mt-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Location & Connectivity</h2>
+              <div className="rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-200">
+                <Map 
+                  latitude={plotData.latitude} 
+                  longitude={plotData.longitude}
+                  title={plotData.title}
+                  height="450px"
+                  className="w-full"
+                />
+              </div>
             </div>
-
-            <InquiryForm plotId={plotData.id} />
-          </div>
+          )}
         </div>
-        
-        {/* Map Section */}
-        {plotData.latitude != null && plotData.longitude != null && (
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Location</h2>
-            <Map 
-              latitude={plotData.latitude} 
-              longitude={plotData.longitude}
-              title={plotData.title}
-              height="400px"
-              className="w-full"
-            />
-          </div>
-        )}
       </main>
     )
   } catch (error) {
