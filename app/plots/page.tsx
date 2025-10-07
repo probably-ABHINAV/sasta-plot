@@ -1,20 +1,4 @@
-import { PlotsPageClient } from "@/components/plots-page-client"
-import { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Available Plots",
-  description: "Browse our collection of plots for sale"
-}
-
-export default function PlotsPage() {
-  return (
-    <main>
-      <section className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-        <h1 className="font-heading text-3xl font-semibold md:text-4xl">Explore Plots</h1>
-        <p className="mt-2 text-muted-foreground">Handpicked projects with clear documentation and great access.</p>
-      </section>
-      
-      <PlotsPageClient />
-    </main>
-  )
+import React from "react"; export const metadata = { title: "Plots - Sasta Plots"
+}; const ITEMS = [ { href: "/plots/bajrang-vatika", title: "Bajrang Vatika - The Private Retreat", desc: "Plot sizes: 1200–2400 sq.ft • Price: ₹16800 Per sq/yard onwards • Ready-to-develop" }, { href: "/plots/friends-colony-phase-1", title: "Friends Colony Phase-1", desc: "Plot sizes: 1000–2000 sq.ft • Price: ₹16800 Per sq/yard onwards • Construction-ready" }, { href: "/plots/zams-gardenia", title: "Zams Gardenia (Bihta - Greater Patna corridor)", desc: "Plot sizes: 700–2000 sq.ft • Price: ₹16500 Per sq/yard onwards • Planned & developing" },
+]; export default function Page() { return ( <main className="max-w-5xl mx-auto py-12 px-6"> <h1 className="text-3xl font-bold mb-6">Plots</h1> <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> {ITEMS.map((it) => ( <a key={it.href} href={it.href} className="block p-4 border rounded hover:shadow"> <h3 className="font-semibold text-lg">{it.title}</h3> <p className="text-sm mt-2">{it.desc}</p> <div className="mt-4 text-blue-600 font-medium">View details →</div> </a> ))} </div> </main> );
 }
