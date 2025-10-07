@@ -1,10 +1,10 @@
 "use client"
 
-import { useParams } from "next/navigation"
-import { notFound } from "next/navigation"
+import { useParams, notFound } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
+// ✅ Full content for each blog
 const staticPosts = [
   {
     id: "1",
@@ -12,7 +12,14 @@ const staticPosts = [
     slug: "greater-dehradun-investment-2025",
     created_at: "2025-10-08",
     content: `
-      <p>Greater Dehradun is emerging as one of the most promising real estate destinations in Uttarakhand...</p>
+      <p>Greater Dehradun is emerging as one of the most promising real estate destinations in Uttarakhand. With the <strong>Delhi–Dehradun Economic Corridor</strong>, land prices are appreciating quickly while still being affordable compared to old Dehradun.</p>
+      <ul>
+        <li>Plots at ₹6000–₹9000 per गज (vs. ₹15000–₹25000 in old city)</li>
+        <li>Located near AIIMS Rishikesh, Jolly Grant Airport, Doon University</li>
+        <li>R2 Zoning allows legal residential construction</li>
+        <li>Upcoming Metro Lite, tourism, and wellness growth by 2030</li>
+      </ul>
+      <p>For investors, this region offers <em>affordable entry + long-term appreciation</em>.</p>
     `
   },
   {
@@ -21,7 +28,21 @@ const staticPosts = [
     slug: "zams-gardenia-real-estate-mistakes",
     created_at: "2025-10-08",
     content: `
-      <p>Real estate investments fail when buyers choose wrong locations, ignore legal checks...</p>
+      <p>Real estate investments fail when buyers:</p>
+      <ul>
+        <li>Pick wrong locations with low ROI</li>
+        <li>Ignore legal clearance (RERA, NOC, registry)</li>
+        <li>Expect quick profits instead of 5–10 years</li>
+      </ul>
+      <p><strong>Zam’s Gardenia</strong> addresses these risks with:</p>
+      <ul>
+        <li>Prime location near IIT Patna & Bihta Airport</li>
+        <li>NH-139 connectivity, rail & air links</li>
+        <li>RERA certified, R-Zone classified plots</li>
+        <li>Basic amenities: roads, sewer, electricity, water</li>
+        <li>Financial ease: EMIs & bank loan support</li>
+      </ul>
+      <p>It’s a <em>safe, smart, and future-proof project</em> for investors.</p>
     `
   },
   {
@@ -30,7 +51,14 @@ const staticPosts = [
     slug: "greater-dehradun-hindi-2025",
     created_at: "2025-10-08",
     content: `
-      <p>ग्रेटर देहरादून 2025 में रियल एस्टेट निवेश के लिए सबसे बेहतरीन स्थानों में से एक बन रहा है...</p>
+      <p>ग्रेटर देहरादून 2025 में रियल एस्टेट निवेश के लिए सबसे बेहतरीन स्थानों में से एक बन रहा है।</p>
+      <ul>
+        <li>प्लॉट रेट ₹6000–₹9000 प्रति गज</li>
+        <li>AIIMS ऋषिकेश, जॉलीग्रांट एयरपोर्ट और दून यूनिवर्सिटी नज़दीक</li>
+        <li>R2 ज़ोनिंग से वैध आवासीय निर्माण की अनुमति</li>
+        <li>मेट्रो लाइट और पर्यटन विकास से भविष्य में भारी ग्रोथ</li>
+      </ul>
+      <p>यह इलाका निवेशकों को <strong>सस्ती एंट्री और लंबी अवधि का रिटर्न</strong> देता है।</p>
     `
   },
   {
@@ -39,15 +67,27 @@ const staticPosts = [
     slug: "zams-gardenia-hindi",
     created_at: "2025-10-08",
     content: `
-      <p>रियल एस्टेट निवेशक अक्सर गलत लोकेशन चुनने और लीगल चेक न करने जैसी गलतियाँ करते हैं...</p>
+      <p>रियल एस्टेट निवेशक अक्सर ये गलतियाँ करते हैं:</p>
+      <ul>
+        <li>गलत लोकेशन चुनना</li>
+        <li>RERA या रजिस्ट्री जैसे कानूनी क्लियरेंस को नज़रअंदाज़ करना</li>
+        <li>जल्दी मुनाफा चाहना</li>
+      </ul>
+      <p><strong>ज़ैम्स गार्डेनिया</strong> इन समस्याओं का हल देता है:</p>
+      <ul>
+        <li>IIT पटना और बिहटा एयरपोर्ट के पास प्राइम लोकेशन</li>
+        <li>NH-139 और रेल/एयर कनेक्टिविटी</li>
+        <li>RERA अप्रूव्ड और R-Zone क्लासिफाइड</li>
+        <li>बेसिक सुविधाएँ: सड़क, पानी, बिजली, सीवर</li>
+        <li>EMI और बैंक लोन की सुविधा</li>
+      </ul>
+      <p>यह एक <em>सुरक्षित और भविष्य-दृष्टि वाला निवेश विकल्प</em> है।</p>
     `
   }
 ]
 
 export default function BlogPostPage() {
-  const params = useParams()
-  const { slug } = params
-
+  const { slug } = useParams()
   const post = staticPosts.find((p) => p.slug === slug)
 
   if (!post) {
@@ -64,7 +104,7 @@ export default function BlogPostPage() {
           </Badge>
         </CardHeader>
         <CardContent>
-          {/* Render raw HTML safely */}
+          {/* ✅ full blog content now renders */}
           <div
             className="prose prose-gray max-w-none"
             dangerouslySetInnerHTML={{ __html: post.content }}
