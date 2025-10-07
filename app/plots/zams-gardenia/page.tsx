@@ -7,14 +7,27 @@ export const metadata = {
 export default function Page() { 
   return ( 
     <main className="max-w-4xl mx-auto py-12 px-6"> 
+      {/* Project Image */}
+      <div className="mb-8">
+        <img 
+          src="/plot-1.png" // 🔹 Replace with your actual image path or URL
+          alt="Zams Gardenia Bihta Greater Patna Corridor"
+          className="w-full h-64 object-cover rounded-2xl shadow-md"
+        />
+      </div>
+
+      {/* Project Title */}
       <h1 className="text-3xl font-bold mb-2">
         Zams Gardenia (Bihta–Greater Patna corridor)
       </h1> 
+
+      {/* Property Details */}
       <p className="text-sm text-gray-600 mb-4">
         700–2000 sq.ft • Ownership: Freehold • Price: ₹16500 Per sq/yard onwards • Status: Planned &amp; Developing
       </p> 
 
       <div className="prose"> 
+        {/* Overview */}
         <p>
           <strong>Zams Gardenia</strong> is a contemporary, planned layout that focuses on 
           <strong> neat streets</strong>, <strong>efficient drainage</strong>, and a <strong>modern aesthetic</strong>. 
@@ -26,6 +39,7 @@ export default function Page() {
           that appreciates as the locality develops, Zams Gardenia is an excellent choice.
         </p> 
 
+        {/* Travel & Access */}
         <h3 className="font-bold text-lg mt-8 mb-2">What you get – travel &amp; access</h3>
         <p><strong>Bihta Railway Station / local stop:</strong> ~5 minutes.</p> 
         <p><strong>Patna Junction (central rail hub):</strong> ~35 minutes.</p> 
@@ -34,6 +48,7 @@ export default function Page() {
         <p><strong>Schools &amp; colleges:</strong> Bihta and Greater Patna host multiple primary/secondary schools and coaching centres within ~10 minutes.</p> 
         <p><strong>Retail &amp; daily needs:</strong> Local markets and Patna retail hubs reachable in ~25 minutes.</p> 
 
+        {/* Lifestyle & Convenience */}
         <h3 className="font-bold text-lg mt-8 mb-2">Lifestyle &amp; Convenience</h3>
         <p>
           <strong>Zams Gardenia</strong> attracts buyers seeking a <strong>curated neighbourhood</strong> — 
@@ -42,6 +57,7 @@ export default function Page() {
           and <strong>bespoke design</strong>.
         </p> 
 
+        {/* Investment Rationale */}
         <h3 className="font-bold text-lg mt-8 mb-2">Investment rationale</h3>
         <p>
           As a <strong>planned development</strong> in a rising pocket, 
@@ -50,6 +66,7 @@ export default function Page() {
           <strong>premium plot inventory</strong> in a growing corridor.
         </p> 
 
+        {/* Assurance */}
         <h3 className="font-bold text-lg mt-8 mb-2">Assurance</h3>
         <p>
           We provide a <strong>comprehensive documentation pack</strong> — 
