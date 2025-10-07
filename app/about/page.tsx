@@ -26,13 +26,13 @@ export default function AboutPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold">Welcome to Sasta Plots</h2>
             <p className="text-muted-foreground">
-              We believe that owning land is not just the dream of a few people, but the right of every common man. 
-              With this thought, we provide you with affordable and reliable plots whose documents are clean, 
-              the location is good and the price is within your reach.
+             Sasta Plots was created with a single, clear purpose: to make land ownership reliable, accessible, and affordable for everyone. Real estate is one of the most powerful ways to build long-term wealth, but it can be confusing and risky- especially for first-time buyers. We started Sasta Plots to change that.
+We are a team of property professionals, legal advisors, and local area specialists who scout, verify, and list only those plots that meet strict quality and legal standards. Our buying process removes the common pain points: unclear titles, hidden fees, and poor infrastructure. Every plot that appears on our platform has been vetted for clear ownership papers, verified boundaries, and basic infrastructure readiness.
+Our process is simple and buyer-first. We source plots in high-potential and up-and-coming pockets, negotiate pricing with developers and owners, and run thorough legal and technical checks. When we list a property, our documents are verified and our team is available for site inspections. We walk with you from the first enquiry all the way through registration and handover.
+
             </p>
             <p className="text-muted-foreground">
-              Whether you're dreaming of building your first home or looking for a safe investment, 
-              we make sure that the entire process is easy and stress-free for you.
+           At Sasta Plots, land ownership is not just a transaction- it’s a step toward financial security and a better future. Whether you want to buy to build, invest, or hold, we’re here to make the journey transparent, simple, and rewarding.
             </p>
           </div>
           <div className="overflow-hidden rounded-lg border">
@@ -49,11 +49,18 @@ export default function AboutPage() {
 
       <FadeInSection>
         <div className="bg-muted/50 rounded-lg p-8 mb-16">
-          <h2 className="text-2xl font-semibold mb-6 text-center">Our Purpose</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-center">Our Values</h2>
           <p className="text-center text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Our aim is to give you a simple, secure and transparent land buying experience. 
-            Whether you're dreaming of building your first home or looking for a safe investment, 
-            we make sure that the entire process is easy and stress-free for you.
+            Transparency: Accurate listings and clear pricing- what you see is what you pay. We never hide charges or attach surprise fees during the purchase process
+          </p>
+              <p className="text-center text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Integrity: We verify legal titles and public records before listing any plot. Our legal partners conduct title searches and ensure transferability.
+          </p>
+              <p className="text-center text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Affordability: We negotiate aggressively and optimize costs so we can offer plots at attractive price points without compromising quality or compliance.
+          </p>
+              <p className="text-center text-muted-foreground mb-8 max-w-3xl mx-auto">
+            Support: Buying land is a big decision. Our team offers site visits, documentation assistance, and post-sale support so you move from ownership to development smoothly.
           </p>
         </div>
       </FadeInSection>
@@ -135,8 +142,7 @@ export default function AboutPage() {
           <div className="space-y-6 order-1 md:order-2">
             <h2 className="text-2xl font-semibold">Why Choose Sasta Plots?</h2>
             <p className="text-muted-foreground">
-              Because we don't just sell land, we help build your future. Family, first buyer or investor – 
-              people choose us because they trust us.
+              Every listing is accompanied by a clear documentation pack and an option for a free site visit. Our local teams coordinate with municipal bodies, utility providers, and legal firms so the purchase you make is safe, documented, and ready for the next steps.
             </p>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">
@@ -164,10 +170,10 @@ export default function AboutPage() {
 
       <FadeInSection>
         <div className="bg-primary/5 rounded-lg p-8 mb-16">
-          <h2 className="text-2xl font-semibold mb-4 text-center">Your Dream, Our Responsibility</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-center">A future-focused approach</h2>
           <p className="text-muted-foreground text-center max-w-3xl mx-auto">
-            We believe that owning land is the first step towards security, self-sufficiency and progress. 
-            That's why we stand with you not just for the purchase, but even after that.
+           We identify locations with strong growth potential based on infrastructure projects, transport improvements, and urban expansion trends. Our goal is to help buyers obtain plots that balance immediate affordability with long-term value appreciation.
+
           </p>
         </div>
       </FadeInSection>
