@@ -140,7 +140,7 @@ export function HomeEnhanced() {
                     priority
                   />
                   <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2">
-                    <div className="text-orange-600 font-bold text-lg">Starting from ₹16800 per sq/yd </div>
+                    <div className="text-orange-600 font-bold text-lg">Starting from ₹16500 per sq/yd </div>
                     <div className="text-sm text-gray-600">Verified plots with clear titles</div>
                   </div>
                 </div>
@@ -227,7 +227,7 @@ export function HomeEnhanced() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold text-emerald-600">
-              ₹16,800 per sq/yd
+              ₹16,500 per sq/yd
             </span>
             <Link href="/plots/zams-gardenia">
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
@@ -256,7 +256,7 @@ export function HomeEnhanced() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold text-emerald-600">
-              ₹16,800 per sq/yd
+              ₹16,500 per sq/yd
             </span>
             <Link href="/plots/bajrang-vatika">
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
@@ -285,7 +285,7 @@ export function HomeEnhanced() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold text-emerald-600">
-              ₹16,800 per sq/yd
+              ₹16,000 per sq/yd
             </span>
             <Link href="/plots/friends-colony-phase-1">
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
@@ -331,7 +331,7 @@ export function HomeEnhanced() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-emerald-600">
-                ₹16,800 per sq/yd
+                ₹16,500 per sq/yd
               </span>
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                 View Details
@@ -359,7 +359,7 @@ export function HomeEnhanced() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-emerald-600">
-                ₹16,800 per sq/yd
+                ₹16,500 per sq/yd
               </span>
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                 View Details
@@ -387,7 +387,7 @@ export function HomeEnhanced() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-emerald-600">
-                ₹16,800 per sq/yd
+                ₹16,000 per sq/yd
               </span>
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                 View Details
