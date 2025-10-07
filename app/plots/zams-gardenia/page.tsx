@@ -10,7 +10,7 @@ export default function Page() {
       {/* Project Image */}
       <div className="mb-8">
         <img 
-          src="plot-1.png" // 🔹 Replace with your actual image path or URL
+          src="/images/plot-1.png" // 🔹 Replace with your actual image path or URL
           alt="Zams Gardenia Bihta Greater Patna Corridor"
           className="w-full h-64 object-cover rounded-2xl shadow-md"
         />
