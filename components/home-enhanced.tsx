@@ -140,7 +140,7 @@ export function HomeEnhanced() {
                     priority
                   />
                   <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2">
-                    <div className="text-orange-600 font-bold text-lg">Starting from ₹4.5L</div>
+                    <div className="text-orange-600 font-bold text-lg">Starting from ₹16800 per sq/yd </div>
                     <div className="text-sm text-gray-600">Verified plots with clear titles</div>
                   </div>
                 </div>
