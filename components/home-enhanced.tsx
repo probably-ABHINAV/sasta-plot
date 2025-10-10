@@ -610,7 +610,7 @@ export function HomeEnhanced() {
             </div>
 
             <div className="pt-8 text-center">
-              <p className="text-orange-400 font-medium">📞 Call us: +91-9876543210 | ✉️ Email: sastaplots7@gmail.com</p>
+              <p className="text-orange-400 font-medium">📞 Call us: +91-9876543210 | ✉️ Email: sales@sastaplots.in</p>
             </div>
           </div>
         </section>
