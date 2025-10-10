@@ -86,7 +86,7 @@ export function SiteFooter() {
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>📍 Dehradun, Uttarakhand</p>
               <p>📞 +91 78702 31314</p>
-              <p>✉️ info@sastaplots.com</p>
+              <p>✉️ sales@sastaplots.in</p>
             </div>
           </div>
 
