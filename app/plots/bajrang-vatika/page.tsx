@@ -19,7 +19,7 @@ export default function Page() {
       {/* Title & Details */}
       <h1 className="text-3xl font-bold mb-2">Bajrang Vatika - The Private Retreat</h1> 
       <p className="text-sm text-gray-600 mb-4">
-        1200–2400 sq.ft • Ownership: Freehold • Price: ₹16800 Per sq/yard onwards • Status: Ready-to-develop
+        1200–2400 sq.yd • Ownership: Freehold • Price: ₹16800 Per sq/yard onwards • Status: Ready-to-develop
       </p>
 
       {/* Description */}
