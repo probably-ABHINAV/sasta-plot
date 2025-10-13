@@ -19,7 +19,7 @@ export default function Page() {
       {/* Title & Details */}
       <h1 className="text-3xl font-bold mb-2">Friends Colony Phase-1</h1> 
       <p className="text-sm text-gray-600 mb-4">
-        1000–2000 sq.ft • Ownership: Freehold • Price: ₹16800 Per sq/yard onwards • Status: Construction-ready
+        1000–2000 sq.yd • Ownership: Freehold • Price: ₹16800 Per sq/yard onwards • Status: Construction-ready
       </p>
 
       {/* Description */}
