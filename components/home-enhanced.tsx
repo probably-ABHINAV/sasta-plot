@@ -227,7 +227,7 @@ export function HomeEnhanced() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold text-emerald-600">
-              ₹16,500 per sq/yd
+              ₹16,500 per sq/ft
             </span>
             <Link href="/plots/zams-gardenia">
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
@@ -331,7 +331,7 @@ export function HomeEnhanced() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-emerald-600">
-                ₹16,500 per sq/yd
+                ₹16,500 per sq/ft
               </span>
               <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                 View Details
@@ -383,7 +383,7 @@ export function HomeEnhanced() {
             <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
             <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
               <MapPin className="h-4 w-4" />
-              <span>Patna – Bihta Road</span>
+              <span>Ganeshpur</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-emerald-600">
