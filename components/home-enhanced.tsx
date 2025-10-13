@@ -252,7 +252,7 @@ export function HomeEnhanced() {
           <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
           <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
             <MapPin className="h-4 w-4" />
-            <span>Near NH-30, Patna</span>
+            <span>Dehradun</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold text-emerald-600">
@@ -281,7 +281,7 @@ export function HomeEnhanced() {
           <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
           <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
             <MapPin className="h-4 w-4" />
-            <span>Patna – Bihta Road</span>
+            <span>Dehradun</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold text-emerald-600">
@@ -355,7 +355,7 @@ export function HomeEnhanced() {
             <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
             <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
               <MapPin className="h-4 w-4" />
-              <span>Near NH-30, Patna</span>
+              <span>Dehradun</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-emerald-600">
@@ -383,7 +383,7 @@ export function HomeEnhanced() {
             <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
             <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
               <MapPin className="h-4 w-4" />
-              <span>Ganeshpur</span>
+              <span>Dehradun</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xl font-bold text-emerald-600">
