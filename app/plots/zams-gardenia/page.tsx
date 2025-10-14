@@ -10,7 +10,7 @@ export default function Page() {
       {/* Project Image */}
       <div className="mb-8">
         <img 
-          src="/images/plots/plot-1.png" // 🔹 Replace with your actual image path or URL
+          src="/images/plots/plot-1.png"
           alt="Zams Gardenia Bihta Greater Patna Corridor"
           className="w-full h-64 object-cover rounded-2xl shadow-md"
         />
@@ -24,7 +24,23 @@ export default function Page() {
       {/* Property Details */}
       <p className="text-sm text-gray-600 mb-4">
         700–2000 sq.ft • Ownership: Freehold • Price: ₹16500 Per sq/feet onwards • Status: Planned &amp; Developing
-      </p> 
+      </p>
+
+      {/* Location Button */}
+      <div className="mb-6">
+        <a 
+          href="https://www.google.com/maps?q=25.5941,85.1376"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          View Location on Map
+        </a>
+      </div> 
 
       <div className="prose"> 
         {/* Overview */}
@@ -35,7 +51,7 @@ export default function Page() {
           and infrastructure considered from the start. 
           This area is seeing growing interest from <strong>homebuyers</strong> and <strong>small developers</strong>, 
           offering strong potential for future price appreciation. 
-          If you’re planning a <strong>modern build</strong> or seeking an <strong>investment opportunity</strong> 
+          If you're planning a <strong>modern build</strong> or seeking an <strong>investment opportunity</strong> 
           that appreciates as the locality develops, Zams Gardenia is an excellent choice.
         </p> 
 
@@ -62,7 +78,7 @@ export default function Page() {
         <p>
           As a <strong>planned development</strong> in a rising pocket, 
           <strong>Zams Gardenia</strong> is positioned for stronger appreciation compared with ad-hoc layouts. 
-          It’s ideal for buyers targeting <strong>long-term capital growth</strong> and for developers seeking 
+          It's ideal for buyers targeting <strong>long-term capital growth</strong> and for developers seeking 
           <strong>premium plot inventory</strong> in a growing corridor.
         </p> 
 
@@ -72,9 +88,21 @@ export default function Page() {
           We provide a <strong>comprehensive documentation pack</strong> — 
           including <strong>layout approvals</strong>, <strong>title clearance summaries</strong>, 
           and a <strong>market-comparison note</strong> to help discerning buyers 
-          evaluate the project’s <strong>long-term upside</strong>.
-        </p> 
-      </div> 
+          evaluate the project's <strong>long-term upside</strong>.
+        </p>
+
+        {/* Photo Gallery */}
+        <h3 className="font-bold text-lg mt-8 mb-4">Photo Gallery</h3>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <img src="/images/gallery/A_1760474592657.jpg" alt="Zams Gardenia View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/B_1760474592655.jpg" alt="Zams Gardenia View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/C_1760474592656.jpg" alt="Zams Gardenia View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/D_1760474592654.jpg" alt="Zams Gardenia View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/E_1760474592651.jpg" alt="Zams Gardenia View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/F_1760474592653.jpg" alt="Zams Gardenia View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+      </div>
     </main> 
   ); 
 }

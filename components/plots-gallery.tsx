@@ -49,12 +49,12 @@ export default function PlotsGallery() {
     return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {[
-          "/images/plots/plot-1.png",
-          "/images/plots/plot-2.png", 
-          "/images/plots/plot-3.png",
-          "/images/plots/plot-4.png",
-          "/images/plots/plot-5.png",
-          "/images/plots/plot-6.png"
+          "/images/gallery/A_1760476152262.jpg",
+          "/images/gallery/B_1760476152260.jpg", 
+          "/images/gallery/C_1760476152261.jpg",
+          "/images/gallery/D_1760476152258.jpg",
+          "/images/gallery/E_1760476152255.jpg",
+          "/images/gallery/F_1760476152257.jpg"
         ].map((src, index) => (
           <div key={index} className="group relative aspect-square overflow-hidden rounded-xl">
             <Image
@@ -77,7 +77,10 @@ export default function PlotsGallery() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
       {plots.map((plot, index) => {
-        const imageUrl = plot.image_url || (plot.images && plot.images.length > 0 ? plot.images[0] : `/images/plots/plot-${(index % 6) + 1}.png`)
+        // Prioritize images array, then image_url, then fallback
+        const imageUrl = (plot.images && plot.images.length > 0) 
+          ? plot.images[0] 
+          : (plot.image_url || `/images/plots/plot-${(index % 6) + 1}.png`)
         
         return (
           <Link 
@@ -91,6 +94,7 @@ export default function PlotsGallery() {
               fill
               className="object-cover group-hover:scale-110 transition-transform duration-500"
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
+              unoptimized={imageUrl.includes('supabase') || imageUrl.includes('storage')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">

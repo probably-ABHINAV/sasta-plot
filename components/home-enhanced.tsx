@@ -541,7 +541,7 @@ export function HomeEnhanced() {
                 <div className="space-y-4">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-2.png"
+                      src="/images/gallery/A_1760476152262.jpg"
                       alt="Residential plot"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"
@@ -550,7 +550,7 @@ export function HomeEnhanced() {
                   </div>
                   <div className="relative aspect-square overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-4.png"
+                      src="/images/gallery/B_1760476152260.jpg"
                       alt="Commercial plot"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"
@@ -561,7 +561,7 @@ export function HomeEnhanced() {
                 <div className="space-y-4 pt-8">
                   <div className="relative aspect-square overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-3.png"
+                      src="/images/gallery/C_1760476152261.jpg"
                       alt="Premium plot"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"
@@ -570,7 +570,7 @@ export function HomeEnhanced() {
                   </div>
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-5.png"
+                      src="/images/gallery/D_1760476152258.jpg"
                       alt="Investment plot"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"

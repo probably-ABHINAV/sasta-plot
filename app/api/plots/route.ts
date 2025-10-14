@@ -69,9 +69,9 @@ export async function GET() {
       description: p.description || '',
       featured: Boolean(p.featured),
       slug: p.slug || '',
-      image: p.image_url || (p.images && p.images.length > 0 ? p.images[0] : ''),
-      image_url: p.image_url || (p.images && p.images.length > 0 ? p.images[0] : ''),
-      images: p.images || [],
+      image: (p.images && p.images.length > 0) ? p.images[0] : (p.image_url || ''),
+      image_url: (p.images && p.images.length > 0) ? p.images[0] : (p.image_url || ''),
+      images: Array.isArray(p.images) ? p.images : [],
       created_at: p.created_at || new Date().toISOString()
     }))
 
