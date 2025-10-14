@@ -10,7 +10,7 @@ export default function Page() {
       {/* Project Image */}
       <div className="mb-8">
         <img
-          src="/images/bajrang-vatika.jpg"  // 🔹 Replace with your image
+          src="/images/gallery/C_1760476152261.jpg"  // 🔹 Replace with your image
           alt="Bajrang Vatika - The Private Retreat"
           className="w-full h-64 object-cover rounded-2xl shadow-md"
         />
@@ -78,12 +78,12 @@ export default function Page() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <img src="/images/gallery/A_1760474592657.jpg" alt="Bajrang Vatika View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/B_1760474592655.jpg" alt="Bajrang Vatika View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/C_1760474592656.jpg" alt="Bajrang Vatika View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/D_1760474592654.jpg" alt="Bajrang Vatika View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/E_1760474592651.jpg" alt="Bajrang Vatika View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/F_1760474592653.jpg" alt="Bajrang Vatika View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/A_1760476152262.jpg" alt="Bajrang Vatika View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/B_1760476152260.jpg" alt="Bajrang Vatika View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/C_1760476152261.jpg" alt="Bajrang Vatika View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/D_1760476152258.jpg" alt="Bajrang Vatika View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/E_1760476152255.jpg" alt="Bajrang Vatika View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/F_1760476152257.jpg" alt="Bajrang Vatika View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
       </div>
     </main>
   );
