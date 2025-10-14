@@ -41,27 +41,20 @@ export default function Page() {
       {/* Description */}
       <div className="prose">
         <p>
-          <strong>Bajrang Vatika</strong> is a calm, family-friendly residential layout designed for buyers 
-          who want <strong>everyday convenience</strong> without the city rush. 
-          The roads are <strong>motorable and well-defined</strong>, plot boundaries are clear, and basic utilities 
-          are accessible — making it easy to plan and build. 
-          The neighbourhood includes <strong>local shops</strong>, <strong>primary schools</strong>, and 
-          <strong> public transport</strong> nearby, so daily needs are easy to meet. 
-          With infrastructure improving, buyers can expect <strong>steady appreciation</strong> over time.
+          Bajrang Vatika positions itself as Uttarakhand’s first <strong>Hanuman-themed</strong> plotted development, blending spiritual design elements with practical, <strong>ready-to-build plots</strong>. The layout emphasizes <strong>Vastu compatibility</strong>, green open spaces and a focal <strong>temple</strong> that shapes the community identity. Located on a high-growth corridor near the <strong>Shimla Bypass</strong>, the project is marketed for families seeking a <strong>peaceful residential</strong> setting as well as investors who value proximity to Dehradun’s educational and medical hubs. The developer highlights immediate usability, secure gated living and straightforward road access to neighbouring towns and the city.
         </p>
 
         <h3 className="font-bold text-lg mt-8 mb-2">What you get – travel &amp; access</h3>
-        <p><strong>Dehradun ISBT (Inter-State Bus Terminal):</strong> ~15 minutes.</p>
-        <p><strong>Dehradun Railway Station:</strong> ~20 minutes.</p>
+        <p><strong>Located near the Shimla Bypass Road (prime growth corridor).</strong></p>
+        <p><strong>Dehradun ISBT (Inter-State Bus Terminal):</strong> ~25 minutes.</p>
+        <p><strong>Paonta Sahib and quick access to Chimera regional corridors</strong> ~20 minutes.</p>
         <p><strong>Jolly Grant Airport (Dehradun):</strong> ~30 minutes.</p>
-        <p><strong>Hospitals / healthcare:</strong> Kailash Hospital, Graphic Era Hospital ~5–20 minutes.</p>
-        <p><strong>Schools &amp; colleges:</strong> Doon Global School, Shubharti Medical College ~5–20 minutes.</p>
+        <p><strong>Hospitals / healthcare:</strong> Kailash Hospital, Graphic Era Hospital ~ 10 minutes.</p>
+        <p><strong>Schools &amp; colleges:</strong> Doon Global School, Shubharti Medical College ~ 15 minutes.</p>
 
-        <h3 className="font-bold text-lg mt-8 mb-2">Lifestyle &amp; Convenience</h3>
+        <h3 className="font-bold text-lg mt-8 mb-2">Who this suits</h3>
         <p>
-          <strong>Bajrang Vatika</strong> suits buyers who want to escape traffic while retaining access to essential services. 
-          <strong>Morning walks</strong>, <strong>private gardens</strong>, and <strong>personal landscaping</strong> 
-          define the lifestyle here. Proximity to schools, markets, and easy bus access make daily life effortless.
+          Bajrang Vatika is well suited to buyers who want a serene, spiritually themed neighbourhood close to Dehradun’s conveniences  - particularly families seeking weekend or year-round homes, retirees who value calm surroundings, and investors looking for plotted land in a corridor that’s attracting new residential demand. The project’s ready-to-move plots and proximity to major road links also appeal to buyers who want to start construction quickly. 
         </p>
 
         <h3 className="font-bold text-lg mt-8 mb-2">Investment rationale</h3>
@@ -71,12 +64,14 @@ export default function Page() {
           <strong> conservative investors</strong> seeking <strong>low-volatility land parcels</strong>.
         </p>
 
-        <h3 className="font-bold text-lg mt-8 mb-2">Assurance</h3>
-        <p>
-          Every plot is sold with a <strong>verified title pack</strong>; 
-          we assist with <strong>registration</strong>, <strong>transfer</strong>, and 
-          <strong> construction-permission guidance</strong>.
-        </p>
+        <h3 className="font-bold text-lg mt-8 mb-2">Amenities & Infrastructure</h3>
+      
+         <p><strong>Hanuman-themed centerpiece with an on-site temple</strong>  - the project is promoted as a spiritually inspired community.</p>
+         <p><strong>Gated township with main entrance gate and perimeter boundary wall.</strong></p>
+         <p><strong>24×7 security and CCTV surveillance; guard room at the entrance.</strong></p>
+         <p><strong>Wide internal roads (30 ft / 40 ft arterial roads reported in listings) for easy movement and construction access.</strong></p>
+         <p><strong>Provision for water and electricity connections and street lighting.</strong></p>
+        
 
         {/* Photo Gallery */}
         <h3 className="font-bold text-lg mt-8 mb-4">Photo Gallery</h3>
