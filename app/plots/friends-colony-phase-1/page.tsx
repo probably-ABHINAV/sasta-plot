@@ -41,22 +41,16 @@ export default function Page() {
       {/* Description */}
       <div className="prose">
         <p>
-          <strong>Friends Colony Phase-1</strong> is a well-organized residential pocket that balances 
-          <strong> community living</strong> with <strong>easy connectivity</strong>. 
-          Plots are laid out along clear streets with good access to main roads and public transport. 
-          The area is ideal for families who value <strong>quick commutes</strong> and nearby conveniences — 
-          markets, clinics, and schools are all within easy reach. 
-          Because the layout is <strong>clean and construction-ready</strong>, many buyers can begin building right away, 
-          making it a favourite for those who want a <strong>faster move-in timeline</strong>.
+          <strong>Friends Colony Phase-1</strong> is presented as an affordable, <strong>ready-to-build</strong> plotting project positioned to benefit from major highway-driven growth in the Dehradun region. The developer markets it as a practical choice for those seeking weekend homes, retirement living, or <strong>long-term investment</strong> offering easy <strong>highway access</strong> while remaining close to essential services. <strong>Plots</strong> are laid out to simplify house design and construction, and the community plan focuses on a <strong>peaceful residential environment</strong> with green open spaces and basic civic utilities.
         </p>
 
         <h3 className="font-bold text-lg mt-8 mb-2">What you get – travel &amp; access</h3>
-        <p><strong>Nearest major expressway:</strong> ~5 minutes to Delhi–Dehradun Expressway.</p>
-        <p><strong>Dehradun ISBT / central bus hub:</strong> ~25–30 minutes.</p>
-        <p><strong>Dehradun Railway Station:</strong> ~25 minutes.</p>
+        <p><strong>Located on the Delhi–Dehradun Highway</strong>NH-307 (Delhi–Dehradun Expressway corridor).  </p>
+        <p><strong>Dehradun ISBT / central bus hub:</strong> ~20 minutes.</p>
+        <p><strong>Well connected for weekend travel to Delh</strong> ~ 3 Hours</p>
         <p><strong>Jolly Grant Airport:</strong> ~35 minutes.</p>
-        <p><strong>Hospitals / clinics:</strong> Local clinics &amp; multi-speciality hospitals ~10 minutes.</p>
-        <p><strong>Schools &amp; coaching centres:</strong> Established schools and coaching institutes ~10–20 minutes.</p>
+        <p><strong>Hospitals </strong> Multi-speciality hospitals ~10 minutes.</p>
+        <p><strong>Schools &amp; coaching centres:</strong> Established schools and coaching institutes ~10 minutes.</p>
 
         <h3 className="font-bold text-lg mt-8 mb-2">Lifestyle &amp; Convenience</h3>
         <p>
@@ -73,11 +67,14 @@ export default function Page() {
           for <strong>short-to-medium-term investors</strong>.
         </p>
 
-        <h3 className="font-bold text-lg mt-8 mb-2">Assurance</h3>
+        <h3 className="font-bold text-lg mt-8 mb-2">Amenities & Infrastructure </h3>
         <p>
-          Complete <strong>verification pack</strong> available on request with <strong>title search</strong>, 
-          <strong> layout approval</strong>, and a <strong>step-by-step registration guide</strong>.
-        </p>
+          <strong>Gated community with controlled entry and an emphasis on resident security.</strong>
+          <strong>Wide, well-laid internal roads and clearly planned plots for easy construction.</strong>
+          <strong>Landscaped parks, green spaces and children’s play areas for community recreation.</strong>
+          <strong>Street lighting and provision for civic conveniences to ensure a safe, usable neighbourhood after dusk.</strong>
+          <strong>Civic infrastructure planning including drainage and sewage provisions (planned to avoid waterlogging)</strong>
+        </p>  
 
         {/* Photo Gallery */}
         <h3 className="font-bold text-lg mt-8 mb-4">Photo Gallery</h3>
