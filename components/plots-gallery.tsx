@@ -56,7 +56,11 @@ export default function PlotsGallery() {
           "/images/gallery/plot-gallery-5.jpg",
           "/images/gallery/plot-gallery-6.jpg"
         ].map((src, index) => (
-          <div key={index} className="group relative aspect-square overflow-hidden rounded-xl">
+          <Link
+            key={index}
+            href="/plots"
+            className="group relative aspect-square overflow-hidden rounded-xl"
+          >
             <Image
               src={src}
               alt={`Plot gallery image ${index + 1}`}
@@ -66,9 +70,9 @@ export default function PlotsGallery() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="text-xs font-medium">View Plot</div>
+              <div className="text-xs font-medium">View Plots</div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     )

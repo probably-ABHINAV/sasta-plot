@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { FadeInSection, Stagger, Item } from "@/components/animated-section"
 import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } from "lucide-react"
 import PlotsGallery from "@/components/plots-gallery"
@@ -40,6 +41,7 @@ export function HomeEnhanced() {
   const [featuredPlots, setFeaturedPlots] = useState<Plot[]>([])
   const [allPlots, setAllPlots] = useState<Plot[]>([])
   const [loading, setLoading] = useState(true)
+  const [galleryOpen, setGalleryOpen] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -472,12 +474,156 @@ export function HomeEnhanced() {
             <PlotsGallery />
 
             <div className="text-center mt-12">
-              <Link
-                href="/plots"
+              <Button
+                onClick={() => setGalleryOpen(true)}
                 className="inline-flex items-center justify-center rounded-2xl bg-white text-orange-600 px-8 py-4 text-lg font-bold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300"
               >
                 View Complete Gallery
-              </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      </FadeInSection>
+
+      {/* Gallery Modal */}
+      <Dialog open={galleryOpen} onOpenChange={setGalleryOpen}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Complete Plot Gallery</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            {[
+              "/images/gallery/plot-gallery-1.jpg",
+              "/images/gallery/plot-gallery-2.jpg",
+              "/images/gallery/plot-gallery-3.jpg",
+              "/images/gallery/plot-gallery-4.jpg",
+              "/images/gallery/plot-gallery-5.jpg",
+              "/images/gallery/plot-gallery-6.jpg",
+              "/images/gallery/A_1760476152262.jpg",
+              "/images/gallery/B_1760476152260.jpg",
+              "/images/gallery/C_1760476152261.jpg",
+              "/images/gallery/D_1760476152258.jpg",
+              "/images/gallery/E_1760476152255.jpg",
+              "/images/gallery/F_1760476152257.jpg"
+            ].map((src, index) => (
+              <div key={index} className="group relative aspect-square overflow-hidden rounded-lg">
+                <Image
+                  src={src}
+                  alt={`Plot gallery image ${index + 1}`}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 text-center">
+            <Link
+              href="/plots"
+              className="inline-flex items-center justify-center rounded-lg bg-orange-600 text-white px-6 py-3 font-semibold hover:bg-orange-700 transition-colors"
+            >
+              View Available Plots
+            </Link>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Value Proposition */}
+      <FadeInSection>
+        <section className="py-20 bg-gray-50">
+          <div className="mx-auto max-w-7xl px-4">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h2 className="text-4xl font-bold text-gray-900">
+                    Your Trusted Partner in
+                    <span className="text-orange-600"> Land Investment</span>
+                  </h2>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    At Sasta Plots, we believe everyone deserves to own a piece of land.
+                    That's why we've simplified the entire process, making it transparent,
+                    affordable, and stress-free.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">15+</div>
+                    <div className="text-sm text-gray-600">Years Experience</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">₹25Cr+</div>
+                    <div className="text-sm text-gray-600">Property Value</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">Zero</div>
+                    <div className="text-sm text-gray-600">Hidden Charges</div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-3xl font-black text-orange-600">100%</div>
+                    <div className="text-sm text-gray-600">Customer Satisfaction</div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button
+                    asChild
+                    className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-6 text-lg rounded-xl"
+                  >
+                    <Link href="/about">Learn More About Us</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-6 text-lg rounded-xl"
+                  >
+                    <Link href="/contact">Get Free Consultation</Link>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/gallery/plot-gallery-1.jpg"
+                      alt="Premium plotted development with boundary walls"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/gallery/plot-gallery-2.jpg"
+                      alt="Aerial view of residential plots"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-4 pt-8">
+                  <div className="relative aspect-square overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/gallery/plot-gallery-3.jpg"
+                      alt="Constructed property on plot"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                    <Image
+                      src="/images/gallery/D_1760476152258.jpg"
+                      alt="Investment plot"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
