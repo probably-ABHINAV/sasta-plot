@@ -1,52 +1,57 @@
-// /components/animated-section.tsx
+
 "use client"
 
-import React from "react"
-import { motion } from "framer-motion"
+import { motion, type Variants } from "framer-motion"
+import type { PropsWithChildren } from "react"
 
-type Props = { children: React.ReactNode }
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+}
 
-export const FadeInSection = ({ children }: Props) => {
+export function FadeInSection({
+  children,
+  className,
+  once = true,
+}: PropsWithChildren<{ className?: string; once?: boolean }>) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      className={className}
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once, amount: 0.2 }}
     >
       {children}
     </motion.div>
   )
 }
 
-export const Stagger = ({ children }: Props) => {
+export function Stagger({
+  children,
+  delay = 0.06,
+  className = "",
+}: PropsWithChildren<{ delay?: number; className?: string }>) {
   return (
     <motion.div
+      className={className}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
       variants={{
         hidden: {},
-        visible: {
-          transition: { staggerChildren: 0.12 },
-        },
+        show: { transition: { staggerChildren: delay } },
       }}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
     >
       {children}
     </motion.div>
   )
 }
 
-export const Item = ({ children }: Props) => {
-  return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 12 },
-        visible: { opacity: 1, y: 0 },
-      }}
-      transition={{ duration: 0.45 }}
-    >
-      {children}
-    </motion.div>
-  )
+export function Item({ children }: PropsWithChildren) {
+  return <motion.div variants={fadeUp}>{children}</motion.div>
+}
+
+export function HoverLift({ children, className = "" }: PropsWithChildren<{ className?: string }>) {
+  return <div className={className}>{children}</div>
 }

@@ -91,7 +91,7 @@ export function HomeEnhanced() {
                 </h1>
 
                 <p className="text-xl text-gray-600 leading-relaxed max-w-xl">
-                  Discover verified residential and commercial plots in prime locations. 
+                  Discover verified residential and commercial plots in prime locations.
                   Clear titles, competitive prices, and hassle-free documentation.
                 </p>
 
@@ -130,14 +130,14 @@ export function HomeEnhanced() {
               {/* Hero Image */}
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-3xl blur-xl"></div>
-                <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden aspect-[3/2]">
                   <Image
                     src="/images/plots/plot-1.png"
                     alt="Premium residential plot"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto object-cover"
+                    fill
+                    className="object-cover"
                     priority
+                    sizes="(max-width: 768px) 100vw, 600px"
                   />
                   <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2">
                     <div className="text-orange-600 font-bold text-lg">Starting from ₹16500 per sq/yd </div>
@@ -197,208 +197,208 @@ export function HomeEnhanced() {
       </FadeInSection>
 
       {/* Featured Plots Section (Static) */}
-<FadeInSection>
-  <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-    <div className="mb-12 text-center">
-      <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-        Featured Properties
-      </h2>
-      <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-        Discover our handpicked selection of premium plots in prime locations
-      </p>
-    </div>
-
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {/* Plot 1 */}
-      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <Image
-            src="/images/plots/plot-1.png"
-            alt="Zams Gardenia"
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-        <CardContent className="p-6">
-          <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
-          <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            <span>Bihta – Greater Patna Corridor</span>
+      <FadeInSection>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Featured Properties
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Discover our handpicked selection of premium plots in prime locations
+            </p>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xl font-bold text-emerald-600">
-              ₹16,500 per sq/ft
-            </span>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Plot 1 */}
+            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/images/plots/plot-1.png"
+                  alt="Zams Gardenia"
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <CardContent className="p-6">
+                <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
+                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  <span>Bihta – Greater Patna Corridor</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold text-emerald-600">
+                    ₹16,500 per sq/ft
+                  </span>
+                  <Link href="/plots/zams-gardenia">
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                      View Details
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Plot 2 */}
+            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/images/plots/plot-2.png"
+                  alt="Bajrang Vatika"
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <CardContent className="p-6">
+                <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
+                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  <span>Dehradun</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold text-emerald-600">
+                    ₹16,500 per sq/yd
+                  </span>
+                  <Link href="/plots/bajrang-vatika">
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                      View Details
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Plot 3 */}
+            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/images/plots/plot-3.png"
+                  alt="Friends Colony Phase 1"
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <CardContent className="p-6">
+                <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
+                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  <span>Dehradun</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold text-emerald-600">
+                    ₹16,000 per sq/yd
+                  </span>
+                  <Link href="/plots/friends-colony-phase-1">
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                      View Details
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      </FadeInSection>
+
+      {/* Latest Properties Section (Same Static) */}
+      <FadeInSection>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Latest Properties
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Fresh opportunities just added to our collection
+            </p>
+          </div>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Just reuse the same 3 static plots */}
             <Link href="/plots/zams-gardenia">
-              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                View Details
-              </Button>
+              <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/images/plots/plot-1.png"
+                    alt="Zams Gardenia"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
+                  <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                    <MapPin className="h-4 w-4" />
+                    <span>Bihta – Greater Patna Corridor</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl font-bold text-emerald-600">
+                      ₹16,500 per sq/ft
+                    </span>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                      View Details
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* Plot 2 */}
-      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <Image
-            src="/images/plots/plot-2.png"
-            alt="Bajrang Vatika"
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-        <CardContent className="p-6">
-          <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
-          <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            <span>Dehradun</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xl font-bold text-emerald-600">
-              ₹16,500 per sq/yd
-            </span>
             <Link href="/plots/bajrang-vatika">
-              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                View Details
-              </Button>
+              <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/images/plots/plot-2.png"
+                    alt="Bajrang Vatika"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
+                  <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                    <MapPin className="h-4 w-4" />
+                    <span>Dehradun</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl font-bold text-emerald-600">
+                      ₹16,500 per sq/yd
+                    </span>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                      View Details
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* Plot 3 */}
-      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <Image
-            src="/images/plots/plot-3.png"
-            alt="Friends Colony Phase 1"
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-        <CardContent className="p-6">
-          <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
-          <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            <span>Dehradun</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xl font-bold text-emerald-600">
-              ₹16,000 per sq/yd
-            </span>
             <Link href="/plots/friends-colony-phase-1">
-              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                View Details
-              </Button>
+              <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/images/plots/plot-3.png"
+                    alt="Friends Colony Phase 1"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
+                  <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                    <MapPin className="h-4 w-4" />
+                    <span>Dehradun</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl font-bold text-emerald-600">
+                      ₹16,000 per sq/yd
+                    </span>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                      View Details
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
           </div>
-        </CardContent>
-      </Card>
-    </div>
-  </section>
-</FadeInSection>
-
-{/* Latest Properties Section (Same Static) */}
-<FadeInSection>
-  <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-    <div className="mb-12 text-center">
-      <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-        Latest Properties
-      </h2>
-      <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-        Fresh opportunities just added to our collection
-      </p>
-    </div>
-
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {/* Just reuse the same 3 static plots */}
-      <Link href="/plots/zams-gardenia">
-        <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-          <div className="relative aspect-[4/3] overflow-hidden">
-            <Image
-              src="/images/plots/plot-1.png"
-              alt="Zams Gardenia"
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-          <CardContent className="p-6">
-            <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
-            <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
-              <MapPin className="h-4 w-4" />
-              <span>Bihta – Greater Patna Corridor</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xl font-bold text-emerald-600">
-                ₹16,500 per sq/ft
-              </span>
-              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                View Details
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
-
-      <Link href="/plots/bajrang-vatika">
-        <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-          <div className="relative aspect-[4/3] overflow-hidden">
-            <Image
-              src="/images/plots/plot-2.png"
-              alt="Bajrang Vatika"
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-          <CardContent className="p-6">
-            <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
-            <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
-              <MapPin className="h-4 w-4" />
-              <span>Dehradun</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xl font-bold text-emerald-600">
-                ₹16,500 per sq/yd
-              </span>
-              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                View Details
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
-
-      <Link href="/plots/friends-colony-phase-1">
-        <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-          <div className="relative aspect-[4/3] overflow-hidden">
-            <Image
-              src="/images/plots/plot-3.png"
-              alt="Friends Colony Phase 1"
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-          </div>
-          <CardContent className="p-6">
-            <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
-            <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
-              <MapPin className="h-4 w-4" />
-              <span>Dehradun</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xl font-bold text-emerald-600">
-                ₹16,000 per sq/yd
-              </span>
-              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                View Details
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
-    </div>
-  </section>
-</FadeInSection>
+        </section>
+      </FadeInSection>
 
       {/* How It Works Section */}
       <FadeInSection>
@@ -421,7 +421,7 @@ export function HomeEnhanced() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Browse & Select</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Explore our curated collection of verified plots. Filter by location, 
+                  Explore our curated collection of verified plots. Filter by location,
                   price, and size to find your perfect match.
                 </p>
               </div>
@@ -435,7 +435,7 @@ export function HomeEnhanced() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Site Inspection</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Schedule a free site visit with our experts. Verify all documents 
+                  Schedule a free site visit with our experts. Verify all documents
                   and inspect the plot thoroughly before making a decision.
                 </p>
               </div>
@@ -449,7 +449,7 @@ export function HomeEnhanced() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Secure & Own</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Complete the payment process and legal formalities. 
+                  Complete the payment process and legal formalities.
                   Get your registered documents and start building your future.
                 </p>
               </div>
@@ -491,12 +491,12 @@ export function HomeEnhanced() {
               <div className="space-y-8">
                 <div className="space-y-4">
                   <h2 className="text-4xl font-bold text-gray-900">
-                    Your Trusted Partner in 
+                    Your Trusted Partner in
                     <span className="text-orange-600"> Land Investment</span>
                   </h2>
                   <p className="text-lg text-gray-600 leading-relaxed">
-                    At Sasta Plots, we believe everyone deserves to own a piece of land. 
-                    That's why we've simplified the entire process, making it transparent, 
+                    At Sasta Plots, we believe everyone deserves to own a piece of land.
+                    That's why we've simplified the entire process, making it transparent,
                     affordable, and stress-free.
                   </p>
                 </div>
@@ -521,13 +521,13 @@ export function HomeEnhanced() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button 
+                  <Button
                     asChild
                     className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-6 text-lg rounded-xl"
                   >
                     <Link href="/about">Learn More About Us</Link>
                   </Button>
-                  <Button 
+                  <Button
                     asChild
                     variant="outline"
                     className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-6 text-lg rounded-xl"
@@ -541,8 +541,8 @@ export function HomeEnhanced() {
                 <div className="space-y-4">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-2.png"
-                      alt="Residential plot"
+                      src="/images/gallery/plot-gallery-1.jpg"
+                      alt="Premium plotted development with boundary walls"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 50vw, 25vw"
@@ -550,8 +550,8 @@ export function HomeEnhanced() {
                   </div>
                   <div className="relative aspect-square overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-4.png"
-                      alt="Commercial plot"
+                      src="/images/gallery/plot-gallery-2.jpg"
+                      alt="Aerial view of residential plots"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 50vw, 25vw"
@@ -561,8 +561,8 @@ export function HomeEnhanced() {
                 <div className="space-y-4 pt-8">
                   <div className="relative aspect-square overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-3.png"
-                      alt="Premium plot"
+                      src="/images/gallery/plot-gallery-3.jpg"
+                      alt="Constructed property on plot"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 50vw, 25vw"
@@ -570,7 +570,7 @@ export function HomeEnhanced() {
                   </div>
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
                     <Image
-                      src="/images/plots/plot-5.png"
+                      src="/images/gallery/D_1760476152258.jpg"
                       alt="Investment plot"
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-500"
@@ -590,7 +590,7 @@ export function HomeEnhanced() {
           <div className="mx-auto max-w-4xl px-4 text-center space-y-8">
             <h2 className="text-4xl font-bold">Ready to Own Your Dream Plot?</h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Join thousands of satisfied customers who have found their perfect plot with us. 
+              Join thousands of satisfied customers who have found their perfect plot with us.
               Start your journey towards land ownership today.
             </p>
 
@@ -622,7 +622,7 @@ export function HomeEnhanced() {
           <h2 className="font-heading text-3xl font-semibold md:text-4xl">Our Location</h2>
           <p className="mt-2 text-muted-foreground">Find us on the map</p>
         </div>
-        <Map 
+        <Map
           latitude={30.402437}
           longitude={77.750105}
           zoom={16}

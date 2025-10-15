@@ -25,13 +25,13 @@ const staticPosts = [
   },
   {
     id: "2",
-    title: "Land Near Highways: Buy Today, Profit Tomorrow!",
+    title: "Common Real Estate Mistakes & How Zam’s Gardenia Solves Them",
     slug: "zams-gardenia-real-estate-mistakes",
     created_at: "2025-10-08",
     excerpt:
-      " Locations That Invite Development",
+      "Most investors make mistakes like wrong location, ignoring legal checks, or expecting short-term returns. Zam’s Gardenia fixes these with location near IIT Patna, Bihta Airport, RERA certification, and easy EMIs...",
     content: `
-      <p> Returns Powered by Connectivity</p>
+      <p>Real estate investments fail when buyers:</p>
       <ul>
         <li>Pick wrong locations with low ROI</li>
         <li>Ignore legal clearance (RERA, NOC, registry)</li>
