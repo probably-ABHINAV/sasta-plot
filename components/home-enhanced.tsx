@@ -40,16 +40,15 @@ export function HomeEnhanced() {
   const [featuredPlots, setFeaturedPlots] = useState<Plot[]>([])
   const [allPlots, setAllPlots] = useState<Plot[]>([])
   const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
+ useEffect(() => {
     const fetchData = async () => {
       try {
         const plotsResponse = await fetch('/api/plots', {
-          cache: 'no-store' // Ensure we always get fresh data
+          cache: 'no-store'
         })
         const plotsData = await plotsResponse.json()
         const allPlotsData = plotsData.plots || []
-        const featured = allPlotsData.filter((plot: Plot) => plot.featured).slice(0, 6)
+        const featured = allPlotsData.filter((plot) => plot.featured).slice(0, 6)
         setFeaturedPlots(featured)
         setAllPlots(allPlotsData)
       } catch (error) {
@@ -64,6 +63,16 @@ export function HomeEnhanced() {
 
   return (
     <div className="flex-1">
+      {/* Hero Section */}
+      <FadeInSection>
+        <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-background to-red-50 min-h-[90vh] flex items-center">
+          {/* Your content */}
+        </section>
+      </FadeInSection>
+    </div>
+  )
+}
+ 
       {/* Hero Section */}
       <FadeInSection>
         <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-background to-red-50 min-h-[90vh] flex items-center">
