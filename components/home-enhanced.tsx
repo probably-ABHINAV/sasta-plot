@@ -12,6 +12,8 @@ import PlotsGallery from "@/components/plots-gallery"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 import dynamic from "next/dynamic"
 import { HomeEnhanced } from "@/components/home-enhanced"
+import FadeInSection from "@/components/animated-section"
+
 
 
 // Dynamic import to avoid SSR issues with Leaflet
