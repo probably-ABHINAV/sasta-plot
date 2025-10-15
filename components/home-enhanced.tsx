@@ -11,18 +11,17 @@ import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } fr
 import PlotsGallery from "@/components/plots-gallery"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 import dynamic from "next/dynamic"
-import { HomeEnhanced } from "@/components/home-enhanced"
-import FadeInSection from "@/components/animated-section"
-
-
-
-// Dynamic import to avoid SSR issues with Leaflet
-const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
-  ssr: false,
-  loading: () => <div className="h-[400px] bg-muted rounded-lg flex items-center justify-center">Loading map...</div>
-})
 import { Testimonials } from "@/components/testimonials"
 import { CtaBanner } from "@/components/cta-banner"
+
+const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[400px] bg-muted rounded-lg flex items-center justify-center">
+      Loading map...
+    </div>
+  ),
+})
 
 interface Plot {
   id: string
@@ -33,7 +32,7 @@ interface Plot {
   location: string
   size_sqyd: number
   image_url?: string
-  images?: string[]; // Add this if your Supabase schema includes multiple images
+  images?: string[]
   featured: boolean
   created_at: string
 }
@@ -44,19 +43,18 @@ export default function HomeEnhanced() {
   const [featuredPlots, setFeaturedPlots] = useState<Plot[]>([])
   const [allPlots, setAllPlots] = useState<Plot[]>([])
   const [loading, setLoading] = useState(true)
- useEffect(() => {
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const plotsResponse = await fetch('/api/plots', {
-          cache: 'no-store'
-        })
+        const plotsResponse = await fetch("/api/plots", { cache: "no-store" })
         const plotsData = await plotsResponse.json()
         const allPlotsData = plotsData.plots || []
-        const featured = allPlotsData.filter((plot) => plot.featured).slice(0, 6)
+        const featured = allPlotsData.filter((plot: Plot) => plot.featured).slice(0, 6)
         setFeaturedPlots(featured)
         setAllPlots(allPlotsData)
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error("Error fetching data:", error)
       } finally {
         setLoading(false)
       }
@@ -70,21 +68,9 @@ export default function HomeEnhanced() {
       {/* Hero Section */}
       <FadeInSection>
         <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-background to-red-50 min-h-[90vh] flex items-center">
-          {/* Your content */}
-        </section>
-      </FadeInSection>
-    </div>
-  )
-}
- 
-      {/* Hero Section */}
-      <FadeInSection>
-        <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-background to-red-50 min-h-[90vh] flex items-center">
-          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_24%,rgba(251,146,60,.03)_25%,rgba(251,146,60,.03)_26%,transparent_27%,transparent_74%,rgba(251,146,60,.03)_75%,rgba(251,146,60,.03)_76%,transparent_77%,transparent)] bg-[length:30px_30px]"></div>
-
+          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_24%,rgba(251,146,60,.03)_25%,rgba(251,146,60,.03)_26%,transparent_27%,transparent_74%,rgba(251,146,60,.03)_75%,rgba(251,146,60,.03)_76%,transparent_77%,transparent)] bg-[length:30px_30px]" />
           <div className="relative z-10 mx-auto max-w-7xl px-4 py-16">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Hero Content */}
               <div className="space-y-8">
                 <div className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-4 py-2 text-sm font-medium text-orange-800 ring-1 ring-orange-200">
                   <span className="relative flex h-2 w-2 rounded-full bg-orange-600 animate-pulse" />
@@ -123,7 +109,6 @@ export default function HomeEnhanced() {
                   </Link>
                 </div>
 
-                {/* Trust Indicators */}
                 <div className="grid grid-cols-3 gap-6 pt-8">
                   <div className="text-center">
                     <div className="text-2xl font-black text-orange-600">100%</div>
@@ -140,9 +125,8 @@ export default function HomeEnhanced() {
                 </div>
               </div>
 
-              {/* Hero Image */}
               <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-3xl blur-xl"></div>
+                <div className="absolute -inset-4 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-3xl blur-xl" />
                 <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
                   <Image
                     src="/images/plots/plot-1.png"
@@ -153,7 +137,7 @@ export default function HomeEnhanced() {
                     priority
                   />
                   <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2">
-                    <div className="text-orange-600 font-bold text-lg">Starting from ₹16500 per sq/yd </div>
+                    <div className="text-orange-600 font-bold text-lg">Starting from ₹16500 per sq/yd</div>
                     <div className="text-sm text-gray-600">Verified plots with clear titles</div>
                   </div>
                 </div>
@@ -209,28 +193,20 @@ export default function HomeEnhanced() {
         </section>
       </FadeInSection>
 
-      {/* Featured Plots Section (Static) */}
+      {/* Featured Plots Section */}
       <FadeInSection>
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Featured Properties
-            </h2>
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Featured Properties</h2>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
               Discover our handpicked selection of premium plots in prime locations
             </p>
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Plot 1 */}
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/images/plots/plot-1.png"
-                  alt="Zams Gardenia"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+                <Image src="/images/plots/plot-1.png" alt="Zams Gardenia" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
               </div>
               <CardContent className="p-6">
                 <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
@@ -239,27 +215,17 @@ export default function HomeEnhanced() {
                   <span>Bihta – Greater Patna Corridor</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">
-                    ₹16,500 per sq/ft
-                  </span>
+                  <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/ft</span>
                   <Link href="/plots/zams-gardenia">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
                   </Link>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Plot 2 */}
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/images/plots/plot-2.png"
-                  alt="Bajrang Vatika"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+                <Image src="/images/plots/plot-2.png" alt="Bajrang Vatika" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
               </div>
               <CardContent className="p-6">
                 <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
@@ -268,27 +234,17 @@ export default function HomeEnhanced() {
                   <span>Dehradun</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">
-                    ₹16,500 per sq/yd
-                  </span>
+                  <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/yd</span>
                   <Link href="/plots/bajrang-vatika">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
                   </Link>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Plot 3 */}
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/images/plots/plot-3.png"
-                  alt="Friends Colony Phase 1"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+                <Image src="/images/plots/plot-3.png" alt="Friends Colony Phase 1" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
               </div>
               <CardContent className="p-6">
                 <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
@@ -297,13 +253,9 @@ export default function HomeEnhanced() {
                   <span>Dehradun</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">
-                    ₹16,000 per sq/yd
-                  </span>
+                  <span className="text-xl font-bold text-emerald-600">₹16,000 per sq/yd</span>
                   <Link href="/plots/friends-colony-phase-1">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
                   </Link>
                 </div>
               </CardContent>
@@ -312,29 +264,19 @@ export default function HomeEnhanced() {
         </section>
       </FadeInSection>
 
-      {/* Latest Properties Section (Same Static) */}
+      {/* Latest Properties Section */}
       <FadeInSection>
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Latest Properties
-            </h2>
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-              Fresh opportunities just added to our collection
-            </p>
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Latest Properties</h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">Fresh opportunities just added to our collection</p>
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Just reuse the same 3 static plots */}
             <Link href="/plots/zams-gardenia">
               <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src="/images/plots/plot-1.png"
-                    alt="Zams Gardenia"
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  <Image src="/images/plots/plot-1.png" alt="Zams Gardenia" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
                 </div>
                 <CardContent className="p-6">
                   <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
@@ -343,12 +285,8 @@ export default function HomeEnhanced() {
                     <span>Bihta – Greater Patna Corridor</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-emerald-600">
-                      ₹1550 per sq/ft
-                    </span>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
+                    <span className="text-xl font-bold text-emerald-600">₹1550 per sq/ft</span>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -357,12 +295,7 @@ export default function HomeEnhanced() {
             <Link href="/plots/bajrang-vatika">
               <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src="/images/plots/plot-2.png"
-                    alt="Bajrang Vatika"
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  <Image src="/images/plots/plot-2.png" alt="Bajrang Vatika" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
                 </div>
                 <CardContent className="p-6">
                   <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
@@ -371,12 +304,8 @@ export default function HomeEnhanced() {
                     <span>Dehradun</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-emerald-600">
-                      ₹16,500 per sq/yd
-                    </span>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
+                    <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/yd</span>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -385,12 +314,7 @@ export default function HomeEnhanced() {
             <Link href="/plots/friends-colony-phase-1">
               <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src="/images/plots/plot-3.png"
-                    alt="Friends Colony Phase 1"
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  <Image src="/images/plots/plot-3.png" alt="Friends Colony Phase 1" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
                 </div>
                 <CardContent className="p-6">
                   <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
@@ -399,12 +323,8 @@ export default function HomeEnhanced() {
                     <span>Dehradun</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-emerald-600">
-                      ₹16,000 per sq/yd
-                    </span>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
+                    <span className="text-xl font-bold text-emerald-600">₹16,000 per sq/yd</span>
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -419,51 +339,40 @@ export default function HomeEnhanced() {
           <div className="mx-auto max-w-7xl px-4">
             <div className="text-center space-y-4 mb-16">
               <h2 className="text-4xl font-bold text-gray-900">How It Works</h2>
-              <p className="text-lg text-gray-600">
-                Three simple steps to own your dream plot
-              </p>
+              <p className="text-lg text-gray-600">Three simple steps to own your dream plot</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-12">
               <div className="text-center space-y-6">
                 <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">
-                    1
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-100 rounded-full"></div>
+                  <div className="w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">1</div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-100 rounded-full" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Browse & Select</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Explore our curated collection of verified plots. Filter by location,
-                  price, and size to find your perfect match.
+                  Explore our curated collection of verified plots. Filter by location, price, and size to find your perfect match.
                 </p>
               </div>
 
               <div className="text-center space-y-6">
                 <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-r from-red-600 to-orange-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">
-                    2
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-100 rounded-full"></div>
+                  <div className="w-20 h-20 bg-gradient-to-r from-red-600 to-orange-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">2</div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-100 rounded-full" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Site Inspection</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Schedule a free site visit with our experts. Verify all documents
-                  and inspect the plot thoroughly before making a decision.
+                  Schedule a free site visit with our experts. Verify all documents and inspect the plot thoroughly before making a decision.
                 </p>
               </div>
 
               <div className="text-center space-y-6">
                 <div className="relative">
-                  <div className="w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">
-                    3
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-100 rounded-full"></div>
+                  <div className="w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto shadow-lg">3</div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-100 rounded-full" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Secure & Own</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Complete the payment process and legal formalities.
-                  Get your registered documents and start building your future.
+                  Complete the payment process and legal formalities. Get your registered documents and start building your future.
                 </p>
               </div>
             </div>
@@ -477,18 +386,13 @@ export default function HomeEnhanced() {
           <div className="mx-auto max-w-7xl px-4">
             <div className="text-center space-y-6 mb-16">
               <h2 className="text-4xl font-bold text-white">Our Plot Gallery</h2>
-              <p className="text-xl text-orange-100 max-w-3xl mx-auto">
-                Take a visual tour of our available plots across different locations
-              </p>
+              <p className="text-xl text-orange-100 max-w-3xl mx-auto">Take a visual tour of our available plots across different locations</p>
             </div>
 
             <PlotsGallery />
 
             <div className="text-center mt-12">
-              <Link
-                href="/plots"
-                className="inline-flex items-center justify-center rounded-2xl bg-white text-orange-600 px-8 py-4 text-lg font-bold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300"
-              >
+              <Link href="/plots" className="inline-flex items-center justify-center rounded-2xl bg-white text-orange-600 px-8 py-4 text-lg font-bold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300">
                 View Complete Gallery
               </Link>
             </div>
@@ -503,14 +407,9 @@ export default function HomeEnhanced() {
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
                 <div className="space-y-4">
-                  <h2 className="text-4xl font-bold text-gray-900">
-                    Your Trusted Partner in
-                    <span className="text-orange-600"> Land Investment</span>
-                  </h2>
+                  <h2 className="text-4xl font-bold text-gray-900">Your Trusted Partner in <span className="text-orange-600"> Land Investment</span></h2>
                   <p className="text-lg text-gray-600 leading-relaxed">
-                    At Sasta Plots, we believe everyone deserves to own a piece of land.
-                    That's why we've simplified the entire process, making it transparent,
-                    affordable, and stress-free.
+                    At Sasta Plots, we believe everyone deserves to own a piece of land. That's why we've simplified the entire process, making it transparent, affordable, and stress-free.
                   </p>
                 </div>
 
@@ -534,17 +433,10 @@ export default function HomeEnhanced() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button
-                    asChild
-                    className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-6 text-lg rounded-xl"
-                  >
+                  <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-6 text-lg rounded-xl">
                     <Link href="/about">Learn More About Us</Link>
                   </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-6 text-lg rounded-xl"
-                  >
+                  <Button asChild variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-6 text-lg rounded-xl">
                     <Link href="/contact">Get Free Consultation</Link>
                   </Button>
                 </div>
@@ -553,42 +445,19 @@ export default function HomeEnhanced() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-4">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                    <Image
-                      src="/images/gallery/plot-gallery-1.jpg"
-                      alt="Premium plotted development with boundary walls"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
+                    <Image src="/images/gallery/plot-gallery-1.jpg" alt="Premium plotted development with boundary walls" fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 25vw" />
                   </div>
                   <div className="relative aspect-square overflow-hidden rounded-2xl">
-                    <Image
-                      src="/images/gallery/plot-gallery-2.jpg"
-                      alt="Aerial view of residential plots"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
+                    <Image src="/images/gallery/plot-gallery-2.jpg" alt="Aerial view of residential plots" fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 25vw" />
                   </div>
                 </div>
+
                 <div className="space-y-4 pt-8">
                   <div className="relative aspect-square overflow-hidden rounded-2xl">
-                    <Image
-                      src="/images/gallery/plot-gallery-3.jpg"
-                      alt="Constructed property on plot"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    /></div>
+                    <Image src="/images/gallery/plot-gallery-3.jpg" alt="Constructed property on plot" fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 25vw" />
                   </div>
                   <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                    <Image
-                      src="/images/gallery/D_1760476152258.jpg"
-                      alt="Investment plot"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
+                    <Image src="/images/gallery/D_1760476152258.jpg" alt="Investment plot" fill className="object-cover hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 25vw" />
                   </div>
                 </div>
               </div>
@@ -603,23 +472,12 @@ export default function HomeEnhanced() {
           <div className="mx-auto max-w-4xl px-4 text-center space-y-8">
             <h2 className="text-4xl font-bold">Ready to Own Your Dream Plot?</h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Join thousands of satisfied customers who have found their perfect plot with us.
-              Start your journey towards land ownership today.
+              Join thousands of satisfied customers who have found their perfect plot with us. Start your journey towards land ownership today.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-              <Link
-                href="/plots"
-                className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-orange-600 to-red-600 px-10 py-4 text-lg font-bold hover:shadow-xl transform hover:scale-105 transition-all duration-300 min-w-[250px]"
-              >
-                Explore Available Plots
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-2xl border-2 border-white bg-transparent text-white px-10 py-4 text-lg font-bold hover:bg-white hover:text-gray-900 transform hover:scale-105 transition-all duration-300 min-w-[250px]"
-              >
-                Schedule Site Visit
-              </Link>
+              <Link href="/plots" className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-orange-600 to-red-600 px-10 py-4 text-lg font-bold hover:shadow-xl transform hover:scale-105 transition-all duration-300 min-w-[250px]">Explore Available Plots</Link>
+              <Link href="/contact" className="inline-flex items-center justify-center rounded-2xl border-2 border-white bg-transparent text-white px-10 py-4 text-lg font-bold hover:bg-white hover:text-gray-900 transform hover:scale-105 transition-all duration-300 min-w-[250px]">Schedule Site Visit</Link>
             </div>
 
             <div className="pt-8 text-center">
@@ -635,13 +493,7 @@ export default function HomeEnhanced() {
           <h2 className="font-heading text-3xl font-semibold md:text-4xl">Our Location</h2>
           <p className="mt-2 text-muted-foreground">Find us on the map</p>
         </div>
-        <Map
-          latitude={30.402437}
-          longitude={77.750105}
-          zoom={16}
-          title="Our Office Location"
-          height="400px"
-        />
+        <Map latitude={30.402437} longitude={77.750105} zoom={16} title="Our Office Location" height="400px" />
       </section>
 
       {/* CTA Banner */}
