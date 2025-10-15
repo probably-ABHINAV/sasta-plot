@@ -229,7 +229,7 @@ export function HomeEnhanced() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-emerald-600">
-                    ₹16,500 per sq/ft
+                    ₹1550 per sq/ft
                   </span>
                   <Link href="/plots/zams-gardenia">
                     <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
@@ -244,7 +244,7 @@ export function HomeEnhanced() {
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="/images/plots/plot-2.png"
+                  src="/images/gallery/D_1760476152258.jpg"
                   alt="Bajrang Vatika"
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -273,7 +273,7 @@ export function HomeEnhanced() {
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="/images/plots/plot-3.png"
+                  src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_a5777e2d.jpg"
                   alt="Friends Colony Phase 1"
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -333,7 +333,7 @@ export function HomeEnhanced() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-emerald-600">
-                      ₹16,500 per sq/ft
+                      ₹1550 per sq/ft
                     </span>
                     <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                       View Details
@@ -347,7 +347,7 @@ export function HomeEnhanced() {
               <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
-                    src="/images/plots/plot-2.png"
+                    src="/images/gallery/C_1760476152261.jpg"
                     alt="Bajrang Vatika"
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -375,7 +375,7 @@ export function HomeEnhanced() {
               <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
-                    src="/images/plots/plot-3.png"
+                    src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_02316e06.jpg"
                     alt="Friends Colony Phase 1"
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
