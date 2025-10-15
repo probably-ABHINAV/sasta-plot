@@ -1,57 +1,52 @@
-
+// /components/animated-section.tsx
 "use client"
 
-import { motion, type Variants } from "framer-motion"
-import type { PropsWithChildren } from "react"
+import React from "react"
+import { motion } from "framer-motion"
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
-}
+type Props = { children: React.ReactNode }
 
-export function FadeInSection({
-  children,
-  className,
-  once = true,
-}: PropsWithChildren<{ className?: string; once?: boolean }>) {
+export const FadeInSection = ({ children }: Props) => {
   return (
     <motion.div
-      className={className}
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once, amount: 0.2 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       {children}
     </motion.div>
   )
 }
 
-export function Stagger({
-  children,
-  delay = 0.06,
-  className = "",
-}: PropsWithChildren<{ delay?: number; className?: string }>) {
+export const Stagger = ({ children }: Props) => {
   return (
     <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
       variants={{
         hidden: {},
-        show: { transition: { staggerChildren: delay } },
+        visible: {
+          transition: { staggerChildren: 0.12 },
+        },
       }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
     >
       {children}
     </motion.div>
   )
 }
 
-export function Item({ children }: PropsWithChildren) {
-  return <motion.div variants={fadeUp}>{children}</motion.div>
-}
-
-export function HoverLift({ children, className = "" }: PropsWithChildren<{ className?: string }>) {
-  return <div className={className}>{children}</div>
+export const Item = ({ children }: Props) => {
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 12 },
+        visible: { opacity: 1, y: 0 },
+      }}
+      transition={{ duration: 0.45 }}
+    >
+      {children}
+    </motion.div>
+  )
 }
