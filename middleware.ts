@@ -1,13 +1,89 @@
 
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
+
+  // Create Supabase client with middleware cookie handling
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (supabaseUrl && supabaseAnonKey) {
+    const supabase = createServerClient(
+      supabaseUrl,
+      supabaseAnonKey,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            response.cookies.set({
+              name,
+              value,
+              ...options,
+            })
+          },
+          remove(name: string, options: CookieOptions) {
+            response.cookies.set({
+              name,
+              value: '',
+              ...options,
+            })
+          },
+        },
+      }
+    )
+
+    // Refresh session if needed
+    await supabase.auth.getUser()
+  }
 
   // Only protect admin routes
   if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard-admin-2024')) {
     try {
-      // Check for demo auth cookie
+      // First check for Supabase session (if credentials are available)
+      if (supabaseUrl && supabaseAnonKey) {
+        const supabase = createServerClient(
+          supabaseUrl,
+          supabaseAnonKey,
+          {
+            cookies: {
+              get(name: string) {
+                return request.cookies.get(name)?.value
+              },
+              set(name: string, value: string, options: CookieOptions) {
+                response.cookies.set({
+                  name,
+                  value,
+                  ...options,
+                })
+              },
+              remove(name: string, options: CookieOptions) {
+                response.cookies.set({
+                  name,
+                  value: '',
+                  ...options,
+                })
+              },
+            },
+          }
+        )
+        
+        const { data: { user } } = await supabase.auth.getUser()
+        
+        if (user) {
+          return response
+        }
+      }
+
+      // Fallback to demo auth cookie
       const sessionCookie = request.cookies.get('demo-session')
       
       if (sessionCookie?.value) {
@@ -15,14 +91,14 @@ export async function middleware(request: NextRequest) {
           const user = JSON.parse(atob(sessionCookie.value))
           
           if (user && user.role === 'admin' && user.email) {
-            return NextResponse.next()
+            return response
           }
         } catch (error) {
           console.error('Invalid session cookie:', error)
         }
       }
 
-      // If no valid admin session, redirect to sign-in
+      // If no valid session, redirect to sign-in
       const signInUrl = new URL('/sign-in', request.url)
       signInUrl.searchParams.set('redirect', pathname)
       return NextResponse.redirect(signInUrl)
@@ -33,7 +109,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next()
+  return response
 }
 
 export const config = {

@@ -49,12 +49,12 @@ export default function PlotsGallery() {
     return (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {[
-          "/images/gallery/A_1760476152262.jpg",
-          "/images/gallery/B_1760476152260.jpg", 
-          "/images/gallery/C_1760476152261.jpg",
-          "/images/gallery/D_1760476152258.jpg",
-          "/images/gallery/E_1760476152255.jpg",
-          "/images/gallery/F_1760476152257.jpg"
+          "/images/gallery/plot-gallery-1.jpg",
+          "/images/gallery/plot-gallery-2.jpg", 
+          "/images/gallery/plot-gallery-3.jpg",
+          "/images/gallery/plot-gallery-4.jpg",
+          "/images/gallery/plot-gallery-5.jpg",
+          "/images/gallery/plot-gallery-6.jpg"
         ].map((src, index) => (
           <div key={index} className="group relative aspect-square overflow-hidden rounded-xl">
             <Image

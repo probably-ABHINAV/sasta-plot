@@ -79,18 +79,6 @@ export default function Page() {
         <p><strong>Blacktop / pucca internal roads and clear plot demarcation for easy construction access.</strong></p>
         <p><strong>Planned drainage system / rainwater management and basic civic provisions as listed in promotional materials.  </strong></p>
         <p><strong>Parks / landscaped open areas and community spaces for recreation</strong></p>
-
-        {/* Photo Gallery */}
-        <h3 className="font-bold text-lg mt-8 mb-4">Photo Gallery</h3>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <img src="/images/gallery/A_1760474592657.jpg" alt="Zams Gardenia View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/B_1760474592655.jpg" alt="Zams Gardenia View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/C_1760474592656.jpg" alt="Zams Gardenia View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/D_1760474592654.jpg" alt="Zams Gardenia View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/E_1760474592651.jpg" alt="Zams Gardenia View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/F_1760474592653.jpg" alt="Zams Gardenia View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
       </div>
     </main> 
   ); 

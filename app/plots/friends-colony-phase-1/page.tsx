@@ -73,18 +73,6 @@ export default function Page() {
           <p><strong>Landscaped parks, green spaces and children’s play areas for community recreation.</strong></p>
           <p><strong>Street lighting and provision for civic conveniences to ensure a safe, usable neighbourhood after dusk.</strong></p>
           <p><strong>Civic infrastructure planning including drainage and sewage provisions (planned to avoid waterlogging)</strong></p>
-
-        {/* Photo Gallery */}
-        <h3 className="font-bold text-lg mt-8 mb-4">Photo Gallery</h3>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.02_0cf5591a.jpg" alt="Friends Colony View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.02_e87110ff.jpg" alt="Friends Colony View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_02316e06.jpg" alt="Friends Colony View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_4315efdb.jpg" alt="Friends Colony View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_a5777e2d.jpg" alt="Friends Colony View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_af26fc11.jpg" alt="Friends Colony View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
       </div>
     </main>
   );

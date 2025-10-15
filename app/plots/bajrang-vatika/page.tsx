@@ -71,19 +71,6 @@ export default function Page() {
          <p><strong>24×7 security and CCTV surveillance; guard room at the entrance.</strong></p>
          <p><strong>Wide internal roads (30 ft / 40 ft arterial roads reported in listings) for easy movement and construction access.</strong></p>
          <p><strong>Provision for water and electricity connections and street lighting.</strong></p>
-        
-
-        {/* Photo Gallery */}
-        <h3 className="font-bold text-lg mt-8 mb-4">Photo Gallery</h3>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <img src="/images/gallery/A_1760476152262.jpg" alt="Bajrang Vatika View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/B_1760476152260.jpg" alt="Bajrang Vatika View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/C_1760476152261.jpg" alt="Bajrang Vatika View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/D_1760476152258.jpg" alt="Bajrang Vatika View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/E_1760476152255.jpg" alt="Bajrang Vatika View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/F_1760476152257.jpg" alt="Bajrang Vatika View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
       </div>
     </main>
   );

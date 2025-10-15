@@ -4,6 +4,7 @@ import type React from "react"
 
 import Link from "next/link"
 import { getBrowserSupabase } from "@/lib/supabase/browser"
+import GoogleSignInButton from "@/components/auth/google-signin-button"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
@@ -67,6 +68,20 @@ export default function SignUpPage() {
           {loading ? "Creating..." : "Create account"}
         </button>
       </form>
+
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with
+          </span>
+        </div>
+      </div>
+
+      <GoogleSignInButton />
+
       <p className="mt-4 text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link href="/sign-in" className="text-primary hover:opacity-90">
