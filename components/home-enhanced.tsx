@@ -147,122 +147,95 @@ export default function HomeEnhanced() {
         </section>
       </FadeInSection>
 
-      {/* Why Choose Us Section */}
-      <FadeInSection>
-        <section className="py-20 bg-white">
-          <div className="mx-auto max-w-7xl px-4">
-            <div className="text-center space-y-4 mb-16">
-              <h2 className="text-4xl font-bold text-gray-900">Why Choose Sasta Plots?</h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                We make land ownership accessible with transparent processes, verified documentation, and unbeatable prices
-              </p>
-            </div>
+     {/* Featured Plots Section */}
+<FadeInSection>
+  <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mb-12 text-center">
+      <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Featured Properties</h2>
+      <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+        Discover our handpicked selection of premium plots in prime locations
+      </p>
+    </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center space-y-6 p-8 rounded-2xl bg-orange-50 hover:bg-orange-100 transition-all duration-300 transform hover:scale-105">
-                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto">
-                  💰
-                </div>
-                <h3 className="text-xl font-bold text-gray-900">Affordable Pricing</h3>
-                <p className="text-gray-600">
-                  Premium plots at 30% below market rates with flexible payment options
-                </p>
-              </div>
-
-              <div className="text-center space-y-6 p-8 rounded-2xl bg-red-50 hover:bg-red-100 transition-all duration-300 transform hover:scale-105">
-                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto">
-                  📋
-                </div>
-                <h3 className="text-xl font-bold text-gray-900">Clear Documentation</h3>
-                <p className="text-gray-600">
-                  All legal documents verified and ready for immediate transfer
-                </p>
-              </div>
-
-              <div className="text-center space-y-6 p-8 rounded-2xl bg-orange-50 hover:bg-orange-100 transition-all duration-300 transform hover:scale-105">
-                <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto">
-                  🏗️
-                </div>
-                <h3 className="text-xl font-bold text-gray-900">Ready Infrastructure</h3>
-                <p className="text-gray-600">
-                  Complete infrastructure with roads, electricity, and water connections
-                </p>
-              </div>
-            </div>
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Plot 1 */}
+      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src="/images/plots/plot-1.png"
+            alt="Zams Gardenia"
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+        <CardContent className="p-6">
+          <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
+          <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
+            <MapPin className="h-4 w-4" />
+            <span>Bihta – Greater Patna Corridor</span>
           </div>
-        </section>
-      </FadeInSection>
-
-      {/* Featured Plots Section */}
-      <FadeInSection>
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Featured Properties</h2>
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-              Discover our handpicked selection of premium plots in prime locations
-            </p>
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/ft</span>
+            <Link href="/plots/zams-gardenia">
+              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
+            </Link>
           </div>
+        </CardContent>
+      </Card>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image src="/images/plots/plot-1.png" alt="Zams Gardenia" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
-                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Bihta – Greater Patna Corridor</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/ft</span>
-                  <Link href="/plots/zams-gardenia">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image src="/images/plots/plot-2.png" alt="Bajrang Vatika" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
-                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Dehradun</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/yd</span>
-                  <Link href="/plots/bajrang-vatika">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image src="/images/plots/plot-3.png" alt="Friends Colony Phase 1" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
-                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Dehradun</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">₹16,000 per sq/yd</span>
-                  <Link href="/plots/friends-colony-phase-1">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
+      {/* Plot 2 */}
+      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src="/images/plots/plot-2.png"
+            alt="Bajrang Vatika"
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+        <CardContent className="p-6">
+          <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
+          <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
+            <MapPin className="h-4 w-4" />
+            <span>Dehradun</span>
           </div>
-        </section>
-      </FadeInSection>
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/yd</span>
+            <Link href="/plots/bajrang-vatika">
+              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Plot 3 */}
+      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src="/images/plots/plot-3.png"
+            alt="Friends Colony Phase 1"
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+        <CardContent className="p-6">
+          <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
+          <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
+            <MapPin className="h-4 w-4" />
+            <span>Dehradun</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-bold text-emerald-600">₹16,000 per sq/yd</span>
+            <Link href="/plots/friends-colony-phase-1">
+              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  </section>
+</FadeInSection>
+
 
       {/* Latest Properties Section */}
       <FadeInSection>
