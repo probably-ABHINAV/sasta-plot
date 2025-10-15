@@ -1,4 +1,4 @@
-// /components/home-enhanced.tsx
+// components/home-enhanced.tsx
 "use client"
 
 import { useState, useEffect } from "react"
@@ -6,16 +6,16 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { FadeInSection, Stagger, Item } from "@/components/animated-section"
+import { FadeInSection, Stagger, Item } from "@/components/animated-section" // named exports — OK
 import { MapPin } from "lucide-react"
 import PlotsGallery from "@/components/plots-gallery"
 import dynamic from "next/dynamic"
-import { Testimonials } from "@/components/testimonials"
-import CtaBanner from "@/components/cta-banner" // <-- default import (fixed)
+import Testimonials from "@/components/testimonials" // <-- DEFAULT import (match your file)
+import CtaBanner from "@/components/cta-banner" // <-- DEFAULT import (match your file)
 
 const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
   ssr: false,
-  loading: () => <div className="h-[400px] bg-muted rounded-lg flex items-center justify-center">Loading map...</div>
+  loading: () => <div className="h-[400px] bg-muted rounded-lg flex items-center justify-center">Loading map...</div>,
 })
 
 interface Plot {
@@ -117,7 +117,7 @@ export default function HomeEnhanced() {
         </section>
       </FadeInSection>
 
-      {/* Featured Plots Section */}
+      {/* Featured Plots */}
       <FadeInSection>
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
@@ -126,7 +126,7 @@ export default function HomeEnhanced() {
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Plot 1 */}
+            {/* Plot cards (three) */}
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image src="/images/plots/plot-1.png" alt="Zams Gardenia" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -139,14 +139,11 @@ export default function HomeEnhanced() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/ft</span>
-                  <Link href="/plots/zams-gardenia">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
-                  </Link>
+                  <Link href="/plots/zams-gardenia"><Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button></Link>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Plot 2 */}
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image src="/images/plots/plot-2.png" alt="Bajrang Vatika" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -159,14 +156,11 @@ export default function HomeEnhanced() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-emerald-600">₹16,500 per sq/yd</span>
-                  <Link href="/plots/bajrang-vatika">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
-                  </Link>
+                  <Link href="/plots/bajrang-vatika"><Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button></Link>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Plot 3 */}
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image src="/images/plots/plot-3.png" alt="Friends Colony Phase 1" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -179,9 +173,7 @@ export default function HomeEnhanced() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-emerald-600">₹16,000 per sq/yd</span>
-                  <Link href="/plots/friends-colony-phase-1">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button>
-                  </Link>
+                  <Link href="/plots/friends-colony-phase-1"><Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">View Details</Button></Link>
                 </div>
               </CardContent>
             </Card>
@@ -189,10 +181,24 @@ export default function HomeEnhanced() {
         </section>
       </FadeInSection>
 
-      {/* Latest Properties, How It Works, Plot Gallery, Value Prop etc. */}
-      {/* ...the rest of your sections (as in your original) ... */}
+      {/* Plots Gallery */}
+      <FadeInSection>
+        <section className="py-20 bg-gradient-to-r from-orange-600 to-red-600">
+          <div className="mx-auto max-w-7xl px-4">
+            <div className="text-center space-y-6 mb-16">
+              <h2 className="text-4xl font-bold text-white">Our Plot Gallery</h2>
+              <p className="text-xl text-orange-100 max-w-3xl mx-auto">Take a visual tour of our available plots across different locations</p>
+            </div>
+            <PlotsGallery />
+            <div className="text-center mt-12">
+              <Link href="/plots" className="inline-flex items-center justify-center rounded-2xl bg-white text-orange-600 px-8 py-4 text-lg font-bold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300">View Complete Gallery</Link>
+            </div>
+          </div>
+        </section>
+      </FadeInSection>
 
-      <PlotsGallery />
+      {/* Testimonials (if exists) */}
+      {Testimonials ? <Testimonials /> : null}
 
       {/* Map Section */}
       <section className="mx-auto max-w-6xl px-4 py-10 md:py-14">
