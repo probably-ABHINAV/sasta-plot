@@ -62,19 +62,17 @@ export default function Page() {
 
         <h3 className="font-bold text-lg mt-8 mb-2">Investment rationale</h3>
         <p>
-          Because plots are <strong>ready for immediate construction</strong>, buyers can start development quickly — 
+          Because plots are <strong>ready for immediate construction</strong>, buyers can start development quickly 
           speeding up <strong>utility connections</strong> and improving <strong>rental/resale potential</strong> 
           for <strong>short-to-medium-term investors</strong>.
         </p>
 
         <h3 className="font-bold text-lg mt-8 mb-2">Amenities & Infrastructure </h3>
-        <p>
-          <strong>Gated community with controlled entry and an emphasis on resident security.</strong>
-          <strong>Wide, well-laid internal roads and clearly planned plots for easy construction.</strong>
-          <strong>Landscaped parks, green spaces and children’s play areas for community recreation.</strong>
-          <strong>Street lighting and provision for civic conveniences to ensure a safe, usable neighbourhood after dusk.</strong>
-          <strong>Civic infrastructure planning including drainage and sewage provisions (planned to avoid waterlogging)</strong>
-        </p>  
+        <p><strong>Gated community with controlled entry and an emphasis on resident security.</strong></p>
+          <p><strong>Wide, well-laid internal roads and clearly planned plots for easy construction.</strong></p>
+          <p><strong>Landscaped parks, green spaces and children’s play areas for community recreation.</strong></p>
+          <p><strong>Street lighting and provision for civic conveniences to ensure a safe, usable neighbourhood after dusk.</strong></p>
+          <p><strong>Civic infrastructure planning including drainage and sewage provisions (planned to avoid waterlogging)</strong></p>
 
         {/* Photo Gallery */}
         <h3 className="font-bold text-lg mt-8 mb-4">Photo Gallery</h3>
