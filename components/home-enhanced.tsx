@@ -331,7 +331,7 @@ export function HomeEnhanced() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-emerald-600">
-                      ₹16,500 per sq/ft
+                      ₹1550 per sq/ft
                     </span>
                     <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
                       View Details
