@@ -34,7 +34,7 @@ interface Plot {
   created_at: string
 }
 
-export function HomeEnhanced() {
+export default function HomeEnhanced() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [featuredPlots, setFeaturedPlots] = useState<Plot[]>([])
