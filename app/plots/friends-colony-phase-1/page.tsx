@@ -10,7 +10,7 @@ export default function Page() {
       {/* Project Image */}
       <div className="mb-8">
         <img
-          src="/images/friends-colony.jpg"  // 🔹 Replace with your image
+          src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.02_e87110ff.jpg"  // 🔹 Replace with your image
           alt="Friends Colony Phase-1"
           className="w-full h-64 object-cover rounded-2xl shadow-md"
         />
@@ -79,12 +79,12 @@ export default function Page() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <img src="/images/gallery/A_1760474592657.jpg" alt="Friends Colony View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/B_1760474592655.jpg" alt="Friends Colony View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/C_1760474592656.jpg" alt="Friends Colony View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/D_1760474592654.jpg" alt="Friends Colony View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/E_1760474592651.jpg" alt="Friends Colony View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
-        <img src="/images/gallery/F_1760474592653.jpg" alt="Friends Colony View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.02_0cf5591a.jpg" alt="Friends Colony View 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.02_e87110ff.jpg" alt="Friends Colony View 2" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_02316e06.jpg" alt="Friends Colony View 3" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_4315efdb.jpg" alt="Friends Colony View 4" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_a5777e2d.jpg" alt="Friends Colony View 5" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
+        <img src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_af26fc11.jpg" alt="Friends Colony View 6" className="w-full h-64 object-cover rounded-lg shadow-md hover:shadow-xl transition-shadow" />
       </div>
     </main>
   );
