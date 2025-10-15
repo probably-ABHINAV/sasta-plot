@@ -9,6 +9,7 @@ export const metadata = {
   title: "Plots - Sasta Plots"
 }
 
+const PLOTS = [
   { 
     href: "/plots/bajrang-vatika", 
     title: "Bajrang Vatika - The Private Retreat", 
