@@ -11,6 +11,8 @@ import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } fr
 import PlotsGallery from "@/components/plots-gallery"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 import dynamic from "next/dynamic"
+import { HomeEnhanced } from "@/components/home-enhanced"
+
 
 // Dynamic import to avoid SSR issues with Leaflet
 const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
