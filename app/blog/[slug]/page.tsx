@@ -48,14 +48,6 @@ const staticPosts = [
         <li>Cheap land doesn’t always mean good investment. If there’s no electricity, water, roads, or drainage, the land may be unfit for construction. Many people buy plots in areas without bus stops, hospitals, or schools nearby. This makes living or renting the property difficult. Always visit the site and check for essential amenities before investing.</li>
         
       </ul>
-      <p><strong>Zam’s Gardenia</strong> addresses these risks with:</p>
-      <ul>
-        <li>Prime location near IIT Patna & Bihta Airport</li>
-        <li>NH-139 connectivity, rail & air links</li>
-        <li>RERA certified, R-Zone classified plots</li>
-        <li>Basic amenities: roads, sewer, electricity, water</li>
-        <li>Financial ease: EMIs & bank loan support</li>
-      </ul>
       <p>It’s a <em>safe, smart, and future-proof project</em> for investors.</p>
     `
   },
