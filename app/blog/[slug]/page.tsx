@@ -33,18 +33,18 @@ const staticPosts = [
     slug: "zams-gardenia-real-estate-mistakes",
     created_at: "2025-10-08",
     content: `
-      <p>Conclusion – Why Zam's Gardenia Is a Safe and Smart Decision?</p>
+      <p><strong>Conclusion – Why Zam's Gardenia Is a Safe and Smart Decision?</strong></p>
       <ul>
         <li>Real estate investment is still seen as a secure and long-term profitable option in India. But this investment only proves beneficial when done with proper information and strategy. Otherwise, it can turn into a loss that not only drains your savings but also causes mental stress. In this article, we will understand in detail how one wrong decision in real estate can turn into a big financial loss.</li>
-        <li>1. Choosing the Wrong Location:</li>
+        <li><strong>1. Choosing the Wrong Location:</strong></li>
         <li>Location is the heart of real estate. Selecting the right location can increase your property's value year after year, while a poor location can block your money for years. Often, people get tempted by low prices and buy plots in areas where there is no road, water, electricity, or future planning.Such areas lack livability and rental opportunities. This leads to inactive investments and frozen capital. Therefore, while selecting a location, always examine surrounding infrastructure, connectivity, and future development plans.</li>
-        <li>2. Ignoring Legal Clearance:</li>
+        <li><strong>2. Ignoring Legal Clearance:</strong></li>
         <li>Legal clearance is the most important aspect of real estate. If you've invested in a disputed property or a layout that isn't approved, you may face legal troubles and financial losses in the future.</li>
         <li>While buying property, it's essential to thoroughly check RERA certification, mutation, NOC, land ownership, and zone classification. It should also be verified whether the land falls under a residential zone. Sometimes buyers are given possession without proper registration, leading to huge losses later.</li>
-        <li>3. Investing at the Wrong Time:</li>
+        <li><strong>3. Investing at the Wrong Time:</strong></li>
         <li>Market timing is very important in real estate. Many people invest at market highs when prices are already at their peak. Properties bought at such times may not yield any significant returns for years.</li>
         <li>In contrast, if you invest in early development phases when infrastructure is just starting to come up, you can earn greater profits at lower prices. Smart investors always look at developing areas and upcoming government projects before deciding.</li>
-        <li>4. Ignoring Basic Amenities:</li>
+        <li><strong>4. Ignoring Basic Amenities:</strong></li>
         <li>Cheap land doesn’t always mean good investment. If there’s no electricity, water, roads, or drainage, the land may be unfit for construction. Many people buy plots in areas without bus stops, hospitals, or schools nearby. This makes living or renting the property difficult. Always visit the site and check for essential amenities before investing.</li>
         
       </ul>
