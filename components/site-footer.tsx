@@ -54,7 +54,7 @@ export function SiteFooter() {
             <p className="text-sm font-medium">Follow Us</p>
             <div className="flex gap-3 mt-2">
               <a 
-                href="https://www.facebook.com/share/1DQpfEBfJ5/" 
+                href="https://www.facebook.com/share/1GY3z1dvqx/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="h-10 w-10 flex items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors"
@@ -65,7 +65,7 @@ export function SiteFooter() {
                 </svg>
               </a>
               <a 
-                href="https://www.instagram.com/sastaplots7/" 
+                href="https://www.instagram.com/sasta_plots?igsh=aXpyazBuM29sN3Vs" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white hover:from-purple-700 hover:to-pink-600 transition-colors"
