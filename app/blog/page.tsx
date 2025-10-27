@@ -50,11 +50,11 @@ const staticPosts = [
   },
   {
     id: "3",
-    title: "Greater Dehradun क्यों बन रहा है Investors का नया पसंदीदा इलाका?",
+    title: "How to Choose the Right Location for Your Plot Investment",
     slug: "greater-dehradun-hindi-2025",
-    created_at: "2025-10-08",
+    created_at: "2025-10-27",
     excerpt:
-      "दिल्ली–देहरादून इकोनॉमिक कॉरिडोर: रफ्तार और रियल एस्टेट का संगम",
+      "Introduction: Why Location Is the Heart of Real Estate",
     content: `
       <p>ग्रेटर देहरादून 2025 में रियल एस्टेट निवेश के लिए सबसे बेहतरीन स्थानों में से एक बन रहा है।</p>
       <ul>
@@ -70,7 +70,7 @@ const staticPosts = [
     id: "4",
     title: "Greater Dehradun क्यों बन रहा है Investors का नया पसंदीदा इलाका?",
     slug: "greater-dehradun-hindi-2026",
-    created_at: "2025-10-08",
+    created_at: "2025-10-25",
     excerpt:
       "दिल्ली–देहरादून इकोनॉमिक कॉरिडोर: रफ्तार और रियल एस्टेट का संगम",
     content: `
@@ -88,7 +88,7 @@ const staticPosts = [
     id: "5",
     title: "हाइवे के पास की ज़मीन: आज खरीदो, कल मुनाफा कमाओ!",
     slug: "zams-gardenia-hindi",
-    created_at: "2025-10-08",
+    created_at: "2025-10-23",
     excerpt:
       "फ्यूचर प्रूफ इन्वेस्टमेंट",
     content: `
