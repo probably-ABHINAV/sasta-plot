@@ -8,9 +8,9 @@ import { Badge } from "@/components/ui/badge"
 const staticPosts = [
   {
     id: "1",
-    title: "Why Greater Dehradun is the Smart Investment Choice in 2025",
+    title: "Why Buying a Plot in Uttarakhand Is a Smart Long-Term Move",
     slug: "greater-dehradun-investment-2025",
-    created_at: "2025-10-08",
+    created_at: "2025-10-29",
     content: `
       <p><strong>Why Buying a Plot in Uttarakhand Is a Smart Long-Term Move</strong></p>
       <p>Investing in land is as much about lifestyle as it is about long-term value. Uttarakhand - with its dramatic Himalayan backdrop, clean air, and growing tourism and wellness economy - offers a rare combination: scenic living plus steady demand from holiday-home buyers, retirees, and eco-tourism developers. For buyers who want a tangible asset that can be used, enjoyed, and passed down, a well-chosen plot in Uttarakhand delivers both emotional satisfaction and financial resilience.</p>
