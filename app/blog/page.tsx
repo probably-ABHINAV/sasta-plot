@@ -7,8 +7,21 @@ import { Badge } from "@/components/ui/badge"
 const staticPosts = [
   {
     id: "1",
-    title: "Why Greater Dehradun is the Smart Investment Choice in 2025",
+    title: "Why Buying a Plot in Uttarakhand Is a Smart Long-Term Move",
     slug: "greater-dehradun-investment-2025",
+    created_at: "2025-10-29",
+    excerpt:
+      "Investing in land is as much about lifestyle as it is about long-term value. Uttarakhand - with its dramatic Himalayan backdrop, clean air, and growing tourism and wellness economy - offers a rare combination: scenic living plus steady demand from holiday-home buyers, retirees, and eco-tourism developers. For buyers who want a tangible asset that can be used, enjoyed, and passed down, a well-chosen plot in Uttarakhand delivers both emotional satisfaction and financial resilience.",
+    content: `
+      <p>Location matters more than ever. Proximity to good roads, reliable utilities, and nearby town centers determines usability and resale potential. Many parts of Uttarakhand provide easy access to major highways, railway nodes and regional airports, while still offering the peace of hill living. Areas close to pilgrimage routes, hill stations, and national parks tend to attract consistent interest from holidaymakers and second-home buyers, supporting rental incomes and future appreciation.</p>
+      
+      <p>For investors, this region offers <em>affordable entry + long-term appreciation</em>.</p>
+    `
+  },
+  {
+    id: "2",
+    title: "Why Greater Dehradun is the Smart Investment Choice in 2025",
+    slug: "greater-dehradun-investment-2026",
     created_at: "2025-10-08",
     excerpt:
       "Greater Dehradun is emerging as a prime real estate hub due to the Delhi–Dehradun Economic Corridor, affordable plots, R2 zoning, and upcoming Smart City developments...",
@@ -24,7 +37,7 @@ const staticPosts = [
     `
   },
   {
-    id: "2",
+    id: "3",
     title: "Common Real Estate Mistakes & How Zam’s Gardenia Solves Them",
     slug: "zams-gardenia-real-estate-mistakes",
     created_at: "2025-10-08",
@@ -49,7 +62,7 @@ const staticPosts = [
     `
   },
   {
-    id: "3",
+    id: "4",
     title: "How to Choose the Right Location for Your Plot Investment",
     slug: "greater-dehradun-hindi-2025",
     created_at: "2025-10-27",
@@ -67,7 +80,7 @@ const staticPosts = [
     `
   },
   {
-    id: "4",
+    id: "5",
     title: "Greater Dehradun क्यों बन रहा है Investors का नया पसंदीदा इलाका?",
     slug: "greater-dehradun-hindi-2026",
     created_at: "2025-10-25",
@@ -85,7 +98,7 @@ const staticPosts = [
     `
   },
   {
-    id: "5",
+    id: "6",
     title: "हाइवे के पास की ज़मीन: आज खरीदो, कल मुनाफा कमाओ!",
     slug: "zams-gardenia-hindi",
     created_at: "2025-10-23",
