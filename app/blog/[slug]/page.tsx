@@ -7,7 +7,22 @@ import { Badge } from "@/components/ui/badge"
 // ✅ Full content for each blog
 const staticPosts = [
   {
-    id: "1",
+  id: "1",
+  title: "Top Reasons to Invest in Residential Plots Near Dehradun",
+  slug: "residential-plot-investment-dehradun-2025",
+  created_at: "2025-11-01",
+  content: `
+    <p><strong>Top Reasons to Invest in Residential Plots Near Dehradun</strong></p>
+    <p>Buying a residential plot near Dehradun has become one of the most promising investment choices in North India. Known for its strategic location between the plains and the hills, Dehradun offers a balanced lifestyle — modern amenities blended with natural beauty. The rising infrastructure, educational institutions, and employment opportunities make it a sought-after destination for both end-users and long-term investors looking to secure their future in a peaceful environment.</p>
+    <p>Infrastructure growth is a key reason behind the rising demand. With ongoing projects like the Delhi-Dehradun Expressway and improved connectivity to Rishikesh, Mussoorie, and Haridwar, accessibility is better than ever. Residential plots around areas like Doiwala, Premnagar, and Sahastradhara Road are witnessing rapid appreciation due to this development. For those seeking to build a home or invest early in a developing region, Dehradun’s periphery offers excellent value with future-ready potential.</p>
+    <p>Another advantage is flexibility. Buying a plot gives you full control over design, construction pace, and lifestyle preferences — unlike pre-built properties. It also allows for multi-purpose use such as building rental units, vacation homes, or even small resorts. This adaptability makes land ownership a more versatile and often more rewarding asset class in the long run, especially in regions seeing consistent urban growth like Dehradun.</p>
+    <p>Buyers should still prioritize due diligence. Always verify land titles, mutation records, and zoning regulations before purchase. Partnering with a reliable property consultant can help navigate the verification process and ensure you buy in a legally clear and safe zone. Dehradun’s expanding outskirts include both private and government-approved layouts, so confirm authenticity before finalizing any deal.</p>
+    <p><strong>How Property in Uttarakhand Helps You Choose Right</strong></p>
+    <p>For investors and families exploring options near Dehradun, <strong>Property in Uttarakhand</strong> offers an organized platform to compare verified plots, understand market trends, and connect with local experts. Their focus on transparency and region-specific insights helps you find the right property that matches your goals. Whether you’re looking for a scenic plot to build your dream home or a long-term asset for steady appreciation, Property in Uttarakhand makes your buying journey simpler, safer, and smarter.</p>
+  `
+}
+  {
+    id: "2",
     title: "Why Buying a Plot in Uttarakhand Is a Smart Long-Term Move",
     slug: "greater-dehradun-investment-2025",
     created_at: "2025-10-29",
@@ -22,7 +37,7 @@ const staticPosts = [
     `
   },
   {
-    id: "2",
+    id: "3",
     title: "Why Greater Dehradun is the Smart Investment Choice in 2026",
     slug: "greater-dehradun-investment-2025",
     created_at: "2025-10-08",
@@ -43,7 +58,7 @@ const staticPosts = [
     `
   },
   {
-    id: "3",
+    id: "4",
     title: "Common Real Estate Mistakes & How Zam’s Gardenia Solves Them",
     slug: "zams-gardenia-real-estate-mistakes",
     created_at: "2025-10-24",
@@ -67,7 +82,7 @@ const staticPosts = [
     `
   },
   {
-    id: "4",
+    id: "5",
     title: "How to Choose the Right Location for Your Plot Investment",
     slug: "greater-dehradun-hindi-2025",
     created_at: "2025-10-27",
@@ -86,7 +101,7 @@ const staticPosts = [
     `
   },
   {
-    id: "5",
+    id: "6",
     title: "Greater Dehradun क्यों बन रहा है Investors का नया पसंदीदा इलाका?",
     slug: "greater-dehradun-hindi-2026",
     created_at: "2025-10-24",
@@ -105,7 +120,7 @@ const staticPosts = [
     `
   },
   {
-    id: "6",
+    id: "7",
     title: "हाइवे के पास की ज़मीन: आज खरीदो, कल मुनाफा कमाओ!",
     slug: "zams-gardenia-hindi",
     created_at: "2025-10-24",
