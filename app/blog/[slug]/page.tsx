@@ -10,7 +10,7 @@ const staticPosts = [
   id: "1",
   title: "Top Reasons to Invest in Residential Plots Near Dehradun",
   slug: "residential-plot-investment-dehradun-2025",
-  created_at: "2025-11-01",
+  created_at: "2025-11-31",
   content: `
     <p><strong>Top Reasons to Invest in Residential Plots Near Dehradun</strong></p>
     <p>Buying a residential plot near Dehradun has become one of the most promising investment choices in North India. Known for its strategic location between the plains and the hills, Dehradun offers a balanced lifestyle — modern amenities blended with natural beauty. The rising infrastructure, educational institutions, and employment opportunities make it a sought-after destination for both end-users and long-term investors looking to secure their future in a peaceful environment.</p>
