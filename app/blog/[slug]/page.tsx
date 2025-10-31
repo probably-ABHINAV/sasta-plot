@@ -20,7 +20,7 @@ const staticPosts = [
     <p><strong>How Property in Uttarakhand Helps You Choose Right</strong></p>
     <p>For investors and families exploring options near Dehradun, <strong>Property in Uttarakhand</strong> offers an organized platform to compare verified plots, understand market trends, and connect with local experts. Their focus on transparency and region-specific insights helps you find the right property that matches your goals. Whether you’re looking for a scenic plot to build your dream home or a long-term asset for steady appreciation, Property in Uttarakhand makes your buying journey simpler, safer, and smarter.</p>
   `
-}
+ },
   {
     id: "2",
     title: "Why Buying a Plot in Uttarakhand Is a Smart Long-Term Move",
