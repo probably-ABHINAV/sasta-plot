@@ -7,6 +7,19 @@ import { Badge } from "@/components/ui/badge"
 const staticPosts = [
   {
     id: "1",
+    title: "Top Reasons to Invest in Residential Plots Near Dehradun",
+    slug: "residential-plot-investment-dehradun-2025",
+    created_at: "2025-10-31",
+    excerpt:
+      "Top Reasons to Invest in Residential Plots Near Dehradun",
+    content: `
+      <p>How Property in Uttarakhand Helps You Choose Right</p>
+      
+      <p>For investors, this region offers <em>affordable entry + long-term appreciation</em>.</p>
+    `
+  },
+  {
+    id: "2",
     title: "Why Buying a Plot in Uttarakhand Is a Smart Long-Term Move",
     slug: "greater-dehradun-investment-2025",
     created_at: "2025-10-29",
@@ -19,7 +32,7 @@ const staticPosts = [
     `
   },
   {
-    id: "2",
+    id: "3",
     title: "Why Greater Dehradun is the Smart Investment Choice in 2025",
     slug: "greater-dehradun-investment-2026",
     created_at: "2025-10-08",
@@ -37,7 +50,7 @@ const staticPosts = [
     `
   },
   {
-    id: "3",
+    id: "4",
     title: "Common Real Estate Mistakes & How Zam’s Gardenia Solves Them",
     slug: "zams-gardenia-real-estate-mistakes",
     created_at: "2025-10-08",
@@ -62,7 +75,7 @@ const staticPosts = [
     `
   },
   {
-    id: "4",
+    id: "5",
     title: "How to Choose the Right Location for Your Plot Investment",
     slug: "greater-dehradun-hindi-2025",
     created_at: "2025-10-27",
@@ -80,7 +93,7 @@ const staticPosts = [
     `
   },
   {
-    id: "5",
+    id: "6",
     title: "Greater Dehradun क्यों बन रहा है Investors का नया पसंदीदा इलाका?",
     slug: "greater-dehradun-hindi-2026",
     created_at: "2025-10-25",
@@ -98,7 +111,7 @@ const staticPosts = [
     `
   },
   {
-    id: "6",
+    id: "7",
     title: "हाइवे के पास की ज़मीन: आज खरीदो, कल मुनाफा कमाओ!",
     slug: "zams-gardenia-hindi",
     created_at: "2025-10-23",
