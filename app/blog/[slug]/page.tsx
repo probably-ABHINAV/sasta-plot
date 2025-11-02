@@ -8,6 +8,42 @@ import { Badge } from "@/components/ui/badge"
 const staticPosts = [
   {
   id: "1",
+  title: "Smart Steps to Buy a Plot — A Practical Guide with SastaPlots",
+  slug: "plot-buying-guide-sastaplots-2025",
+  created_at: "2025-11-03",
+  content: `
+    <p><strong>Smart Steps to Buy a Plot — A Practical Guide with SastaPlots</strong></p>
+
+    <p><strong>Why a Plot Can Be Your Best Investment</strong></p>
+    <p>Buying a plot is both a financial and emotional milestone. Whether your goal is to build a family home, create rental income, or hold land for appreciation, a well-chosen plot delivers flexibility and control. Compared to ready-built properties, land lets you decide design, construction schedule, and future use. In fast-developing regions, early plot purchases often yield higher long-term returns as infrastructure and services arrive.</p>
+
+    <p><strong>Start with a Clear Objective</strong></p>
+    <p>Before you search listings, define your objective. Are you buying for immediate construction, a vacation home, rental yield, or long-term capital growth? Your purpose determines location, plot size, orientation, and budget. For example, a retirement home favours quiet, well-connected locations with stable utilities, while an investment plot should prioritize emerging corridors and projects that drive appreciation.</p>
+
+    <p><strong>Check Location Fundamentals</strong></p>
+    <p>Location matters more than anything else. Evaluate connectivity to highways and towns, availability of schools and hospitals, and neighbourhood development. Inspect access roads, public transport links, and proximity to markets. Confirm whether basic utilities like water, electricity, and drainage are present or planned. SastaPlots highlights these essentials in each listing so buyers can compare places quickly and practically.</p>
+
+    <p><strong>Legal Due Diligence — Don’t Skip It</strong></p>
+    <p>Legal checks protect your investment. Verify title documents, encumbrance certificates, mutation records, and land-use zoning with local authorities. Confirm the land is not under agricultural restrictions, forest or eco-sensitive rules, or pending litigation. When paperwork is complex, engage a reliable legal consultant; SastaPlots partners with local experts who can review documents and flag issues before you pay a rupee.</p>
+
+    <p><strong>Visit the Site — Physical Inspection</strong></p>
+    <p>A site visit uncovers details that papers don’t show: topography, soil condition, drainage pattern, and seasonal access during monsoon. Check boundary markers, neighbouring developments, and sun orientation for future construction. Visiting the plot also verifies seller claims and gives a real sense of how the land will perform for building, landscaping, or renting out.</p>
+
+    <p><strong>Plan Your Finances Carefully</strong></p>
+    <p>Budget beyond the listing price. Account for stamp duty, registration, taxes, and development costs like fencing, leveling, and utility connections. Consider financing options — many banks provide loans against land with specific eligibility. Maintain a contingency buffer for unforeseen charges and negotiation room. SastaPlots provides price comparables and historical trends to help you evaluate fair market value.</p>
+
+    <p><strong>Negotiate and Secure the Deal</strong></p>
+    <p>Negotiate using verifiable comparables and the cost of utility provisioning as leverage. Draft a clear sale agreement with payment milestones, timelines, and default clauses. Ensure the sale deed is registered at the sub-registrar and that revenue records are updated post-purchase. A transparent, documented transfer prevents ownership disputes later.</p>
+
+    <p><strong>How SastaPlots Simplifies the Process</strong></p>
+    <p>SastaPlots curates verified listings, summarizes legal status, and offers neighbourhood intelligence — reducing search time and uncertainty. Their platform connects buyers to local consultants, legal reviewers, and realistic comparables so you can shortlist plots with confidence. Whether you’re a first-time buyer or a seasoned investor, SastaPlots helps you make safer, faster, and more informed decisions.</p>
+
+    <p><strong>After Purchase — Protect and Manage Your Asset</strong></p>
+    <p>Post-purchase steps matter: update property tax and utility accounts, register the revenue entry in your name, erect boundary markers, and consider temporary caretaking or fencing. Regular site visits during the first year help prevent encroachments and track nearby development. Thoughtful after-sale management preserves value and ensures your plot remains a productive asset.</p>
+  `
+  },
+{
+  id: "1",
   title: "Top Reasons to Invest in Residential Plots Near Dehradun",
   slug: "residential-plot-investment-dehradun-2025",
   created_at: "2025-10-31",
