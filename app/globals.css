@@ -13,21 +13,6 @@
   animation: gradient 3s ease infinite;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient 3s ease infinite;
-}
-
 @layer base {
   :root {
     /* 🎨 Light mode colors - Logo matching theme (Orange/Red from logo) */
@@ -106,35 +91,6 @@
     --chart-4: 30 85% 60%; /* Yellow-orange */
     --chart-5: 5 95% 70%; /* Deep orange-red */
   }
-
-  /* Global reset */
-  * {
-    @apply border-border;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  html {
-    color-scheme: light dark;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-inter), var(--font-open-sans), system-ui, sans-serif;
-  }
-
-  /* Custom font utilities */
-  .font-heading {
-    font-family: var(--font-montserrat), system-ui, sans-serif;
-  }
-
-  .font-mono {
-    font-family: var(--font-geist-mono), "Courier New", monospace;
-  }
-}
-
-/* Leaflet CSS for map component */
-@import 'leaflet/dist/leaflet.css';
 
   /* Global reset */
   * {

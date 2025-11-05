@@ -15,7 +15,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import ImageUploader from "@/components/image-uploader"
-import { BarChart3, Plus, Edit, Trash2, MapPin, DollarSign, Home, MessageSquare, Eye, Users, TrendingUp } from "lucide-react"
+import HomepageSettingsManager from "@/components/admin/homepage-settings"
+import { BarChart3, Plus, Edit, Trash2, MapPin, DollarSign, Home, MessageSquare, Eye, Users, TrendingUp, Settings } from "lucide-react"
 import { getBrowserSupabase } from "@/lib/supabase/browser"
 import Image from "next/image"
 
@@ -340,9 +341,10 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <Tabs defaultValue="plots" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-white/10 backdrop-blur-sm">
+          <TabsList className="grid w-full grid-cols-5 bg-white/10 backdrop-blur-sm">
             <TabsTrigger value="overview" className="text-white data-[state=active]:bg-white data-[state=active]:text-black">Overview</TabsTrigger>
             <TabsTrigger value="plots" className="text-white data-[state=active]:bg-white data-[state=active]:text-black">Plots</TabsTrigger>
+            <TabsTrigger value="homepage" className="text-white data-[state=active]:bg-white data-[state=active]:text-black">Homepage</TabsTrigger>
             <TabsTrigger value="blog" className="text-white data-[state=active]:bg-white data-[state=active]:text-black">Blog</TabsTrigger>
             <TabsTrigger value="inquiries" className="text-white data-[state=active]:bg-white data-[state=active]:text-black">Inquiries</TabsTrigger>
           </TabsList>
@@ -475,6 +477,10 @@ export default function AdminDashboard() {
                 ))}
               </div>
             )}
+          </TabsContent>
+
+          <TabsContent value="homepage">
+            <HomepageSettingsManager />
           </TabsContent>
 
           <TabsContent value="blog">

@@ -47,6 +47,18 @@ export interface BlogPost {
   created_at: string;
 }
 
+export interface HomepageSettings {
+  heroTitle: string;
+  heroSubtitle: string;
+  heroDescription: string;
+  heroImage: string;
+  startingPrice: string;
+  priceUnit: string;
+  showFeaturedPlotsInLatest: boolean;
+  latestPlotsLimit: number;
+  updated_at: string;
+}
+
 class FileStorage {
   private getFilePath(collection: string): string {
     return path.join(DATA_DIR, `${collection}.json`);
@@ -184,6 +196,48 @@ class FileStorage {
     posts.unshift(post);
     this.writeData('blog', posts);
     return post;
+  }
+
+  // Homepage Settings operations
+  getHomepageSettings(): HomepageSettings {
+    const filePath = this.getFilePath('settings');
+    try {
+      if (!fs.existsSync(filePath)) {
+        return this.getDefaultSettings();
+      }
+      const data = fs.readFileSync(filePath, 'utf-8');
+      return JSON.parse(data);
+    } catch (error) {
+      console.error('Error reading settings:', error);
+      return this.getDefaultSettings();
+    }
+  }
+
+  private getDefaultSettings(): HomepageSettings {
+    return {
+      heroTitle: 'Premium Plot Ownership Made Simple',
+      heroSubtitle: 'Trusted & Affordable Plots',
+      heroDescription: 'Discover verified residential and commercial plots in prime locations. Clear titles, competitive prices, and hassle-free documentation.',
+      heroImage: '/images/plots/plot-1.png',
+      startingPrice: '16500',
+      priceUnit: 'per sq/yd',
+      showFeaturedPlotsInLatest: true,
+      latestPlotsLimit: 6,
+      updated_at: new Date().toISOString(),
+    };
+  }
+
+  updateHomepageSettings(updates: Partial<HomepageSettings>): HomepageSettings {
+    const currentSettings = this.getHomepageSettings();
+    const updatedSettings: HomepageSettings = {
+      ...currentSettings,
+      ...updates,
+      updated_at: new Date().toISOString(),
+    };
+    
+    const filePath = this.getFilePath('settings');
+    fs.writeFileSync(filePath, JSON.stringify(updatedSettings, null, 2));
+    return updatedSettings;
   }
 }
 

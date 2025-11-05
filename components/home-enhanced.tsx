@@ -35,6 +35,17 @@ interface Plot {
   created_at: string
 }
 
+interface HomepageSettings {
+  heroTitle: string
+  heroSubtitle: string
+  heroDescription: string
+  heroImage: string
+  startingPrice: string
+  priceUnit: string
+  showFeaturedPlotsInLatest: boolean
+  latestPlotsLimit: number
+}
+
 export function HomeEnhanced() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
@@ -42,18 +53,33 @@ export function HomeEnhanced() {
   const [allPlots, setAllPlots] = useState<Plot[]>([])
   const [loading, setLoading] = useState(true)
   const [galleryOpen, setGalleryOpen] = useState(false)
+  const [settings, setSettings] = useState<HomepageSettings>({
+    heroTitle: 'Premium Plot Ownership Made Simple',
+    heroSubtitle: 'Trusted & Affordable Plots',
+    heroDescription: 'Discover verified residential and commercial plots in prime locations. Clear titles, competitive prices, and hassle-free documentation.',
+    heroImage: '/images/plots/plot-1.png',
+    startingPrice: '16500',
+    priceUnit: 'per sq/yd',
+    showFeaturedPlotsInLatest: true,
+    latestPlotsLimit: 6,
+  })
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const plotsResponse = await fetch('/api/plots', {
-          cache: 'no-store' // Ensure we always get fresh data
-        })
+        const [plotsResponse, settingsResponse] = await Promise.all([
+          fetch('/api/plots', { cache: 'no-store' }),
+          fetch('/api/settings', { cache: 'no-store' })
+        ])
+        
         const plotsData = await plotsResponse.json()
+        const settingsData = await settingsResponse.json()
+        
         const allPlotsData = plotsData.plots || []
         const featured = allPlotsData.filter((plot: Plot) => plot.featured).slice(0, 6)
         setFeaturedPlots(featured)
         setAllPlots(allPlotsData)
+        setSettings(settingsData)
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
@@ -77,24 +103,17 @@ export function HomeEnhanced() {
               <div className="space-y-8">
                 <div className="inline-flex items-center gap-2 rounded-full bg-orange-100 px-4 py-2 text-sm font-medium text-orange-800 ring-1 ring-orange-200">
                   <span className="relative flex h-2 w-2 rounded-full bg-orange-600 animate-pulse" />
-                  Trusted & Affordable Plots
+                  {settings.heroSubtitle}
                 </div>
 
                 <h1 className="text-5xl font-black tracking-tight lg:text-7xl">
-                  <span className="text-gray-900">Premium</span>
-                  <br />
                   <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                    Plot Ownership
-                  </span>
-                  <br />
-                  <span className="text-orange-700 text-3xl lg:text-4xl font-bold">
-                    Made Simple
+                    {settings.heroTitle}
                   </span>
                 </h1>
 
                 <p className="text-xl text-gray-600 leading-relaxed max-w-xl">
-                  Discover verified residential and commercial plots in prime locations.
-                  Clear titles, competitive prices, and hassle-free documentation.
+                  {settings.heroDescription}
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -134,7 +153,7 @@ export function HomeEnhanced() {
                 <div className="absolute -inset-4 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-3xl blur-xl"></div>
                 <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden aspect-[3/2]">
                   <Image
-                    src="/images/plots/plot-1.png"
+                    src={settings.heroImage}
                     alt="Premium residential plot"
                     fill
                     className="object-cover"
@@ -142,7 +161,7 @@ export function HomeEnhanced() {
                     sizes="(max-width: 768px) 100vw, 600px"
                   />
                   <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2">
-                    <div className="text-orange-600 font-bold text-lg">Starting from ₹16500 per sq/yd </div>
+                    <div className="text-orange-600 font-bold text-lg">Starting from ₹{settings.startingPrice} {settings.priceUnit}</div>
                     <div className="text-sm text-gray-600">Verified plots with clear titles</div>
                   </div>
                 </div>
@@ -301,7 +320,7 @@ export function HomeEnhanced() {
         </section>
       </FadeInSection>
 
-      {/* Latest Properties Section (Same Static) */}
+      {/* Latest Properties Section (Dynamic) */}
       <FadeInSection>
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
@@ -314,90 +333,43 @@ export function HomeEnhanced() {
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Just reuse the same 3 static plots */}
-            <Link href="/plots/zams-gardenia">
-              <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src="/images/plots/plot-1.png"
-                    alt="Zams Gardenia"
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
-                  <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
-                    <MapPin className="h-4 w-4" />
-                    <span>Bihta – Greater Patna Corridor</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-emerald-600">
-                      ₹1550 per sq/ft
-                    </span>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/plots/bajrang-vatika">
-              <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src="/images/gallery/C_1760476152261.jpg"
-                    alt="Bajrang Vatika"
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
-                  <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
-                    <MapPin className="h-4 w-4" />
-                    <span>Dehradun</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-emerald-600">
-                      ₹16,500 per sq/yd
-                    </span>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/plots/friends-colony-phase-1">
-              <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_02316e06.jpg"
-                    alt="Friends Colony Phase 1"
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
-                  <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
-                    <MapPin className="h-4 w-4" />
-                    <span>Dehradun</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-emerald-600">
-                      ₹16,000 per sq/yd
-                    </span>
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+            {(() => {
+              let plotsToShow = settings.showFeaturedPlotsInLatest 
+                ? allPlots.filter((plot: Plot) => plot.featured)
+                : allPlots;
+              
+              plotsToShow = plotsToShow.slice(0, settings.latestPlotsLimit);
+              
+              return plotsToShow.map((plot: Plot) => (
+                <Link key={plot.id} href={`/plots/${plot.slug}`}>
+                  <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={plot.images?.[0] || plot.image_url || '/placeholder.jpg'}
+                        alt={plot.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <CardContent className="p-6">
+                      <h3 className="mb-2 text-xl font-semibold">{plot.title}</h3>
+                      <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                        <MapPin className="h-4 w-4" />
+                        <span>{plot.location}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xl font-bold text-emerald-600">
+                          {formatPrice(plot.price)}
+                        </span>
+                        <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                          View Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ));
+            })()}
           </div>
         </section>
       </FadeInSection>
