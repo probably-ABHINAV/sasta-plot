@@ -15,82 +15,81 @@
 
 @layer base {
   :root {
-    /* 🎨 Light mode colors - Logo matching theme (Orange/Red from logo) */
     --background: 0 0% 100%;
-    --foreground: 14 100% 15%;
+    --foreground: 30 100% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 14 100% 15%;
+    --card-foreground: 30 100% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 14 100% 15%;
+    --popover-foreground: 30 100% 12%;
 
-    --primary: 14 100% 45%; /* Orange from logo */
-    --primary-foreground: 0 0% 98%;
+    --primary: 30 100% 50%; /* Orange */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 20 100% 96%;
-    --secondary-foreground: 14 100% 15%;
+    --secondary: 72 80% 66%; /* Lime Green */
+    --secondary-foreground: 30 100% 15%;
 
-    --muted: 30 40% 96%;
-    --muted-foreground: 20 50% 45%;
+    --muted: 60 50% 95%;
+    --muted-foreground: 30 30% 45%;
 
-    --accent: 20 100% 94%;
-    --accent-foreground: 14 100% 15%;
+    --accent: 72 80% 66%; /* Lime */
+    --accent-foreground: 30 100% 15%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 80% 45%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 20 30% 89%;
-    --input: 20 30% 89%;
-    --ring: 14 100% 45%;
+    --border: 30 25% 85%;
+    --input: 30 25% 85%;
+    --ring: 30 100% 50%;
 
     --radius: 0.5rem;
 
-    /* Chart palette - Logo inspired (Orange/Red theme) */
-    --chart-1: 14 100% 50%; /* Primary orange */
-    --chart-2: 20 100% 45%; /* Secondary orange */
-    --chart-3: 10 90% 55%; /* Red-orange */
-    --chart-4: 30 85% 50%; /* Yellow-orange */
-    --chart-5: 5 95% 60%; /* Deep orange-red */
+    /* Chart palette */
+    --chart-1: 30 100% 50%; /* Orange */
+    --chart-2: 72 80% 66%; /* Lime */
+    --chart-3: 25 95% 55%; /* Orange-yellow */
+    --chart-4: 5 95% 60%;  /* Deep orange */
+    --chart-5: 45 100% 50%; /* Yellow-orange */
   }
 
   .dark {
-    /* 🌙 Dark mode colors - Logo matching theme (Orange/Red from logo) */
-    --background: 14 30% 4%;
-    --foreground: 20 100% 95%;
+    --background: 30 20% 6%;
+    --foreground: 72 90% 92%;
 
-    --card: 14 30% 6%;
-    --card-foreground: 20 100% 95%;
+    --card: 30 20% 8%;
+    --card-foreground: 72 90% 92%;
 
-    --popover: 14 30% 6%;
-    --popover-foreground: 20 100% 95%;
+    --popover: 30 20% 8%;
+    --popover-foreground: 72 90% 92%;
 
-    --primary: 14 100% 60%; /* Bright orange for dark mode */
-    --primary-foreground: 14 30% 10%;
+    --primary: 30 100% 60%; /* Bright Orange */
+    --primary-foreground: 30 20% 10%;
 
-    --secondary: 14 20% 12%;
-    --secondary-foreground: 20 100% 95%;
+    --secondary: 72 80% 60%; /* Lime */
+    --secondary-foreground: 30 100% 10%;
 
-    --muted: 14 20% 12%;
-    --muted-foreground: 20 30% 65%;
+    --muted: 30 20% 12%;
+    --muted-foreground: 72 30% 70%;
 
-    --accent: 14 20% 15%;
-    --accent-foreground: 20 100% 95%;
+    --accent: 72 80% 60%;
+    --accent-foreground: 30 20% 10%;
 
-    --destructive: 0 62.8% 50%;
+    --destructive: 0 60% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 14 20% 15%;
-    --input: 14 20% 15%;
-    --ring: 14 100% 60%;
+    --border: 30 20% 15%;
+    --input: 30 20% 15%;
+    --ring: 30 100% 60%;
 
-    /* Dark chart palette - Logo inspired (Orange/Red theme) */
-    --chart-1: 14 100% 60%; /* Primary orange */
-    --chart-2: 20 100% 55%; /* Secondary orange */
-    --chart-3: 10 90% 65%; /* Red-orange */
-    --chart-4: 30 85% 60%; /* Yellow-orange */
-    --chart-5: 5 95% 70%; /* Deep orange-red */
+    --chart-1: 30 100% 60%;
+    --chart-2: 72 80% 65%;
+    --chart-3: 25 95% 65%;
+    --chart-4: 5 95% 70%;
+    --chart-5: 45 100% 60%;
   }
+}
+
 
   /* Global reset */
   * {
