@@ -23,7 +23,7 @@ export default function Page() {
 
       {/* Property Details */}
       <p className="text-sm text-gray-600 mb-4">
-        700–2000 sq.ft • Ownership: Freehold • Price: ₹16500 Per sq/feet onwards • Status: Planned &amp; Developing
+        700–2000 sq.ft • Ownership: Freehold • Price: ₹1550 Per sq/feet onwards • Status: Planned &amp; Developing
       </p>
 
       {/* Location Button */}
