@@ -6,6 +6,43 @@ import { Badge } from "@/components/ui/badge"
 
 const staticPosts = [
   {
+  id: "2",
+  title: "Essential Guide to Buying a Plot in Uttarakhand — Secure Your Future Investment",
+  slug: "essential-guide-to-buying-plot-in-uttarakhand-2025",
+  created_at: "2025-11-06",
+  content: `
+    <p><strong>Essential Guide to Buying a Plot in Uttarakhand — Secure Your Future Investment</strong></p>
+
+    <p><strong>Why Uttarakhand is a Hotspot for Land Buyers</strong></p>
+    <p>Nestled in the Himalayas, Uttarakhand offers a unique blend of natural beauty, clean air, and investment potential. With increasing tourism and improved infrastructure, buying land here is no longer just for scenic living — it’s a smart financial move. Whether you’re planning a holiday retreat, rental property, or long-term investment, Uttarakhand’s real estate growth curve is set to rise sharply in the coming decade.</p>
+
+    <p><strong>Choose the Right Location</strong></p>
+    <p>Location defines your return on investment. Areas like Dehradun, Nainital, Haridwar, and Rishikesh are high in demand due to their connectivity and lifestyle appeal. Hill regions such as Mukteshwar and Almora attract those seeking peace and tourism income potential. Always ensure the plot has access to motorable roads, water, and electricity — basic yet crucial factors for future construction and resale value.</p>
+
+    <p><strong>Understand the Type of Land</strong></p>
+    <p>In Uttarakhand, plots may fall under agricultural, residential, or mixed-use categories. Verify land-use permissions before buying. For non-residents, Section 143 land conversion (from agricultural to residential) is often required. Consulting local authorities or experts helps you avoid restrictions and secure clear development rights.</p>
+
+    <p><strong>Verify Ownership and Legal Records</strong></p>
+    <p>Legal transparency ensures peace of mind. Review the title deed, mutation records, and encumbrance certificates carefully. Cross-check ownership at the local tehsil office to ensure the land is free from disputes or government acquisition. Platforms like SastaPlots highlight verified listings with pre-screened documentation, saving you time and risk.</p>
+
+    <p><strong>Visit and Inspect the Plot</strong></p>
+    <p>Don’t rely only on photos — a physical visit is essential. Observe slope, soil quality, sunlight direction, and surroundings. Inspect the boundary lines and confirm access roads. Visit during different times of day to understand noise, traffic, and drainage. A ground visit also helps you gauge future development prospects nearby.</p>
+
+    <p><strong>Budget Beyond the Purchase Price</strong></p>
+    <p>Factor in all extra costs: registration, stamp duty, legal verification, and possible land conversion fees. Development expenses — like fencing, leveling, and electricity connections — can add up. Plan your budget with a 10–15% buffer for unexpected costs. SastaPlots offers real-time price comparisons to help you evaluate market fairness and negotiate smartly.</p>
+
+    <p><strong>Negotiate Smart and Close the Deal</strong></p>
+    <p>Once documentation checks out, negotiate based on nearby sale records, terrain condition, and availability of utilities. Draft a detailed agreement that includes timelines, payment structure, and possession terms. Always complete registration at the sub-registrar’s office to make ownership legally binding.</p>
+
+    <p><strong>How SastaPlots Helps Buyers in Uttarakhand</strong></p>
+    <p>SastaPlots makes land buying transparent and simple. The platform lists verified properties, connects you with local legal and survey experts, and provides clarity on land-use categories. From discovery to registration, SastaPlots streamlines the process — making your property purchase safe, quick, and well-informed.</p>
+
+    <p><strong>Secure and Maintain Your Investment</strong></p>
+    <p>After purchase, protect your land with boundary walls or fences. Keep the documents updated in your name at the local revenue office. Periodic visits help avoid encroachment and maintain your property’s value. With smart planning and reliable guidance, your plot in Uttarakhand can become both a dream destination and a dependable asset for years to come.</p>
+  `
+},
+
+  {
   id: "1",
   title: "Smart Steps to Buy a Plot — A Practical Guide with SastaPlots",
   slug: "plot-buying-guide-sastaplots-2025",
