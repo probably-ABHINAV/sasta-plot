@@ -1,0 +1,6 @@
+{
+    "require": {
+        "matomo/device-detector": "^6.4",
+        "phpmailer/phpmailer": "^6.10"
+    }
+}

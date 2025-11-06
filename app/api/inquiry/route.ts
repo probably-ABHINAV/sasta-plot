@@ -57,36 +57,44 @@ export async function POST(request: Request) {
 
     const supabase = getServerSupabase()
     
+    const inquiryData = {
+      name,
+      email: email || null,
+      phone: phone || null,
+      message: message || null,
+      plot_id: plotId || null,
+      status: status || 'pending',
+    }
+
+    console.log('Attempting to insert inquiry:', inquiryData)
+
     const { data: inquiry, error } = await supabase
       .from('inquiries')
-      .insert([
-        {
-          name,
-          email,
-          phone,
-          message,
-          plot_id: plotId,
-          status,
-        }
-      ])
+      .insert([inquiryData])
       .select()
       .single()
 
     if (error) {
-      console.error("Supabase error:", error)
+      console.error("Supabase error details:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      })
       
       // Fallback to file storage
       try {
         const { fileStorage } = await import('@/lib/file-storage')
         const inquiryData = {
           name,
-          email,
-          phone,
-          message,
-          plot_id: plotId,
-          status,
+          email: email || '',
+          phone: phone || '',
+          message: message || '',
+          plot_id: plotId || null,
+          status: status || 'pending',
         }
         const savedInquiry = fileStorage.createInquiry(inquiryData)
+        console.log('Saved to file storage:', savedInquiry)
         return NextResponse.json({ 
           success: true, 
           message: "Inquiry received. Our team will contact you soon.", 
@@ -97,6 +105,8 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: false, error: "Failed to save inquiry." }, { status: 500 })
       }
     }
+
+    console.log('Inquiry saved successfully:', inquiry)
 
     return NextResponse.json({ 
       success: true, 

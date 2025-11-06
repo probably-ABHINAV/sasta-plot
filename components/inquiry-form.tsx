@@ -38,7 +38,8 @@ export function InquiryForm({ plotId }: InquiryFormProps) {
           phone, 
           email, 
           message: msg,
-          plotId: plotId 
+          plotId: plotId,
+          status: 'pending'
         }),
       })
       const payload = await res.json()

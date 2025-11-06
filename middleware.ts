@@ -45,6 +45,50 @@ export async function middleware(request: NextRequest) {
     await supabase.auth.getUser()
   }
 
+  // Allow access to CRM sign-in page
+  if (pathname === '/crm/sign-in') {
+    return response
+  }
+
+  // Protect CRM routes
+  if (pathname.startsWith('/crm')) {
+    if (supabaseUrl && supabaseAnonKey) {
+      const supabase = createServerClient(
+        supabaseUrl,
+        supabaseAnonKey,
+        {
+          cookies: {
+            get(name: string) {
+              return request.cookies.get(name)?.value
+            },
+            set(name: string, value: string, options: CookieOptions) {
+              response.cookies.set({
+                name,
+                value,
+                ...options,
+              })
+            },
+            remove(name: string, options: CookieOptions) {
+              response.cookies.set({
+                name,
+                value: '',
+                ...options,
+              })
+            },
+          },
+        }
+      )
+      
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) {
+        return NextResponse.redirect(new URL('/crm/sign-in', request.url))
+      }
+      
+      return response
+    }
+  }
+
   // Only protect admin routes
   if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard-admin-2024')) {
     try {
