@@ -9,21 +9,21 @@ import { X, MessageCircle, Home, MapPin, IndianRupee, Send } from 'lucide-react'
 const plotData: Record<string, any> = {
   'Zams Gardenia': {
     overview:
-      '🏡 Zams Gardenia is a thoughtfully planned development in Bihta (Greater Patna). It features gated entry, street lighting, legal approval, and proximity to educational and transport hubs — ideal for smart investors.',
+      ' Zams Gardenia is a thoughtfully planned development in Bihta (Greater Patna). It features gated entry, street lighting, legal approval, and proximity to educational and transport hubs — ideal for smart investors.',
     Location: '📍 Bihta, Greater Patna, Bihar. Connected to Bihta Airport and Patna city.',
     Price: '💰 ₹1,550 per sq.ft. Transparent pricing with registry support.',
     'Plot Size': '📐 700–2000 sq.ft plots. Ideal for villas or compact duplexes.',
   },
   'Bajrang Vatika': {
     overview:
-      '🌿 Bajrang Vatika is Uttarakhand’s first Hanuman-themed residential community. Set on the Shimla Bypass Road, it offers peace, Vastu compliance, and green open areas ideal for spiritual families.',
+      ' Bajrang Vatika is Uttarakhand’s first Hanuman-themed residential community. Set on the Shimla Bypass Road, it offers peace, Vastu compliance, and green open areas ideal for spiritual families.',
     Location: '📍 Shimla Bypass Road, near Dehradun city center. Surrounded by schools and wellness hubs.',
     Price: '💰 ₹16,800 per sq.yd. Gated plot enclave with themed design.',
     'Plot Size': '📐 1200–2400 sq.yd plots with garden-facing options.',
   },
   'Friends Colony Phase 1': {
     overview:
-      '🚦 Friends Colony Phase 1 is a well-connected residential pocket near Delhi–Dehradun Expressway. With wide internal roads and drainage, it suits both living and investment.',
+      ' Friends Colony Phase 1 is a well-connected residential pocket near Delhi–Dehradun Expressway. With wide internal roads and drainage, it suits both living and investment.',
     Location: '📍 Near Delhi–Dehradun Expressway. Quick access to Dehradun Railway Station and ISBT.',
     Price: '💰 ₹16,800 per sq.yd. Price includes legal clearances and layout demarcation.',
     'Plot Size': '📐 1000–2000 sq.yd — suitable for duplex homes or rental units.',
