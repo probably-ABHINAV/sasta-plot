@@ -10,7 +10,7 @@ const staticPosts = [
   id: "3",
   title: "Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert",
   slug: "top-mistakes-to-avoid-when-buying-property-in-uttarakhand-2025",
-  created_at: "2025-11-10",
+  created_at: "2025-11-09",
   content: `
     <p><strong>Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert</strong></p>
 
