@@ -6,6 +6,46 @@ import { Badge } from "@/components/ui/badge"
 
 const staticPosts = [
   {
+  id: "3",
+  title: "Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert",
+  slug: "top-mistakes-to-avoid-when-buying-property-in-uttarakhand-2025",
+  created_at: "2025-11-10",
+  content: `
+    <p><strong>Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert</strong></p>
+
+    <p><strong>Introduction: The Allure of Uttarakhand’s Property Market</strong></p>
+    <p>Uttarakhand’s peaceful environment, rising tourism, and scenic landscapes make it one of the most desirable real estate destinations in India. But while the promise of owning land in the hills is exciting, many first-time buyers rush into deals without due diligence. To protect your investment, it’s essential to understand the common mistakes that can turn a dream purchase into a costly regret.</p>
+
+    <p><strong>1. Ignoring Legal Verification</strong></p>
+    <p>One of the biggest mistakes buyers make is not checking the property’s legal status. Always verify the title deed, mutation certificate, and encumbrance records. Cross-check ownership at the local tehsil office to ensure there are no disputes or pending litigations. Never rely solely on verbal assurances from brokers or sellers.</p>
+
+    <p><strong>2. Overlooking Land-Use Permissions</strong></p>
+    <p>In Uttarakhand, land use is strictly regulated. Many plots are agricultural by default and require conversion under Section 143 for residential use. Buying land without verifying these permissions can block your construction plans later. Always confirm with the district development authority before paying any token amount.</p>
+
+    <p><strong>3. Skipping On-Site Inspections</strong></p>
+    <p>Pictures can be misleading. A personal visit reveals practical realities — slope, access roads, soil condition, and drainage. Visit during the monsoon to check for waterlogging or erosion. Speak to local residents about accessibility, weather challenges, and nearby development. An on-ground check can save you from unpleasant surprises later.</p>
+
+    <p><strong>4. Ignoring Connectivity and Basic Amenities</strong></p>
+    <p>A beautiful view alone doesn’t guarantee a good investment. Ensure the plot has year-round road access, electricity supply, and water connection. Many remote hill plots look great on paper but are hard to reach or develop. Prioritize properties with reliable infrastructure and proximity to markets, hospitals, or tourist zones.</p>
+
+    <p><strong>5. Underestimating Budget Beyond the Purchase</strong></p>
+    <p>Registration fees, stamp duty, legal charges, and fencing costs can quickly add up. Land leveling, road access, and power connections also require investment. Always plan a 10–20% extra buffer over your buying cost to avoid financial stress later. Smart budgeting ensures your project remains feasible and profitable.</p>
+
+    <p><strong>6. Not Comparing Market Prices</strong></p>
+    <p>Every area in Uttarakhand has a different market rate. Comparing listings in Dehradun, Nainital, or Ranikhet helps you understand fair pricing. Online platforms like <strong>SastaPlots</strong> display verified listings with transparent price ranges, helping you identify overvalued plots and negotiate better deals confidently.</p>
+
+    <p><strong>7. Ignoring Documentation During Transfer</strong></p>
+    <p>Incomplete paperwork can delay or invalidate your ownership. Always sign a registered sale deed at the sub-registrar’s office and collect all supporting documents — tax receipts, land conversion certificates, and boundary maps. Avoid cash transactions; insist on bank payments for a secure and traceable deal.</p>
+
+    <p><strong>How SastaPlots Simplifies Safe Land Buying</strong></p>
+    <p><strong>SastaPlots</strong> is a trusted platform designed to simplify property buying in Uttarakhand. It connects you with verified sellers, ensures all legal documents are pre-checked, and provides expert advice on land use and registration. From virtual tours to final paperwork, SastaPlots makes the entire process transparent and stress-free.</p>
+
+    <p><strong>Conclusion: Buy Smart, Invest Confidently</strong></p>
+    <p>Owning land in Uttarakhand can be a life-changing investment — both emotionally and financially. But it demands careful research, patience, and trusted guidance. Avoiding these common mistakes will help you secure a plot that brings peace, profit, and long-term value. With SastaPlots by your side, you can invest wisely and make your Himalayan dream home a reality.</p>
+  `
+},
+
+  {
   id: "2",
   title: "Essential Guide to Buying a Plot in Uttarakhand — Secure Your Future Investment",
   slug: "essential-guide-to-buying-plot-in-uttarakhand-2025",
