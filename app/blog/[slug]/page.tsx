@@ -1,8 +1,7 @@
-"use client"
-
-import { useParams, notFound } from "next/navigation"
+import { notFound } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { getServerSupabase } from "@/lib/supabase/server"
 
 // ✅ Full content for each blog
 const staticPosts = [
@@ -253,9 +252,41 @@ const staticPosts = [
   }
 ]
 
-export default function BlogPostPage() {
-  const { slug } = useParams()
-  const post = staticPosts.find((p) => p.slug === slug)
+async function getPost(slug: string) {
+  let supabase
+  try {
+    supabase = getServerSupabase()
+  } catch (error) {
+    console.error('Critical error initializing Supabase:', error)
+    const staticPost = staticPosts.find((p) => p.slug === slug)
+    if (staticPost) {
+      console.log('Falling back to static post due to Supabase initialization failure')
+      return staticPost
+    }
+    throw error
+  }
+
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('slug', slug)
+    .eq('published', true)
+    .single()
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      return null
+    }
+    
+    console.error("Supabase query error:", error)
+    throw new Error(`Failed to fetch post: ${error.message}`)
+  }
+
+  return posts
+}
+
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+  const post = await getPost(params.slug)
 
   if (!post) {
     notFound()
@@ -271,7 +302,6 @@ export default function BlogPostPage() {
           </Badge>
         </CardHeader>
         <CardContent>
-          {/* ✅ full blog content now renders */}
           <div
             className="prose prose-gray max-w-none"
             dangerouslySetInnerHTML={{ __html: post.content }}

@@ -6,6 +6,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const admin = searchParams.get('admin') === 'true'
+    const slug = searchParams.get('slug')
     
     try {
       const supabase = getServerSupabase()
@@ -14,7 +15,10 @@ export async function GET(request: Request) {
         .select('*')
         .order('created_at', { ascending: false })
 
-      // Only filter by published if not admin
+      if (slug) {
+        query = query.eq('slug', slug)
+      }
+
       if (!admin) {
         query = query.eq('published', true)
       }
@@ -29,13 +33,15 @@ export async function GET(request: Request) {
     } catch (supabaseError) {
       console.error("Supabase error fetching posts:", supabaseError)
       
-      // Fallback to file storage
       try {
         const { fileStorage } = await import('@/lib/file-storage')
         const blogPosts = fileStorage.getBlogPosts()
         
-        // Filter by published status if not admin
-        const filteredPosts = admin ? blogPosts : blogPosts.filter(post => post.published)
+        let filteredPosts = admin ? blogPosts : blogPosts.filter(post => post.published)
+        
+        if (slug) {
+          filteredPosts = filteredPosts.filter(post => post.slug === slug)
+        }
         
         return NextResponse.json({ posts: filteredPosts })
       } catch (fallbackError) {
@@ -46,7 +52,6 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error("Unexpected error fetching posts:", error)
     
-    // Final fallback to file storage
     try {
       const { fileStorage } = await import('@/lib/file-storage')
       const blogPosts = fileStorage.getBlogPosts()
@@ -71,7 +76,7 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { title, content, excerpt, slug, published = false } = body
     
-    const { data: post, error } = await adminSupabase
+    const { data: post, error } = await (adminSupabase
       .from('posts')
       .insert([
         {
@@ -81,7 +86,7 @@ export async function POST(request: Request) {
           slug,
           published,
         }
-      ])
+      ]) as any)
       .select()
       .single()
 

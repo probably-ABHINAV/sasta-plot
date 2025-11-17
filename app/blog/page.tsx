@@ -1,8 +1,7 @@
-"use client"
-
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { getServerSupabase } from "@/lib/supabase/server"
 
 const staticPosts = [
   {
@@ -245,7 +244,30 @@ const staticPosts = [
   }
 ]
 
-export default function BlogPage() {
+async function getPosts() {
+  try {
+    const supabase = getServerSupabase()
+    const { data: posts, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('published', true)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error("Supabase error fetching posts:", error)
+      return staticPosts
+    }
+
+    return posts || []
+  } catch (error) {
+    console.error('Critical error initializing Supabase:', error)
+    return staticPosts
+  }
+}
+
+export default async function BlogPage() {
+  const posts = await getPosts()
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 md:py-16">
       <h1 className="font-heading text-3xl font-semibold md:text-4xl">Insights & Guides</h1>
@@ -254,7 +276,7 @@ export default function BlogPage() {
       </p>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {staticPosts.map((post) => (
+        {posts.map((post) => (
           <Link key={post.id} href={`/blog/${post.slug}`} className="block group">
             <Card className="h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <CardHeader>
