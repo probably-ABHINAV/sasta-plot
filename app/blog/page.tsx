@@ -8,7 +8,7 @@ const staticPosts = [
   id: "2",
   title: "Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots",
   slug: "buying-land-roadmap-sastaplots-2025",
-  created_at: "2025-11-15",
+  created_at: "2025-11-29",
   content: `
     <p><strong>Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots</strong></p>
 
