@@ -6,6 +6,43 @@ import { getServerSupabase } from "@/lib/supabase/server"
 // ✅ Full content for each blog
 const staticPosts = [
   {
+  id: "2",
+  title: "Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots",
+  slug: "buying-land-roadmap-sastaplots-2025",
+  created_at: "2025-11-29",
+  content: `
+    <p><strong>Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots</strong></p>
+
+    <p><strong>Why Land Remains a Powerful Asset</strong></p>
+    <p>Land is one of the few assets that never depreciates in physical existence and often grows steadily in value when chosen correctly. Unlike apartments or commercial buildings that face wear and maintenance expenses, plots offer complete flexibility — you decide when to build, how to build, or whether to simply hold for appreciation. In emerging corridors, early buyers benefit as roads, schools, markets, and transportation hubs move closer year after year.</p>
+
+    <p><strong>Define Your Investment Strategy</strong></p>
+    <p>Every successful purchase starts with clarity. Ask yourself if the plot is for immediate construction, a weekend getaway, rental development, or long-term holding. Your strategy determines budget range, locality choice, zoning needs, and target size. Lifestyle buyers prioritize peaceful neighbourhoods and utilities, while investors look for developing belts where new infrastructure projects are announced or under construction.</p>
+
+    <p><strong>Shortlist with Smart Location Research</strong></p>
+    <p>Research transforms guesswork into confidence. Analyze road connectivity, nearby residential clusters, hospitals, schools, employment zones, and public transport access. Development momentum is a key indicator — plots near ongoing housing societies and industrial parks historically see quicker appreciation. Each SastaPlots listing includes local growth indicators and connectivity details to accelerate smart shortlisting.</p>
+
+    <p><strong>Legal Screening — Your Safety Net</strong></p>
+    <p>Legal clarity is non-negotiable. Verify land conversion status, updated title chains, encumbrance certificates, and zoning permissions with official records. Confirm that the plot is not reserved for government acquisition, forest land, or under any tenancy dispute. Working with locally experienced lawyers ensures that documents are reviewed end-to-end — a practice SastaPlots strongly recommends for stress-free ownership.</p>
+
+    <p><strong>On-Site Verification Matters</strong></p>
+    <p>Physical inspection protects you from unseen risks. Evaluate soil strength, slope stability, drainage patterns, and road condition — especially if you plan immediate construction. Check boundary demarcations and match plot coordinates with official maps. Visiting the land also reveals noise levels, community development, and environmental surroundings that listings may not fully capture.</p>
+
+    <p><strong>Estimate End-to-End Cost</strong></p>
+    <p>Beyond purchase price, factor in stamp duty, registration charges, mutation fees, boundary fencing, leveling work, and temporary caretaker arrangements. Banks provide land loans selectively, so assess funding options early to avoid delays. Keeping a contingency buffer of 8–12% shields you from unexpected documentation or infrastructure expenses.</p>
+
+    <p><strong>Close the Deal Securely</strong></p>
+    <p>Negotiate transparently using local price benchmarks. The sale agreement should clearly outline payment schedules, possession dates, and penalty clauses to protect both parties. Ensure registration occurs at the sub-registrar office and follow up for mutation entries so government records reflect your ownership without delay.</p>
+
+    <p><strong>How SastaPlots Supports Buyers</strong></p>
+    <p>SastaPlots removes uncertainty by providing verified listings, legal quick-check summaries, market comparisons, and access to local consultants. Their platform saves time while protecting buyers from paperwork errors, overpricing risks, and unclear titles — helping customers invest with confidence rather than guesswork.</p>
+
+    <p><strong>Post-Purchase Asset Care</strong></p>
+    <p>Once you become the owner, secure the site with fencing, install boundary stones, and update property tax records promptly. Schedule periodic site inspections to prevent encroachment and monitor nearby development activities. These simple steps safeguard your investment and preserve growth potential while you prepare for future construction or resale.</p>
+  `
+},
+
+  {
   id: "3",
   title: "Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert",
   slug: "top-mistakes-to-avoid-when-buying-property-in-uttarakhand-2025",
