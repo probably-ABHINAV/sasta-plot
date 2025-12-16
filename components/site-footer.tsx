@@ -170,7 +170,7 @@ export function SiteFooter() {
        <div className="border-t">
   <div className="mx-auto max-w-6xl px-4 py-4">
     <p className="text-center text-sm text-muted-foreground">
-      © 2025 Sasta Plots. All rights reserved. | Designed By{"Sumirayan Design"}
+      © 2025 Sasta Plots. All rights reserved. | Designed By{" "}
       <a
         href="https://www.sumirayandesign.com/"
         target="_blank"
