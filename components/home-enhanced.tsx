@@ -641,8 +641,8 @@ export function HomeEnhanced() {
           <p className="mt-2 text-muted-foreground">Find us on the map</p>
         </div>
         <Map
-          latitude={30.402437}
-          longitude={77.750105}
+          latitude={25.620062}
+          longitude={ 85.044601}
           zoom={16}
           title="Our Office Location"
           height="400px"
