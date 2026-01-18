@@ -320,54 +320,58 @@ export function HomeEnhanced() {
       </FadeInSection>
 
       {/* Latest Properties Section (Dynamic) */}
-     export default function Page() { 
-  return ( 
-    <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      {/* Header */}
-      <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight">
-          Available Plots
-        </h1>
-        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-          Discover our handpicked selection of premium plots in prime locations
-        </p>
-      </div>
+      <FadeInSection>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Latest Properties
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Fresh opportunities just added to our collection
+            </p>
+          </div>
 
-      {/* Plots Grid */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {PLOTS.map((plot) => ( 
-          <Link href={plot.href} key={plot.href}>
-            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src={plot.image}
-                  alt={plot.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-xl font-semibold">{plot.title}</h3>
-                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>{plot.location}</span>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {plot.desc}
-                </p>
-                <div className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-orange-600 text-white h-9 px-4 w-full">
-                  View Details →
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
-    </main> 
-  )
-}
-
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {(() => {
+              let plotsToShow = settings.showFeaturedPlotsInLatest 
+                ? allPlots.filter((plot: Plot) => plot.featured)
+                : allPlots;
+              
+              plotsToShow = plotsToShow.slice(0, settings.latestPlotsLimit);
+              
+              return plotsToShow.map((plot: Plot) => (
+                <Link key={plot.id} href={`/plots/${plot.slug}`}>
+                  <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={plot.images?.[0] || plot.image_url || '/placeholder.jpg'}
+                        alt={plot.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <CardContent className="p-6">
+                      <h3 className="mb-2 text-xl font-semibold">{plot.title}</h3>
+                      <div className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                        <MapPin className="h-4 w-4" />
+                        <span>{plot.location}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xl font-bold text-emerald-600">
+                          {formatPrice(plot.price)}
+                        </span>
+                        <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                          View Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ));
+            })()}
+          </div>
+        </section>
+      </FadeInSection>
 
       {/* How It Works Section */}
       <FadeInSection>
