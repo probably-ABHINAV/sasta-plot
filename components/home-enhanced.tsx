@@ -12,31 +12,6 @@ import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } fr
 import PlotsGallery from "@/components/plots-gallery"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 import dynamic from "next/dynamic"
-
-const PLOTS = [
-  { 
-    href: "/plots/bajrang-vatika", 
-    title: "Bajrang Vatika - The Private Retreat", 
-    location: "Dehradun",
-    desc: "Plot sizes: 1200–2400 sq.yd • Price: ₹16,800 Per sq/yd onwards • Ready-to-develop",
-    image: "/images/gallery/C_1760476152261.jpg"
-  }, 
-  { 
-    href: "/plots/friends-colony-phase-1", 
-    title: "Friends Colony Phase-1", 
-    location: "Dehradun",
-    desc: "Plot sizes: 1000–2000 sq.yd • Price: ₹16,800 Per sq/yd onwards • Construction-ready",
-    image: "/images/gallery/WhatsApp Image 2025-10-13 at 23.57.02_e87110ff.jpg"
-  }, 
-  { 
-    href: "/plots/zams-gardenia", 
-    title: "Zams Gardenia", 
-    location: "Bihta – Greater Patna Corridor",
-    desc: "Plot sizes: 700–2000 sq.ft • Price: ₹16,500 Per sq/ft onwards • Planned & developing",
-    image: "/images/plots/plot-1.png"
-  }
-]
-
 // Dynamic import to avoid SSR issues with Leaflet
 const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
   ssr: false,
