@@ -12,6 +12,7 @@ import { MapPin, Square, Sparkles, Shield, Clock, ChevronLeft, ChevronRight } fr
 import PlotsGallery from "@/components/plots-gallery"
 import { formatPrice, getPriceFormatSuggestion } from "@/lib/utils/price"
 import dynamic from "next/dynamic"
+
 // Dynamic import to avoid SSR issues with Leaflet
 const Map = dynamic(() => import("@/components/ui/map").then(mod => ({ default: mod.Map })), {
   ssr: false,
@@ -229,92 +230,47 @@ export function HomeEnhanced() {
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Plot 1 */}
-            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/images/plots/plot-1.png"
-                  alt="Zams Gardenia"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
+            {featuredPlots.length > 0 ? (
+              featuredPlots.map((plot) => (
+                <Link key={plot.id} href={`/plots/${plot.slug || plot.id}`}>
+                  <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 h-full flex flex-col">
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={
+                          (plot.images && plot.images.length > 0) ? plot.images[0] :
+                          plot.image_url ? plot.image_url :
+                          plot.image ? plot.image :
+                          '/placeholder.svg'
+                        }
+                        alt={plot.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      {/* Add Featured Badge if needed, though they are all featured here */}
+                    </div>
+                    <CardContent className="p-6 flex-1 flex flex-col">
+                      <h3 className="mb-2 text-xl font-semibold">{plot.title}</h3>
+                      <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        <span>{plot.location}</span>
+                      </div>
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="text-xl font-bold text-emerald-600">
+                           {formatPrice(plot.price)}
+                        </span>
+                        <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+                          View Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full text-center text-muted-foreground py-12">
+                <p>No featured properties available at the moment.</p>
               </div>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-xl font-semibold">Zams Gardenia</h3>
-                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Bihta – Greater Patna Corridor</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">
-                    ₹1550 per sq/ft
-                  </span>
-                  <Link href="/plots/zams-gardenia">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Plot 2 */}
-            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/images/gallery/D_1760476152258.jpg"
-                  alt="Bajrang Vatika"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-xl font-semibold">Bajrang Vatika</h3>
-                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Dehradun</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">
-                    ₹16,500 per sq/yd
-                  </span>
-                  <Link href="/plots/bajrang-vatika">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Plot 3 */}
-            <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src="/images/gallery/WhatsApp Image 2025-10-13 at 23.57.03_a5777e2d.jpg"
-                  alt="Friends Colony Phase 1"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              </div>
-              <CardContent className="p-6">
-                <h3 className="mb-2 text-xl font-semibold">Friends Colony Phase 1</h3>
-                <div className="mb-4 text-sm text-muted-foreground flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>Dehradun</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-emerald-600">
-                    ₹16,000 per sq/yd
-                  </span>
-                  <Link href="/plots/friends-colony-phase-1">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
-                      View Details
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
+            )}
           </div>
         </section>
       </FadeInSection>
@@ -344,7 +300,12 @@ export function HomeEnhanced() {
                   <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <Image
-                        src={plot.images?.[0] || plot.image_url || '/placeholder.jpg'}
+                        src={
+                          (plot.images && plot.images.length > 0) ? plot.images[0] :
+                          plot.image_url ? plot.image_url :
+                          plot.image ? plot.image :
+                          '/placeholder.svg'
+                        }
                         alt={plot.title}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"

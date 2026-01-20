@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import { getServerSupabase } from "@/lib/supabase/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
@@ -23,6 +25,7 @@ export async function GET() {
         created_at
       `)
       .order('created_at', { ascending: false })
+      .range(0, 4999)
 
     if (error) {
       console.error("Supabase error fetching plots:", error)

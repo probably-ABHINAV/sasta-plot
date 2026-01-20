@@ -29,7 +29,12 @@ export function PlotCard({ plot }: PlotCardProps) {
       <article className="border-border bg-card text-card-foreground overflow-hidden rounded-xl border shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] h-full flex flex-col">
         <div className="aspect-[4/3] relative overflow-hidden">
           <Image
-            src={plot.image_url || plot.image || "/placeholder.svg"}
+            src={
+              (plot.images && plot.images.length > 0) ? plot.images[0] :
+              plot.image_url ? plot.image_url :
+              plot.image ? plot.image :
+              "/placeholder.svg"
+            }
             alt={plot.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

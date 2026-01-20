@@ -122,6 +122,7 @@ export type Database = {
           phone: string | null
           message: string | null
           plot_id: number | null
+          status: string
           created_at: string
         }
         Insert: {
@@ -131,6 +132,7 @@ export type Database = {
           phone?: string | null
           message?: string | null
           plot_id?: number | null
+          status?: string
           created_at?: string
         }
         Update: {
@@ -140,6 +142,7 @@ export type Database = {
           phone?: string | null
           message?: string | null
           plot_id?: number | null
+          status?: string
           created_at?: string
         }
       }

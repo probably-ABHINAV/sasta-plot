@@ -39,6 +39,11 @@ export const metadata: Metadata = {
   generator: "v0.app",
 };
 
+import { stackServerApp } from "@/stack";
+import { StackTheme, StackProvider } from "@stackframe/stack";
+
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: {
@@ -52,14 +57,18 @@ export default function RootLayout({
     >
       <body className={`${inter.variable} antialiased bg-background text-foreground`}>
         <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-          <MotionProvider>
-            <SiteHeader />
-            {children}
-            <SiteFooter />
-            <Chatbot />
-          </MotionProvider>
+          <StackProvider app={stackServerApp}>
+            <StackTheme>
+              <MotionProvider>
+                <SiteHeader />
+                {children}
+                <SiteFooter />
+                <Chatbot />
+              </MotionProvider>
+              <Analytics />
+            </StackTheme>
+          </StackProvider>
         </Suspense>
-        <Analytics />
       </body>
     </html>
   );

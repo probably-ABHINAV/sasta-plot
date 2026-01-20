@@ -90,68 +90,68 @@ export async function middleware(request: NextRequest) {
   }
 
   // Only protect admin routes
-  if (pathname.startsWith('/admin') || pathname.startsWith('/dashboard-admin-2024')) {
-    try {
-      // First check for Supabase session (if credentials are available)
-      if (supabaseUrl && supabaseAnonKey) {
-        const supabase = createServerClient(
-          supabaseUrl,
-          supabaseAnonKey,
-          {
-            cookies: {
-              get(name: string) {
-                return request.cookies.get(name)?.value
-              },
-              set(name: string, value: string, options: CookieOptions) {
-                response.cookies.set({
-                  name,
-                  value,
-                  ...options,
-                })
-              },
-              remove(name: string, options: CookieOptions) {
-                response.cookies.set({
-                  name,
-                  value: '',
-                  ...options,
-                })
-              },
-            },
-          }
-        )
+  // if (pathname.startsWith('/admin')) {
+  //   try {
+  //     // First check for Supabase session (if credentials are available)
+  //     if (supabaseUrl && supabaseAnonKey) {
+  //       const supabase = createServerClient(
+  //         supabaseUrl,
+  //         supabaseAnonKey,
+  //         {
+  //           cookies: {
+  //             get(name: string) {
+  //               return request.cookies.get(name)?.value
+  //             },
+  //             set(name: string, value: string, options: CookieOptions) {
+  //               response.cookies.set({
+  //                 name,
+  //                 value,
+  //                 ...options,
+  //               })
+  //             },
+  //             remove(name: string, options: CookieOptions) {
+  //               response.cookies.set({
+  //                 name,
+  //                 value: '',
+  //                 ...options,
+  //               })
+  //             },
+  //           },
+  //         }
+  //       )
         
-        const { data: { user } } = await supabase.auth.getUser()
+  //       const { data: { user } } = await supabase.auth.getUser()
         
-        if (user) {
-          return response
-        }
-      }
+  //       if (user) {
+  //         return response
+  //       }
+  //     }
 
-      // Fallback to demo auth cookie
-      const sessionCookie = request.cookies.get('demo-session')
+  //     // Fallback to demo auth cookie
+  //     const sessionCookie = request.cookies.get('demo-session')
       
-      if (sessionCookie?.value) {
-        try {
-          const user = JSON.parse(atob(sessionCookie.value))
+  //     if (sessionCookie?.value) {
+  //       try {
+  //         const user = JSON.parse(atob(sessionCookie.value))
           
-          if (user && user.role === 'admin' && user.email) {
-            return response
-          }
-        } catch (error) {
-          console.error('Invalid session cookie:', error)
-        }
-      }
+  //         if (user && user.role === 'admin' && user.email) {
+  //           return response
+  //         }
+  //       } catch (error) {
+  //         console.error('Invalid session cookie:', error)
+  //       }
+  //     }
 
-      // If no valid session, redirect to sign-in
-      const signInUrl = new URL('/sign-in', request.url)
-      signInUrl.searchParams.set('redirect', pathname)
-      return NextResponse.redirect(signInUrl)
-    } catch (error) {
-      console.error('Middleware error:', error)
-      const signInUrl = new URL('/sign-in', request.url)
-      return NextResponse.redirect(signInUrl)
-    }
-  }
+  //     // If no valid session, redirect to sign-in
+  //     const signInUrl = new URL('/sign-in', request.url)
+  //     signInUrl.searchParams.set('redirect', pathname)
+  //     return NextResponse.redirect(signInUrl)
+  //   } catch (error) {
+  //     console.error('Middleware error:', error)
+  //     const signInUrl = new URL('/sign-in', request.url)
+  //     return NextResponse.redirect(signInUrl)
+  //   }
+  // }
 
   return response
 }

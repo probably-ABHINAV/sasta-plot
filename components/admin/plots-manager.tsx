@@ -397,8 +397,8 @@ export default function PlotsManager() {
                       <p className="text-sm">Images: {p.images?.length || 0}</p>
                       <div className="flex gap-2 mt-2">
                         <Button
-                          variant="outline"
                           size="sm"
+                          className="bg-blue-600 text-white hover:bg-blue-700"
                           onClick={() => handleEdit(p)}
                         >
                           Edit
