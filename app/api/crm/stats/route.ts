@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { getServerSupabase } from '@/lib/supabase/server'
 import { getCurrentUserProfile, ROLES } from '@/lib/crm/auth'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const supabase = getServerSupabase()

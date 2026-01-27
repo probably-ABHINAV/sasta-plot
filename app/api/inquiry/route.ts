@@ -2,11 +2,13 @@
 import { NextResponse } from "next/server"
 import { getServerSupabase } from "@/lib/supabase/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const isAdmin = searchParams.get('admin') === 'true'
-    
+
     // Check admin authentication for admin requests
     if (isAdmin) {
       const { isAdminUser } = await import('@/lib/demo-auth')
@@ -24,7 +26,7 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("Error fetching inquiries:", error)
-      
+
       // Fallback to file storage
       try {
         const { fileStorage } = await import('@/lib/file-storage')
@@ -55,8 +57,8 @@ export async function POST(request: Request) {
 
     console.log("Inquiry received:", { name, phone, email, message })
 
-    const supabase = getServerSupabase()
-    
+    const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
+
     const inquiryData = {
       name,
       email: email || null,
@@ -68,7 +70,7 @@ export async function POST(request: Request) {
 
     console.log('Attempting to insert inquiry:', inquiryData)
 
-    const { data: inquiry, error } = await supabase
+    const { data: inquiry, error } = await adminSupabase
       .from('inquiries')
       .insert([inquiryData])
       .select()
@@ -81,7 +83,7 @@ export async function POST(request: Request) {
         hint: error.hint,
         code: error.code
       })
-      
+
       // Fallback to file storage
       try {
         const { fileStorage } = await import('@/lib/file-storage')
@@ -95,10 +97,10 @@ export async function POST(request: Request) {
         }
         const savedInquiry = fileStorage.createInquiry(inquiryData)
         console.log('Saved to file storage:', savedInquiry)
-        return NextResponse.json({ 
-          success: true, 
-          message: "Inquiry received. Our team will contact you soon.", 
-          inquiry: savedInquiry 
+        return NextResponse.json({
+          success: true,
+          message: "Inquiry received. Our team will contact you soon.",
+          inquiry: savedInquiry
         })
       } catch (fallbackError) {
         console.error("File storage fallback failed:", fallbackError)
@@ -108,10 +110,10 @@ export async function POST(request: Request) {
 
     console.log('Inquiry saved successfully:', inquiry)
 
-    return NextResponse.json({ 
-      success: true, 
-      message: "Inquiry received. Our team will contact you soon.", 
-      inquiry 
+    return NextResponse.json({
+      success: true,
+      message: "Inquiry received. Our team will contact you soon.",
+      inquiry
     })
   } catch (e) {
     console.error("Inquiry error:", e)
