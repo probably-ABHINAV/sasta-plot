@@ -80,7 +80,7 @@ export default function BlogAdminPage() {
     e.preventDefault()
     try {
       const slug = formData.slug || generateSlug(formData.title)
-      
+
       const response = await fetch('/api/blog', {
         method: 'POST',
         headers: {

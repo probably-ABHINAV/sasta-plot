@@ -80,18 +80,18 @@ export default function AdminDashboard() {
 
   React.useEffect(() => {
     // Wait for auth to load or if user is not present
-    if (user === undefined) return; 
+    if (user === undefined) return;
 
     // DEBUG LOGGING
     console.log("Current User:", user);
 
-    const ADMIN_EMAILS = ["admin@sastaplots.in"]; 
-    
+    const ADMIN_EMAILS = ["admin@sastaplots.in", "xoxogroovy@gmail.com"];
+
     if (user && ADMIN_EMAILS.includes(user.primaryEmail || "")) {
       setIsAuthenticated(true)
     } else {
-       // Stop all auto-redirects to debug the loop
-       setIsAuthenticated(false);
+      // Stop all auto-redirects to debug the loop
+      setIsAuthenticated(false);
     }
   }, [user, router])
 
@@ -256,47 +256,47 @@ export default function AdminDashboard() {
   // --- RENDER LOGIC ---
 
   if (user === null) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white p-4">
-            <div className="max-w-md w-full bg-slate-800 p-6 rounded-lg border border-slate-700 text-center">
-                <h1 className="text-xl font-bold mb-4">Admin Dashboard</h1>
-                <p className="mb-6 text-gray-300">You must be logged in to access this area.</p>
-                 <Button 
-                    onClick={() => router.push('/handler/sign-in')}
-                    className="w-full bg-blue-600 hover:bg-blue-700"
-                >
-                    Log In with Stack Auth
-                </Button>
-            </div>
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white p-4">
+        <div className="max-w-md w-full bg-slate-800 p-6 rounded-lg border border-slate-700 text-center">
+          <h1 className="text-xl font-bold mb-4">Admin Dashboard</h1>
+          <p className="mb-6 text-gray-300">You must be logged in to access this area.</p>
+          <Button
+            onClick={() => router.push('/handler/sign-in')}
+            className="w-full bg-blue-600 hover:bg-blue-700"
+          >
+            Log In with Stack Auth
+          </Button>
         </div>
-      )
+      </div>
+    )
   }
 
   if (user && !isAuthenticated && user !== undefined) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white p-4">
-            <div className="max-w-md w-full bg-slate-800 p-6 rounded-lg border border-slate-700">
-                <h1 className="text-xl font-bold text-red-500 mb-4">Access Denied</h1>
-                <p className="mb-4">You are logged in as:</p>
-                <code className="block bg-black p-3 rounded mb-4 text-green-400">
-                    {user.primaryEmail || "No Email Found"}
-                </code>
-                <p className="text-sm text-gray-400 mb-4">
-                    This email is not in the admin allowlist.
-                </p>
-                <div className="mb-4 text-xs text-gray-500">
-                    Your account does not have administrative privileges.
-                </div>
-                 <Button 
-                    variant="ghost" 
-                    onClick={() => router.push('/handler/sign-out')}
-                    className="w-full text-white hover:bg-white/10"
-                >
-                    Sign Out
-                </Button>
-            </div>
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white p-4">
+        <div className="max-w-md w-full bg-slate-800 p-6 rounded-lg border border-slate-700">
+          <h1 className="text-xl font-bold text-red-500 mb-4">Access Denied</h1>
+          <p className="mb-4">You are logged in as:</p>
+          <code className="block bg-black p-3 rounded mb-4 text-green-400">
+            {user.primaryEmail || "No Email Found"}
+          </code>
+          <p className="text-sm text-gray-400 mb-4">
+            This email is not in the admin allowlist.
+          </p>
+          <div className="mb-4 text-xs text-gray-500">
+            Your account does not have administrative privileges.
+          </div>
+          <Button
+            variant="ghost"
+            onClick={() => router.push('/handler/sign-out')}
+            className="w-full text-white hover:bg-white/10"
+          >
+            Sign Out
+          </Button>
         </div>
-      )
+      </div>
+    )
   }
 
   if (!isAuthenticated) {
@@ -332,8 +332,8 @@ export default function AdminDashboard() {
               <Eye className="h-4 w-4 mr-2" />
               Visit Site
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               onClick={async () => {
                 // const supabase = getBrowserSupabase()
                 // await supabase.auth.signOut()
@@ -450,7 +450,7 @@ export default function AdminDashboard() {
                 <h2 className="text-2xl font-bold text-white">Manage Plots</h2>
                 <p className="text-gray-300">Add, edit, and manage your property listings</p>
               </div>
-              <Button 
+              <Button
                 onClick={() => setIsCreateDialogOpen(true)}
                 className="bg-green-600 hover:bg-green-700"
               >
@@ -463,10 +463,10 @@ export default function AdminDashboard() {
               <Alert className="border-red-500/50 bg-red-500/10 backdrop-blur-sm">
                 <AlertDescription className="text-red-400">
                   Failed to load plots. Please check your database connection and try again.
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="ml-2 border-red-400 text-red-400 hover:bg-red-400/10" 
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="ml-2 border-red-400 text-red-400 hover:bg-red-400/10"
                     onClick={() => mutatePlots()}
                   >
                     Retry
@@ -559,8 +559,8 @@ export default function AdminDashboard() {
                   <p className="text-gray-300">
                     Create, edit, and manage your blog posts and content.
                   </p>
-                  <Button 
-                    onClick={() => router.push('/admin/blog')} 
+                  <Button
+                    onClick={() => router.push('/admin/blog')}
                     className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30"
                   >
                     <MessageSquare className="h-4 w-4 mr-2" />
@@ -584,8 +584,8 @@ export default function AdminDashboard() {
                   <p className="text-gray-300">
                     Manage customer inquiries, update their status, and track responses.
                   </p>
-                  <Button 
-                    onClick={() => router.push('/admin/inquiries')} 
+                  <Button
+                    onClick={() => router.push('/admin/inquiries')}
                     className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30"
                   >
                     <Users className="h-4 w-4 mr-2" />
@@ -712,8 +712,8 @@ export default function AdminDashboard() {
               <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button 
-                onClick={handleCreatePlot} 
+              <Button
+                onClick={handleCreatePlot}
                 disabled={isSubmitting}
                 className="bg-green-600 hover:bg-green-700"
               >
@@ -833,8 +833,8 @@ export default function AdminDashboard() {
               <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button 
-                onClick={handleUpdatePlot} 
+              <Button
+                onClick={handleUpdatePlot}
                 disabled={isSubmitting}
                 className="bg-green-600 hover:bg-green-700"
               >
