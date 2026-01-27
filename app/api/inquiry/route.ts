@@ -6,20 +6,9 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const isAdmin = searchParams.get('admin') === 'true'
+    const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
 
-    // Check admin authentication for admin requests
-    if (isAdmin) {
-      const { isAdminUser } = await import('@/lib/demo-auth')
-      const adminCheck = await isAdminUser()
-      if (!adminCheck) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      }
-    }
-
-    const supabase = getServerSupabase()
-    const { data: inquiries, error } = await supabase
+    const { data: inquiries, error } = await adminSupabase
       .from('inquiries')
       .select('*')
       .order('created_at', { ascending: false })

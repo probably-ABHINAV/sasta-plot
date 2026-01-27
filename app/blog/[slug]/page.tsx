@@ -6,11 +6,11 @@ import { getServerSupabase } from "@/lib/supabase/server"
 // ✅ Full content for each blog
 const staticPosts = [
   {
-  id: "5",
-  title: "Why Buy Affordable Property in Uttarakhand — 7 Clear Reasons",
-  slug: "why-buy-affordable-property-in-uttarakhand-7-clear-reasons-2025",
-  created_at: "2025-11-30",
-  content: `
+    id: "5",
+    title: "Why Buy Affordable Property in Uttarakhand — 7 Clear Reasons",
+    slug: "why-buy-affordable-property-in-uttarakhand-7-clear-reasons-2025",
+    created_at: "2025-11-30",
+    content: `
     <p><strong>Why Buy Affordable Property in Uttarakhand? — 7 Clear Reasons</strong></p>
 
     <p><strong>1) Better Connectivity — Now a Realistic Advantage</strong></p>
@@ -128,14 +128,14 @@ const staticPosts = [
       future-ready real estate opportunity with strong long-term potential.
     </p>
   `
-},
+  },
 
   {
-  id: "4",
-  title: "Why You Should Invest in Property in Uttarakhand — The Ultimate Guide",
-  slug: "why-invest-in-property-in-uttarakhand-ultimate-guide-2025",
-  created_at: "2025-11-30",
-  content: `
+    id: "4",
+    title: "Why You Should Invest in Property in Uttarakhand — The Ultimate Guide",
+    slug: "why-invest-in-property-in-uttarakhand-ultimate-guide-2025",
+    created_at: "2025-11-30",
+    content: `
     <p><strong>Why You Should Invest in Property in Uttarakhand: The Ultimate Guide</strong></p>
 
     <p>
@@ -247,14 +247,14 @@ const staticPosts = [
       compelling opportunity.
     </p>
   `
-},
+  },
 
   {
-  id: "2",
-  title: "Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots",
-  slug: "buying-land-roadmap-sastaplots-2025",
-  created_at: "2025-11-29",
-  content: `
+    id: "2",
+    title: "Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots",
+    slug: "buying-land-roadmap-sastaplots-2025",
+    created_at: "2025-11-29",
+    content: `
     <p><strong>Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots</strong></p>
 
     <p><strong>Why Land Remains a Powerful Asset</strong></p>
@@ -284,14 +284,14 @@ const staticPosts = [
     <p><strong>Post-Purchase Asset Care</strong></p>
     <p>Once you become the owner, secure the site with fencing, install boundary stones, and update property tax records promptly. Schedule periodic site inspections to prevent encroachment and monitor nearby development activities. These simple steps safeguard your investment and preserve growth potential while you prepare for future construction or resale.</p>
   `
-},
+  },
 
   {
-  id: "3",
-  title: "Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert",
-  slug: "top-mistakes-to-avoid-when-buying-property-in-uttarakhand-2025",
-  created_at: "2025-11-09",
-  content: `
+    id: "3",
+    title: "Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert",
+    slug: "top-mistakes-to-avoid-when-buying-property-in-uttarakhand-2025",
+    created_at: "2025-11-09",
+    content: `
     <p><strong>Top Mistakes to Avoid When Buying Property in Uttarakhand — A Buyer’s Alert</strong></p>
 
     <p><strong>Introduction: The Allure of Uttarakhand’s Property Market</strong></p>
@@ -324,14 +324,14 @@ const staticPosts = [
     <p><strong>Conclusion: Buy Smart, Invest Confidently</strong></p>
     <p>Owning land in Uttarakhand can be a life-changing investment — both emotionally and financially. But it demands careful research, patience, and trusted guidance. Avoiding these common mistakes will help you secure a plot that brings peace, profit, and long-term value. With SastaPlots by your side, you can invest wisely and make your Himalayan dream home a reality.</p>
   `
-},
+  },
 
   {
-  id: "2",
-  title: "Essential Guide to Buying a Plot in Uttarakhand — Secure Your Future Investment",
-  slug: "essential-guide-to-buying-plot-in-uttarakhand-2025",
-  created_at: "2025-11-06",
-  content: `
+    id: "2",
+    title: "Essential Guide to Buying a Plot in Uttarakhand — Secure Your Future Investment",
+    slug: "essential-guide-to-buying-plot-in-uttarakhand-2025",
+    created_at: "2025-11-06",
+    content: `
     <p><strong>Essential Guide to Buying a Plot in Uttarakhand — Secure Your Future Investment</strong></p>
 
     <p><strong>Why Uttarakhand is a Hotspot for Land Buyers</strong></p>
@@ -361,14 +361,14 @@ const staticPosts = [
     <p><strong>Secure and Maintain Your Investment</strong></p>
     <p>After purchase, protect your land with boundary walls or fences. Keep the documents updated in your name at the local revenue office. Periodic visits help avoid encroachment and maintain your property’s value. With smart planning and reliable guidance, your plot in Uttarakhand can become both a dream destination and a dependable asset for years to come.</p>
   `
-},
+  },
 
   {
-  id: "1",
-  title: "Smart Steps to Buy a Plot — A Practical Guide with SastaPlots",
-  slug: "plot-buying-guide-sastaplots-2025",
-  created_at: "2025-11-03",
-  content: `
+    id: "1",
+    title: "Smart Steps to Buy a Plot — A Practical Guide with SastaPlots",
+    slug: "plot-buying-guide-sastaplots-2025",
+    created_at: "2025-11-03",
+    content: `
     <p><strong>Smart Steps to Buy a Plot — A Practical Guide with SastaPlots</strong></p>
 
     <p><strong>Why a Plot Can Be Your Best Investment</strong></p>
@@ -399,12 +399,12 @@ const staticPosts = [
     <p>Post-purchase steps matter: update property tax and utility accounts, register the revenue entry in your name, erect boundary markers, and consider temporary caretaking or fencing. Regular site visits during the first year help prevent encroachments and track nearby development. Thoughtful after-sale management preserves value and ensures your plot remains a productive asset.</p>
   `
   },
-{
-  id: "1",
-  title: "Top Reasons to Invest in Residential Plots Near Dehradun",
-  slug: "residential-plot-investment-dehradun-2025",
-  created_at: "2025-10-31",
-  content: `
+  {
+    id: "1",
+    title: "Top Reasons to Invest in Residential Plots Near Dehradun",
+    slug: "residential-plot-investment-dehradun-2025",
+    created_at: "2025-10-31",
+    content: `
     <p><strong>Top Reasons to Invest in Residential Plots Near Dehradun</strong></p>
     <p>Buying a residential plot near Dehradun has become one of the most promising investment choices in North India. Known for its strategic location between the plains and the hills, Dehradun offers a balanced lifestyle - modern amenities blended with natural beauty. The rising infrastructure, educational institutions, and employment opportunities make it a sought-after destination for both end-users and long-term investors looking to secure their future in a peaceful environment.</p>
     <p>Infrastructure growth is a key reason behind the rising demand. With ongoing projects like the Delhi-Dehradun Expressway and improved connectivity to Rishikesh, Mussoorie, and Haridwar, accessibility is better than ever. Residential plots around areas like Doiwala, Premnagar, and Sahastradhara Road are witnessing rapid appreciation due to this development. For those seeking to build a home or invest early in a developing region, Dehradun’s periphery offers excellent value with future-ready potential.</p>
@@ -413,7 +413,7 @@ const staticPosts = [
     <p><strong>How Property in Sastaplots Helps You Choose Right</strong></p>
     <p>For investors and families exploring options near Dehradun, <strong>Sastaplots</strong> offers an organized platform to compare verified plots, understand market trends, and connect with local experts. Their focus on transparency and region-specific insights helps you find the right property that matches your goals. Whether you’re looking for a scenic plot to build your dream home or a long-term asset for steady appreciation, Sastaplots makes your buying journey simpler, safer, and smarter.</p>
   `
- },
+  },
   {
     id: "2",
     title: "Why Buying a Plot in Uttarakhand Is a Smart Long-Term Move",
@@ -551,14 +551,13 @@ async function getPost(slug: string) {
     .from('posts')
     .select('*')
     .eq('slug', slug)
-    .eq('published', true)
     .single()
 
   if (error) {
     if (error.code === 'PGRST116') {
       return null
     }
-    
+
     console.error("Supabase query error:", error)
     throw new Error(`Failed to fetch post: ${error.message}`)
   }
