@@ -1,49 +1,14 @@
 
 "use client"
-import { useEffect, useState } from "react"
+import { useUser } from "@stackframe/stack"
 
 export function useIsAdmin() {
-  const [user, setUser] = useState<{ id: string; email: string } | null>(null)
-  const [loading, setLoading] = useState(true)
+  const user = useUser();
+  const loading = user === undefined;
 
-  useEffect(() => {
-    let mounted = true
+  const ADMIN_EMAILS = ["admin@sastaplots.in", "xoxogroovy@gmail.com"];
 
-    async function checkAuth() {
-      try {
-        const response = await fetch("/api/auth/mock", {
-          method: "GET",
-          credentials: "include",
-          cache: "no-store"
-        })
-        
-        const data = await response.json()
-        
-        if (mounted) {
-          if (data.user && data.user.role === 'admin') {
-            setUser({ id: data.user.email, email: data.user.email })
-          } else {
-            setUser(null)
-          }
-          setLoading(false)
-        }
-      } catch (error) {
-        console.error('Auth check error:', error)
-        if (mounted) {
-          setUser(null)
-          setLoading(false)
-        }
-      }
-    }
+  const isAdmin = !!user && ADMIN_EMAILS.includes(user.primaryEmail || "");
 
-    checkAuth()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
-
-  const isAdmin = user !== null
-  
   return { isAdmin, user, loading }
 }

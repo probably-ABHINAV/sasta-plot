@@ -5,6 +5,250 @@ import { getServerSupabase } from "@/lib/supabase/server"
 
 const staticPosts = [
   {
+  id: "5",
+  title: "Why Buy Affordable Property in Uttarakhand — 7 Clear Reasons",
+  slug: "why-buy-affordable-property-in-uttarakhand-7-clear-reasons-2025",
+  created_at: "2025-11-30",
+  content: `
+    <p><strong>Why Buy Affordable Property in Uttarakhand? — 7 Clear Reasons</strong></p>
+
+    <p><strong>1) Better Connectivity — Now a Realistic Advantage</strong></p>
+    <p>
+      Uttarakhand has become far more accessible than it was a decade ago,
+      particularly areas around Dehradun. The presence of Jolly Grant Airport,
+      improved highways, and upgraded road networks has made weekend travel and
+      frequent visits practical rather than aspirational. This improved access
+      is increasing demand for second homes and rental properties, strengthening
+      long-term investment prospects.
+    </p>
+
+    <p><strong>2) Strong Tourism & Second-Home Demand</strong></p>
+    <p>
+      Uttarakhand attracts year-round tourism driven by spiritual destinations,
+      adventure activities, wellness retreats, and hill escapes. This constant
+      inflow supports vacation rentals and second-home demand. Affordable plots
+      in good locations can be developed into income-generating holiday homes or
+      long-term rental assets.
+    </p>
+
+    <p><strong>3) Pleasant Climate & Lifestyle Advantage</strong></p>
+    <p>
+      Cleaner air, cooler temperatures, and green surroundings make Uttarakhand
+      highly attractive for retirees, remote workers, and health-conscious
+      families. Lifestyle-driven demand helps preserve property value and
+      sustains buyer interest over time.
+    </p>
+
+    <p><strong>4) Infrastructure Growth & Government Push</strong></p>
+    <p>
+      The state government is promoting planned townships, organized residential
+      development, and regulated resort projects. These initiatives improve
+      infrastructure reliability, reduce construction hurdles, and enhance the
+      long-term stability of property investments.
+    </p>
+
+    <p><strong>5) Affordability Today = Appreciation Tomorrow</strong></p>
+    <p>
+      Compared to major metro cities, Uttarakhand still offers affordable entry
+      prices in developing zones. Early investors stand to benefit from higher
+      percentage appreciation as tourism, infrastructure, and population
+      movement continue to rise.
+    </p>
+
+    <p><strong>6) Multiple Use-Cases from One Plot</strong></p>
+    <p>
+      A single affordable plot can support multiple strategies — delayed
+      construction, seasonal rentals, retirement living, or pure capital
+      appreciation. This flexibility reduces risk and improves overall return
+      potential.
+    </p>
+
+    <p><strong>7) Lower Living Costs & Better Quality of Life</strong></p>
+    <p>
+      Day-to-day expenses are lower compared to metro cities, while the slower
+      pace of life, safety, and wellness environment add intangible value —
+      especially for families, elders, and long-term residents.
+    </p>
+
+    <p><strong>Practical Checklist Before Buying</strong></p>
+    <ul>
+      <li>Clear land title and mutation records</li>
+      <li>Verified land-use permissions and hill-area regulations</li>
+      <li>Road access, water source, and electricity availability</li>
+      <li>Proximity to Jolly Grant Airport, highways, and hospitals</li>
+      <li>Neighbourhood development and municipal planning status</li>
+      <li>Eco-sensitive zone compliance for hilly or forest-adjacent plots</li>
+    </ul>
+
+    <p><strong>Recommended Dehradun Plot Options</strong></p>
+
+    <p><strong>1. Bajrang Vatika, Badripur — Dehradun</strong></p>
+    <p>
+      <strong>Plot Size:</strong> 900–2400 sq yd<br/>
+      <strong>Price per sq yd:</strong> ₹2,083 – ₹1,875<br/>
+      <strong>Indicative Range:</strong> ₹16,500 per sq yd<br/>
+      <strong>Key Features:</strong> 24×7 security, wide roads, ready facilities
+    </p>
+    <p>
+      Larger plot sizes provide flexibility for estate homes, multiple cottages,
+      or phased development. Wide internal roads and security enhance usability
+      and resale appeal, making this option suitable for holiday homes or
+      multi-unit projects.
+    </p>
+
+    <p><strong>2. Friend’s Colony Phase 1 — Dehradun</strong></p>
+    <p>
+      <strong>Plot Size:</strong> 800–1500 sq yd<br/>
+      <strong>Price per sq yd:</strong> ₹1,875 – ₹1,867<br/>
+      <strong>Indicative Range:</strong> ₹16,000 per sq yd<br/>
+      <strong>Key Features:</strong> Premium community, strong connectivity,
+      smart investment positioning
+    </p>
+    <p>
+      This project suits buyers seeking affordable yet premium plots near urban
+      conveniences. It balances community living, road connectivity, and
+      manageable plot sizes for phased construction.
+    </p>
+
+    <p><strong>How to Maximize ROI</strong></p>
+    <ul>
+      <li>Buy near improving infrastructure like airports and highways</li>
+      <li>Prioritize utility-ready plots with water, power, and road access</li>
+      <li>Develop short-term rentals for peak tourist seasons</li>
+      <li>Add eco-friendly features such as solar and rainwater harvesting</li>
+      <li>Follow a phased development plan to control capital outlay</li>
+    </ul>
+
+    <p><strong>Conclusion</strong></p>
+    <p>
+      Affordable property in Uttarakhand offers a powerful mix of low entry
+      prices, tourism-driven demand, improving infrastructure, and lifestyle
+      benefits. For investors and end-users alike, it represents a flexible,
+      future-ready real estate opportunity with strong long-term potential.
+    </p>
+  `
+},
+
+  {
+  id: "4",
+  title: "Why You Should Invest in Property in Uttarakhand — The Ultimate Guide",
+  slug: "why-invest-in-property-in-uttarakhand-ultimate-guide-2025",
+  created_at: "2025-11-30",
+  content: `
+    <p><strong>Why You Should Invest in Property in Uttarakhand: The Ultimate Guide</strong></p>
+
+    <p>
+      Uttarakhand, known for its serene landscapes, lush greenery, and spiritual
+      significance, is rapidly becoming a hotspot for property buyers and
+      investors. With its increasing popularity as both a vacation destination
+      and a hub for relocation, buying property in Uttarakhand is becoming a
+      wise decision for many.
+    </p>
+
+    <p>
+      Whether you're looking for a vacation home, a retirement retreat, or an
+      investment opportunity, properties in Uttarakhand offer a variety of
+      benefits. This guide explores why purchasing property in Uttarakhand is a
+      smart move, highlighting prime locations and projects like
+      <strong>Bajrang Vatika Premium</strong> and
+      <strong>Friend’s Colony Phase 1</strong> in Dehradun.
+    </p>
+
+    <p><strong>1. Stunning Natural Beauty and Peaceful Environment</strong></p>
+    <p>
+      Nestled in the foothills of the Himalayas, Uttarakhand offers lush forests,
+      scenic valleys, and snow-capped peaks. Properties in Dehradun and nearby
+      regions provide a tranquil lifestyle away from city congestion, making
+      them ideal for nature lovers and wellness-focused living.
+    </p>
+
+    <p><strong>2. Strategic Location and Connectivity</strong></p>
+    <p>
+      Cities like Dehradun enjoy strong connectivity with Delhi, Haridwar, and
+      Rishikesh via road, rail, and air. This accessibility boosts both livability
+      and resale value, making Uttarakhand properties attractive for end-users
+      and investors alike.
+    </p>
+
+    <p><strong>Bajrang Vatika Premium — A Property in Dehradun</strong></p>
+    <p>
+      Located in Badripur, Dehradun, Bajrang Vatika Premium offers plot sizes from
+      900 to 2400 sq yards, starting at ₹2,083 per sq yard. With wide roads,
+      24×7 security, and ready-to-move infrastructure, it combines luxury living
+      with a peaceful natural setting.
+    </p>
+
+    <p><strong>3. Growing Real Estate Market</strong></p>
+    <p>
+      Uttarakhand’s real estate sector has witnessed steady growth driven by
+      tourism, migration, and infrastructure development. Government incentives
+      and expanding urban planning make the present time ideal for long-term
+      investment.
+    </p>
+
+    <p><strong>4. Affordable and Appreciating Property Prices</strong></p>
+    <p>
+      Compared to metro cities, property prices in Uttarakhand remain affordable
+      while offering strong appreciation potential. Locations like Dehradun,
+      Haridwar, and Nainital deliver excellent value with future growth upside.
+    </p>
+
+    <p><strong>Friend’s Colony Phase 1 — A Smart Investment Opportunity</strong></p>
+    <p>
+      Friend’s Colony Phase 1 in Dehradun offers plot sizes from 800 to 1500 sq
+      yards, priced between ₹1,875 and ₹1,867 per sq yard. Its prime location,
+      premium community planning, and strong connectivity make it suitable for
+      both residential and commercial investments.
+    </p>
+
+    <p><strong>5. Ideal Retirement Destination</strong></p>
+    <p>
+      With low pollution, calm surroundings, and access to healthcare, Uttarakhand
+      is a preferred retirement destination. Dehradun especially provides a
+      balanced lifestyle with greenery and modern amenities.
+    </p>
+
+    <p><strong>6. Health, Wellness, and Spiritual Living</strong></p>
+    <p>
+      The state is globally known for yoga centers, wellness retreats, and
+      spiritual hubs. Clean air and a peaceful environment promote both physical
+      and mental well-being, adding lifestyle value to property ownership.
+    </p>
+
+    <p><strong>7. Strong Tourism and Rental Potential</strong></p>
+    <p>
+      Uttarakhand attracts millions of tourists annually. Property owners benefit
+      from short-term rentals, homestays, and vacation homes, creating consistent
+      passive income opportunities.
+    </p>
+
+    <p><strong>8. Quality Education and Healthcare Facilities</strong></p>
+    <p>
+      Dehradun houses some of India’s top schools, universities, and hospitals.
+      Proximity to quality education and healthcare makes property ownership
+      appealing for families and long-term residents.
+    </p>
+
+    <p><strong>9. Tax Benefits and Financial Advantages</strong></p>
+    <p>
+      Property buyers can benefit from tax deductions under Section 80C and
+      Section 24 of the Income Tax Act. Additional incentives are available for
+      first-time buyers and eco-friendly housing developments.
+    </p>
+
+    <p><strong>Conclusion</strong></p>
+    <p>
+      Investing in property in Uttarakhand offers a unique blend of natural
+      beauty, modern infrastructure, and long-term appreciation. Projects like
+      Bajrang Vatika Premium and Friend’s Colony Phase 1 provide secure,
+      well-planned investment options in one of India’s most serene states.
+      Whether for lifestyle or profit, Uttarakhand real estate presents a
+      compelling opportunity.
+    </p>
+  `
+},
+
+  {
   id: "2",
   title: "Buying Land the Right Way — A Complete Buyer Roadmap with SastaPlots",
   slug: "buying-land-roadmap-sastaplots-2025",

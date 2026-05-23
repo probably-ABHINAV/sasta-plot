@@ -61,6 +61,7 @@ export default function InquiriesAdminPage() {
   }
 
   const handleStatusUpdate = async (inquiryId: string, newStatus: string) => {
+    console.log(`Updating status for ${inquiryId} to ${newStatus}`)
     try {
       const response = await fetch(`/api/inquiry/${inquiryId}`, {
         method: 'PUT',
@@ -70,13 +71,18 @@ export default function InquiriesAdminPage() {
         body: JSON.stringify({ status: newStatus }),
       })
 
+      const data = await response.json() // Read body for error details
+
       if (response.ok) {
+        console.log('Update success:', data)
         await fetchInquiries()
       } else {
-        console.error('Failed to update inquiry status')
+        console.error('Failed to update inquiry status:', data)
+        alert(`Failed to update: ${data.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Error updating inquiry status:', error)
+      alert('Network error updating status')
     }
   }
 

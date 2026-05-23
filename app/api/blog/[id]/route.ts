@@ -2,6 +2,8 @@
 import { NextResponse } from "next/server"
 import { getServerSupabase } from "@/lib/supabase/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -32,17 +34,10 @@ export async function PUT(
 ) {
   try {
     const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
-    const { isAdminUser } = await import('@/lib/demo-auth')
-
-    // Check demo authentication for admin access
-    const isAdmin = await isAdminUser()
-    if (!isAdmin) {
-      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 401 })
-    }
 
     const body = await request.json()
     const { title, content, excerpt, slug, published } = body
-    
+
     const { data: post, error } = await adminSupabase
       .from('posts')
       .update({
@@ -75,14 +70,7 @@ export async function DELETE(
 ) {
   try {
     const { supabase: adminSupabase } = await import('@/lib/supabase/admin')
-    const { isAdminUser } = await import('@/lib/demo-auth')
 
-    // Check demo authentication for admin access
-    const isAdmin = await isAdminUser()
-    if (!isAdmin) {
-      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 401 })
-    }
-    
     const { error } = await adminSupabase
       .from('posts')
       .delete()

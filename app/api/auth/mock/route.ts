@@ -2,10 +2,12 @@
 import { NextResponse } from "next/server"
 import { getDemoUser, setDemoSession, clearSession } from "@/lib/demo-auth"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json()
-    
+
     if (!email || !password) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 })
     }
@@ -13,8 +15,8 @@ export async function POST(request: Request) {
     // Check admin credentials (hardcoded for production compatibility)
     const adminEmail = "admin@sastaplots.com"
     const adminPassword = "SastaAdmin@2024"
-    
-    
+
+
     if (email === adminEmail && password === adminPassword) {
       const user = { email, role: "admin" as const }
       const response = NextResponse.json({ user })

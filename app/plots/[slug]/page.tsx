@@ -6,9 +6,8 @@ import { MapPin, Square, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-// Import plot data
-import plotsData from "@/data/plots.json";
+import { getServerSupabase } from "@/lib/supabase/server";
+import { formatPrice } from "@/lib/utils/price";
 
 interface Plot {
   id: number | string;
@@ -21,6 +20,8 @@ interface Plot {
   featured?: boolean;
   slug: string;
   image: string;
+  image_url?: string;
+  images?: string[];
   mapUrl?: string;
   gallery?: string[];
   latitude?: number;
@@ -34,16 +35,59 @@ interface PageProps {
   };
 }
 
-// Generate static params for all plots
-export async function generateStaticParams() {
-  return plotsData.map((plot) => ({
-    slug: plot.slug,
-  }));
+async function getPlot(slug: string): Promise<Plot | null> {
+  const supabase = getServerSupabase();
+  
+  // Try to find by slug first
+  let { data: plot, error } = await supabase
+    .from('plots')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+
+  // If not found by slug, and slug looks like a number, try by ID
+  if (!plot && !isNaN(Number(slug))) {
+    const { data: plotById, error: idError } = await supabase
+      .from('plots')
+      .select('*')
+      .eq('id', slug)
+      .single();
+    plot = plotById;
+  }
+
+  // If still not found, check the static JSON as a fallback/legacy source
+  if (!plot) {
+    try {
+      const plotsData = (await import("@/data/plots.json")).default;
+      const staticPlot = plotsData.find((p) => p.slug === slug || String(p.id) === slug);
+      if (staticPlot) return staticPlot as unknown as Plot;
+    } catch (e) {
+      console.error("Error loading static plots:", e);
+    }
+  }
+
+  if (plot) {
+    // Normalize data
+    const imageUrl = 
+      (plot.images && plot.images.length > 0) ? plot.images[0] : 
+      plot.image_url ? plot.image_url : 
+      plot.image ? plot.image : 
+      '/placeholder.svg';
+
+    return {
+      ...plot,
+      price: Number(plot.price),
+      size_sqyd: Number(plot.size_sqyd),
+      image: imageUrl,
+      gallery: plot.images || [], // Use images array as gallery
+    };
+  }
+
+  return null;
 }
 
-// Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps) {
-  const plot = plotsData.find((p) => p.slug === params.slug);
+  const plot = await getPlot(params.slug);
   
   if (!plot) {
     return {
@@ -57,11 +101,9 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default function PlotDetailPage({ params }: PageProps) {
-  // Find the plot by slug
-  const plot = plotsData.find((p) => p.slug === params.slug) as Plot | undefined;
+export default async function PlotDetailPage({ params }: PageProps) {
+  const plot = await getPlot(params.slug);
 
-  // If plot not found, show 404
   if (!plot) {
     notFound();
   }
@@ -119,9 +161,9 @@ export default function PlotDetailPage({ params }: PageProps) {
             <Card>
               <CardContent className="pt-6">
                 <h2 className="text-2xl font-semibold mb-4">About This Property</h2>
-                <p className="text-muted-foreground leading-relaxed">
+                <div className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                   {plot.description}
-                </p>
+                </div>
               </CardContent>
             </Card>
 
@@ -155,7 +197,7 @@ export default function PlotDetailPage({ params }: PageProps) {
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">Total Price</p>
                   <p className="text-3xl font-bold text-orange-600">
-                    ₹{plot.price.toLocaleString('en-IN')}
+                    {formatPrice(plot.price)}
                   </p>
                 </div>
 
